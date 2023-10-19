@@ -1,0 +1,69 @@
+---
+title: Quantile Regressions via Method of Moments with multiple fixed effects
+author:
+  - name: Fernando Rios-Avila
+    email: friosavi@levy.org
+    affiliations: 
+        - id: levy
+          name: Levy Economics Institute of Bard College          
+    attributes:
+        corresponding: true
+  - name: Leonardo Siles
+    email: leo@gmail.com
+  - name: Gustavo Canavire-Bacarreza
+    email: gcanavire@worldbank.org
+    affiliations:
+        - id: wb
+          name: World Bank
+abstract: |
+  This paper proposes a new method to estimate quantile regressions with multiple fixed effects. The method expands on the strategy proposed by @mss2019, allowing for multiple fixed effects, and providing various alternatives for the estimation of Standard errors. We provide Monte Carlo simulations to show the finite sample properties of the proposed method in the presence of two sets of fixed effects. Finally, we apply the proposed method to estimate **something interesting**
+keywords: 
+  - Fixed effects
+  - Linear heteroskedasticity
+  - Location-scale model
+  - Quantile regression
+
+date: last-modified
+bibliography: bibliography.bib
+format:
+  elsevier-pdf:
+    keep-tex: true
+    journal:
+      name: Journal Name
+      formatting: preprint
+      model: 1p
+      cite-style: authoryear
+---
+
+# Introduction
+
+Quantile regression (QR), introduced by Koenker and Bassett (1978), is an estimation strategy used for modeling the relationships between explanatory variables X and the conditional quantiles of the dependent variable $q_\tau (y|x)$. Using QR one can obtain richer characterizations of the relationships between dependent and independent variables, by accounting for otherwise unobserved heterogeneity. 
+
+A relatively recent development in the literature has focused on extending quantile regressions analysis to include individual fixed effects in the framework of panel data. However, as described in Neyman and Scott (1948), and Lancaster (2000), when individual fixed effects are included in quantile regression analysis it generates an incident parameter problem. While many strategies have been proposed for estimating this type of model (see Galvão and Kato, 2018 for a brief review), neither has become standard because of their restrictive assumptions in regards to the individual effects, the computational complexity, and implementation. 
+
+More recently, @mss2019 (MSS hereafter) proposed a methodology based on a conditional location-scale model similar to the one described in @he1997, for the estimation of quantile regressions models for panel data via a method of moments. This method allows individual fixed effects allowing to have heterogeneous effects on the entire conditional distribution of the outcome, rather constraining their effect to be a location shift only as in Canay (2011), Koenker(2004), and Lancaster(2000). 
+
+In principle, under the assumption that data generating process behind the data is based on a multiplicative heteroskedastic process that is linear in parameters (Cameron and Trivedi, 2005; @mss2019; @he1997), the effect of a variable $X$ on the $q_th$ quantile can be derived as the combination of a location effect, and scale effect moderated by the quantile of an underlying i.i.d. error. For statistical inference, MSS derives the asymptotic distribution of the estimator, suggesting the use of bootstrap standard errors, as well.
+
+While this methodology is not meant to substitute the use of standard quantile regression analysis, given the assumptions required for the identification of the model, it provides a simple and fast alternative for the estimation of quantile regression models with individual fixed effects. 
+
+In this framework, our paper expands on @mss2019, following some of the suggestions by the authors regarding further research. First, making use of the properties of GMM estimators, we derive various alternatives for the estimation of standard errors based on the empirical Influence functions of the estimators. Second, we reconsider the application of Frisch–Waugh–Lovell (FWL) theorem (Lovell (1963) and Frisch and Waugh’s (1933)) to extend the MSS estimator to allow for the inclusion of multiple fixed effects, for example, individual and year fixed effects. 
+
+The rest of the paper is restructured as follows. Section 2 presents the basic setup of the location-Scale model described in @he1997, tying the relationship between the standard quantile regression model, and the location and scale model. It also revisits MSS methodology, proposing alternative estimators for the standard errors based on the properties of GMM estimators and the empirical influence functions. It also shows that FWL theorem can be used to control for multiple fixed effects. Section 3 presents the results of a small simulation study and Section 4 illustrates the application of the proposed methods with two empirical examples. Seccion 5 concludes. 
+
+# Methodology
+## Quantile Regression Location-Scale model @he1997
+
+## Standard Errors: GLS, Robust, Clustered
+
+## Multiple Fixed Effects: Expanding on @mss2019
+
+# Monte Carlo Simulations
+
+# Application: **Something interesting**
+
+# Conclusions
+
+# References {-}
+
+# Appendix {-}
