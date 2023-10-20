@@ -52,6 +52,7 @@ In this framework, our paper expands on @mss2019, following some of the suggesti
 The rest of the paper is restructured as follows. Section 2 presents the basic setup of the location-Scale model described in @he1997, tying the relationship between the standard quantile regression model, and the location and scale model. It also revisits MSS methodology, proposing alternative estimators for the standard errors based on the properties of GMM estimators and the empirical influence functions. It also shows that FWL theorem can be used to control for multiple fixed effects. Section 3 presents the results of a small simulation study and Section 4 illustrates the application of the proposed methods with two empirical examples. Seccion 5 concludes. 
 
 # Methodology
+
 ## Quantile Regression Location-Scale model @he1997
 
 ## Standard Errors: GLS, Robust, Clustered
@@ -64,6 +65,6 @@ The rest of the paper is restructured as follows. Section 2 presents the basic s
 
 # Conclusions
 
-# References {-}
+# Appendix {.appendix} 
 
-# Appendix {-}
+# References {-}
