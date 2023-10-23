@@ -9,7 +9,7 @@
 <meta name="author" content="Fernando Rios-Avila">
 <meta name="author" content="Leonardo Siles">
 <meta name="author" content="Gustavo Canavire-Bacarreza">
-<meta name="dcterms.date" content="2023-10-20">
+<meta name="dcterms.date" content="2023-10-23">
 <meta name="keywords" content="Fixed effects, Linear heteroskedasticity, Location-scale model, Quantile regression">
 
 <title>Quantile Regressions via Method of Moments with multiple fixed effects</title>
@@ -107,7 +107,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 20, 2023</p>
+      <p class="date">October 23, 2023</p>
     </div>
   </div>
   
@@ -125,18 +125,67 @@ div.csl-indent {
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>Quantile regression (QR), introduced by Koenker and Bassett (1978), is an estimation strategy used for modeling the relationships between explanatory variables X and the conditional quantiles of the dependent variable <span class="math inline">\(q_\tau (y|x)\)</span>. Using QR one can obtain richer characterizations of the relationships between dependent and independent variables, by accounting for otherwise unobserved heterogeneity.</p>
-<p>A relatively recent development in the literature has focused on extending quantile regressions analysis to include individual fixed effects in the framework of panel data. However, as described in Neyman and Scott (1948), and Lancaster (2000), when individual fixed effects are included in quantile regression analysis it generates an incident parameter problem. While many strategies have been proposed for estimating this type of model (see Galvão and Kato, 2018 for a brief review), neither has become standard because of their restrictive assumptions in regards to the individual effects, the computational complexity, and implementation.</p>
-<p>More recently, <span class="citation" data-cites="mss2019">Machado and Santos Silva (<a href="#ref-mss2019" role="doc-biblioref">2019</a>)</span> (MSS hereafter) proposed a methodology based on a conditional location-scale model similar to the one described in <span class="citation" data-cites="he1997">He (<a href="#ref-he1997" role="doc-biblioref">1997</a>)</span>, for the estimation of quantile regressions models for panel data via a method of moments. This method allows individual fixed effects allowing to have heterogeneous effects on the entire conditional distribution of the outcome, rather constraining their effect to be a location shift only as in Canay (2011), Koenker(2004), and Lancaster(2000).</p>
-<p>In principle, under the assumption that data generating process behind the data is based on a multiplicative heteroskedastic process that is linear in parameters (Cameron and Trivedi, 2005; <span class="citation" data-cites="mss2019">Machado and Santos Silva (<a href="#ref-mss2019" role="doc-biblioref">2019</a>)</span>; <span class="citation" data-cites="he1997">He (<a href="#ref-he1997" role="doc-biblioref">1997</a>)</span>), the effect of a variable <span class="math inline">\(X\)</span> on the <span class="math inline">\(q_th\)</span> quantile can be derived as the combination of a location effect, and scale effect moderated by the quantile of an underlying i.i.d. error. For statistical inference, MSS derives the asymptotic distribution of the estimator, suggesting the use of bootstrap standard errors, as well.</p>
+<p>Quantile regression (QR), introduced by <span class="citation" data-cites="koenkerbasset1978">Koenker and Bassett (<a href="#ref-koenkerbasset1978" role="doc-biblioref">1978</a>)</span>, is an estimation strategy used for modeling the relationships between explanatory variables X and the conditional quantiles of the dependent variable <span class="math inline">\(q_\tau (y|x)\)</span>. Using QR one can obtain richer characterizations of the relationships between dependent and independent variables, by accounting for otherwise unobserved heterogeneity.</p>
+<p>A relatively recent development in the literature has focused on extending quantile regressions analysis to include individual fixed effects in the framework of panel data. However, as described in <span class="citation" data-cites="neymanscott1948">Neyman and Scott (<a href="#ref-neymanscott1948" role="doc-biblioref">1948</a>)</span>, and <span class="citation" data-cites="lancaster2000">Lancaster (<a href="#ref-lancaster2000" role="doc-biblioref">2000</a>)</span>, when individual fixed effects are included in quantile regression analysis it generates an incident parameter problem. While many strategies have been proposed for estimating this type of model (see Galvão and Kato, 2018 for a brief review), neither has become standard because of their restrictive assumptions in regards to the individual effects, the computational complexity, and implementation.</p>
+<p>More recently, <span class="citation" data-cites="mss2019">Machado and Santos Silva (<a href="#ref-mss2019" role="doc-biblioref">2019</a>)</span> (MSS hereafter) proposed a methodology based on a conditional location-scale model similar to the one described in <span class="citation" data-cites="he1997">He (<a href="#ref-he1997" role="doc-biblioref">1997</a>)</span>, for the estimation of quantile regressions models for panel data via a method of moments. This method allows individual fixed effects allowing to have heterogeneous effects on the entire conditional distribution of the outcome, rather constraining their effect to be a location shift only as in <span class="citation" data-cites="canay2011">Canay (<a href="#ref-canay2011" role="doc-biblioref">2011</a>)</span>, <span class="citation" data-cites="koenker2004">Koenker (<a href="#ref-koenker2004" role="doc-biblioref">2004</a>)</span>, and <span class="citation" data-cites="lancaster2000">Lancaster (<a href="#ref-lancaster2000" role="doc-biblioref">2000</a>)</span>.</p>
+<p>In principle, under the assumption that data generating process behind the data is based on a multiplicative heteroskedastic process that is linear in parameters (<span class="citation" data-cites="cameron2005">Cameron and Trivedi (<a href="#ref-cameron2005" role="doc-biblioref">2005</a>)</span>; <span class="citation" data-cites="mss2019">Machado and Santos Silva (<a href="#ref-mss2019" role="doc-biblioref">2019</a>)</span>; <span class="citation" data-cites="he1997">He (<a href="#ref-he1997" role="doc-biblioref">1997</a>)</span>), the effect of a variable <span class="math inline">\(X\)</span> on the <span class="math inline">\(q_th\)</span> quantile can be derived as the combination of a location effect, and scale effect moderated by the quantile of an underlying i.i.d. error. For statistical inference, MSS derives the asymptotic distribution of the estimator, suggesting the use of bootstrap standard errors, as well.</p>
 <p>While this methodology is not meant to substitute the use of standard quantile regression analysis, given the assumptions required for the identification of the model, it provides a simple and fast alternative for the estimation of quantile regression models with individual fixed effects.</p>
-<p>In this framework, our paper expands on <span class="citation" data-cites="mss2019">Machado and Santos Silva (<a href="#ref-mss2019" role="doc-biblioref">2019</a>)</span>, following some of the suggestions by the authors regarding further research. First, making use of the properties of GMM estimators, we derive various alternatives for the estimation of standard errors based on the empirical Influence functions of the estimators. Second, we reconsider the application of Frisch–Waugh–Lovell (FWL) theorem (Lovell (1963) and Frisch and Waugh’s (1933)) to extend the MSS estimator to allow for the inclusion of multiple fixed effects, for example, individual and year fixed effects.</p>
+<p>In this framework, our paper expands on <span class="citation" data-cites="mss2019">Machado and Santos Silva (<a href="#ref-mss2019" role="doc-biblioref">2019</a>)</span>, following some of the suggestions by the authors regarding further research. First, making use of the properties of GMM estimators, we derive various alternatives for the estimation of standard errors based on the empirical Influence functions of the estimators. Second, we reconsider the application of Frisch–Waugh–Lovell (FWL) theorem (<span class="citation" data-cites="frishwaugh1933">Frisch and Waugh (<a href="#ref-frishwaugh1933" role="doc-biblioref">1933</a>)</span> and <span class="citation" data-cites="lovell1963">Lovell (<a href="#ref-lovell1963" role="doc-biblioref">1963</a>)</span>) to extend the MSS estimator to allow for the inclusion of multiple fixed effects, for example, individual and year fixed effects.</p>
 <p>The rest of the paper is restructured as follows. Section 2 presents the basic setup of the location-Scale model described in <span class="citation" data-cites="he1997">He (<a href="#ref-he1997" role="doc-biblioref">1997</a>)</span>, tying the relationship between the standard quantile regression model, and the location and scale model. It also revisits MSS methodology, proposing alternative estimators for the standard errors based on the properties of GMM estimators and the empirical influence functions. It also shows that FWL theorem can be used to control for multiple fixed effects. Section 3 presents the results of a small simulation study and Section 4 illustrates the application of the proposed methods with two empirical examples. Seccion 5 concludes.</p>
 </section>
 <section id="methodology" class="level1">
 <h1>Methodology</h1>
-<section id="quantile-regression-location-scale-model-he1997" class="level2">
-<h2 class="anchored" data-anchor-id="quantile-regression-location-scale-model-he1997">Quantile Regression Location-Scale model <span class="citation" data-cites="he1997">He (<a href="#ref-he1997" role="doc-biblioref">1997</a>)</span></h2>
+<section id="quantile-regression-location-scale-model" class="level2">
+<h2 class="anchored" data-anchor-id="quantile-regression-location-scale-model">Quantile Regression: Location-Scale model</h2>
+<p>Quantile regressions are used to identify relationships between the explanatory variables <span class="math inline">\(x\)</span> and the conditional quantiles of the dependent variable <span class="math inline">\(Q(y|\tau,X)\)</span>. This relationship is commonly assumed to follow a linear functional form:</p>
+<p><span id="eq-eq1"><span class="math display">\[Q(Y|X,\tau) =X\beta(\tau)
+\tag{1}\]</span></span></p>
+<p>This allows for nonlinearities in the effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> across all values of <span class="math inline">\(\tau\)</span>. This formulation can also be related to a random coefficient model, where all coefficients are assumed to be some nonlinear function of <span class="math inline">\(\tau\)</span>, where <span class="math inline">\(\tau\)</span> follows a random uniform distribution.</p>
+<p>An alternative formulation of quantile regressions is the location-scale model. This approach assumes that the conditional quantile of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span> and <span class="math inline">\(\tau\)</span> can be expressed as a combination of two models: the location model, which describes the central tendency of the conditional distribution, and the scale model, which describes deviations from the central tendency:</p>
+<p><span id="eq-eq2"><span class="math display">\[Q(Y|X,\tau) =X\beta+X\gamma(\tau)
+\tag{2}\]</span></span></p>
+<p>Here, the location parameters <span class="math inline">\(\beta\)</span> are typically identified using a linear regression model (as in <span class="citation" data-cites="mss2019">Machado and Santos Silva (<a href="#ref-mss2019" role="doc-biblioref">2019</a>)</span>), or a median regression (as in <span class="citation" data-cites="melly2005">Melly (<a href="#ref-melly2005" role="doc-biblioref">2005</a>)</span>), and the scale parameters <span class="math inline">\(\gamma(\tau)\)</span> can be estimated using standard approaches.</p>
+<p>Both the standard quantile regression (<a href="#eq-eq1">Equation&nbsp;1</a>) and the location-scale specification (<a href="#eq-eq2">Equation&nbsp;2</a>) can be estimated as the solution to a weighted minimization problem:</p>
+<p><span id="eq-eq3"><span class="math display">\[\hat{\beta}(\tau) = \underset{\beta}{\operatorname{argmin}}
+\left( \sum_{i\in y_i\geq x_i'\beta} \tau (y_i - x_i'\beta) - \sum_{i\in y_i&lt;x_i'\beta} (1-\tau)(y_i - x_i'\beta) \right)
+\tag{3}\]</span></span></p>
+<p>One characteristic of this estimator is that the <span class="math inline">\(\beta(\tau)\)</span> coefficients are identified locally, and thus the estimated quantile coefficients will exhibit considerable variation when analyzed across <span class="math inline">\(\tau\)</span>. It is also implicit that if one requires an analysis of the entire distribution, it would be necessary to estimate the model for each quantile.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>One insightful extension to the location-scale parameterizations suggested by <span class="citation" data-cites="he1997">He (<a href="#ref-he1997" role="doc-biblioref">1997</a>)</span>, <span class="citation" data-cites="cameron2005">Cameron and Trivedi (<a href="#ref-cameron2005" role="doc-biblioref">2005</a>)</span>, and <span class="citation" data-cites="mss2019">Machado and Santos Silva (<a href="#ref-mss2019" role="doc-biblioref">2019</a>)</span> is to assume that the data-generating process (DGP) can be written as a linear model with a multiplicative heteroskedastic process that is linear in parameters.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p><span id="eq-eq4"><span class="math display">\[y_i=x_i'\beta+\varepsilon_i \times x_i'\gamma(\tau)
+\tag{4}\]</span></span></p>
+<p>Under the assumption that <span class="math inline">\(\varepsilon\)</span> is an independent and identically distributed (iid) unobserved random variable that is independent of <span class="math inline">\(X\)</span>, the conditional quantile of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span> and <span class="math inline">\(\tau\)</span> can be written as:</p>
+<p><span id="eq-eq5"><span class="math display">\[Q(Y|X,\tau) =X\beta+X\gamma \times Q(\varepsilon|\tau)
+\tag{5}\]</span></span></p>
+<p>In this setup, the traditional quantile coefficients are identified as the location model coefficients, plus the scale model coefficients moderated by the <span class="math inline">\(\tau_th\)</span> unconditional quantile of the standardized error <span class="math inline">\(\varepsilon\)</span>.</p>
+<p><span id="eq-eq6"><span class="math display">\[\beta(\tau) = \beta + \gamma \times Q(\varepsilon|\tau)
+\tag{6}\]</span></span></p>
+<p>While this specification imposes a strong assumption on the DGP, it has two advantages over the standard quantile regression model. First, because the location and scale model can be identified globally, with only a single parmater (<span class="math inline">\(Q(\varepsilon|\tau)\)</span>) requiring local estimation, this estimation approach would be more efficient than the standard quantile regression model. Second, under the assumption that <span class="math inline">\(X\gamma\)</span> is strictly possitive, the model would produce quantile coefficients that do not cross.</p>
+</section>
+<section id="estimation" class="level2">
+<h2 class="anchored" data-anchor-id="estimation">Estimation</h2>
+<p>Following MSS, the quantile regression model defined by <a href="#eq-eq5">Equation&nbsp;5</a> can be estimated using a method of moments approach. And while its possible to identify all coefficients (<span class="math inline">\(\beta,\gamma, Q(\varepsilon|\tau)\)</span>) simultaneously, we describe and use the implementation approach advocated by MSS which identifies each set of coefficients separately.</p>
+<ol type="1">
+<li><p>The location model can be estimated using a standard linear regression model, where the dependent variable is the outcome <span class="math inline">\(Y\)</span>, and the independent variables are the explanatory variables <span class="math inline">\(X\)</span> (including a constant) with an error <span class="math inline">\(u\)</span>, which is by definition heteroskedastic. In this case, the location model coefficients are identified under the following condition: <span id="eq-eq7"><span class="math display">\[\begin{aligned}
+  y_i &amp;=x_i'\beta+u_i \\
+  E[u 'X ] &amp;=0
+  \end{aligned}
+\tag{7}\]</span></span></p></li>
+<li><p>After the location model is estimated, the scale coefficients can be identified by modeling heteroskedasticity as a linear function of characteristics <span class="math inline">\(X\)</span>. For this we use the absolute value of the errors from the location model <span class="math inline">\(u\)</span> as dependent variable, which would allow us to estimate the conditional standard deviation (rather than conditional variance) of the errors. In this case, the coefficients are identified under the following condition:</p></li>
+</ol>
+<p><span id="eq-eq8"><span class="math display">\[\begin{aligned}
+  |u_i| &amp;=x_i'\gamma+v_i \\
+  E[ (|u|-X \gamma) X ] &amp;=0
+  \end{aligned}
+\tag{8}\]</span></span></p>
+<ol start="3" type="1">
+<li>Finally, given the location and scale coefficients, the <span class="math inline">\(\tau_{th}\)</span> quantile of the error <span class="math inline">\(e\)</span> can be estimated using the following condition:</li>
+</ol>
+<p><span id="eq-eq8"><span class="math display">\[\begin{aligned}
+  E\left[  \mathbb{1}\left(x_i' (\beta + \gamma Q(\varepsilon|\tau)) \geq y_i \right) - \tau \right] &amp;=0  \\
+  E\left[  \mathbb{1}\left(   Q(\varepsilon|\tau)\geq \frac{y_i-x_i'\beta}{x_i'\gamma} \right) - \tau \right] &amp;=0  \\
+  \end{aligned}
+\tag{9}\]</span></span></p>
+<p>Where one identifies the quantile of the error <span class="math inline">\(\varepsilon\)</span> using standardized errors , or by finding the values that identify the overall quantile coefficients <span class="math inline">\(\beta(\tau)=\beta + \gamma Q(\varepsilon|\tau)\)</span>.</p>
 </section>
 <section id="standard-errors-gls-robust-clustered" class="level2">
 <h2 class="anchored" data-anchor-id="standard-errors-gls-robust-clustered">Standard Errors: GLS, Robust, Clustered</h2>
@@ -160,16 +209,56 @@ div.csl-indent {
 
 </section>
 
+
 <div id="quarto-appendix" class="default"><section id="appendix" class="level1 appendix"><h2 class="anchored quarto-appendix-heading">Appendix</h2><div class="quarto-appendix-contents">
 
 </div></section><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-cameron2005" class="csl-entry" role="listitem">
+Cameron, Adrian Colin, and Pravin K. Trivedi. 2005. <em>Microeconometrics: Methods and Applications</em>. Cambridge ; New York: Cambridge University Press.
+</div>
+<div id="ref-canay2011" class="csl-entry" role="listitem">
+Canay, Ivan A. 2011. <span>“A Simple Approach to Quantile Regression for Panel Data.”</span> <em>The Econometrics Journal</em> 14 (3): 368–86. https://doi.org/<a href="https://doi.org/10.1111/j.1368-423X.2011.00349.x">https://doi.org/10.1111/j.1368-423X.2011.00349.x</a>.
+</div>
+<div id="ref-frishwaugh1933" class="csl-entry" role="listitem">
+Frisch, Ragnar, and Frederick V. Waugh. 1933. <span>“Partial Time Regressions as Compared with Individual Trends.”</span> <em>Econometrica</em> 1 (4): 387–401. <a href="http://www.jstor.org/stable/1907330">http://www.jstor.org/stable/1907330</a>.
+</div>
+<div id="ref-frumentobotai2016" class="csl-entry" role="listitem">
+Frumento, Paolo, and Matteo Bottai. 2016. <span>“Parametric Modeling of Quantile Regression Coefficient Functions.”</span> <em>Biometrics</em> 72 (1): 74–84. https://doi.org/<a href="https://doi.org/10.1111/biom.12410">https://doi.org/10.1111/biom.12410</a>.
+</div>
 <div id="ref-he1997" class="csl-entry" role="listitem">
 He, Xuming. 1997. <span>“Quantile Curves Without Crossing.”</span> <em>The American Statistician</em> 51 (2): 186–92. <a href="https://doi.org/10.1080/00031305.1997.10473959">https://doi.org/10.1080/00031305.1997.10473959</a>.
+</div>
+<div id="ref-kaplan2017" class="csl-entry" role="listitem">
+Kaplan, David M., and Yixiao Sun. 2017. <span>“Smoothed Estimating Equations for Instrumental Variables Quantile Regression.”</span> <em>Econometric Theory</em> 33 (1): 105–57. <a href="https://doi.org/10.1017/S0266466615000407">https://doi.org/10.1017/S0266466615000407</a>.
+</div>
+<div id="ref-koenker2004" class="csl-entry" role="listitem">
+Koenker, Roger. 2004. <span>“Quantile Regression for Longitudinal Data.”</span> <em>Journal of Multivariate Analysis</em> 91 (1): 74–89. https://doi.org/<a href="https://doi.org/10.1016/j.jmva.2004.05.006">https://doi.org/10.1016/j.jmva.2004.05.006</a>.
+</div>
+<div id="ref-koenkerbasset1978" class="csl-entry" role="listitem">
+Koenker, Roger, and Gilbert Bassett. 1978. <span>“Regression Quantiles.”</span> <em>Econometrica</em> 46 (1): 33–50. <a href="http://www.jstor.org/stable/1913643">http://www.jstor.org/stable/1913643</a>.
+</div>
+<div id="ref-lancaster2000" class="csl-entry" role="listitem">
+Lancaster, Tony. 2000. <span>“The Incidental Parameter Problem Since 1948.”</span> <em>Journal of Econometrics</em> 95 (2): 391–413. https://doi.org/<a href="https://doi.org/10.1016/S0304-4076(99)00044-5">https://doi.org/10.1016/S0304-4076(99)00044-5</a>.
+</div>
+<div id="ref-lovell1963" class="csl-entry" role="listitem">
+Lovell, Michael C. 1963. <span>“Seasonal Adjustment of Economic Time Series and Multiple Regression Analysis.”</span> <em>Journal of the American Statistical Association</em> 58 (304): 993–1010. <a href="https://doi.org/10.1080/01621459.1963.10480682">https://doi.org/10.1080/01621459.1963.10480682</a>.
 </div>
 <div id="ref-mss2019" class="csl-entry" role="listitem">
 Machado, José A. F., and J. M. C. Santos Silva. 2019. <span>“Quantiles via Moments.”</span> <em>Journal of Econometrics</em> 213 (1): 145–73. <a href="https://doi.org/10.1016/j.jeconom.2019.04.009">https://doi.org/10.1016/j.jeconom.2019.04.009</a>.
 </div>
-</div></section></div></main>
+<div id="ref-melly2005" class="csl-entry" role="listitem">
+Melly, Blaise. 2005. <span>“Decomposition of Differences in Distribution Using Quantile Regression.”</span> <em>Labour Economics</em> 12 (4): 577–90. https://doi.org/<a href="https://doi.org/10.1016/j.labeco.2005.05.006">https://doi.org/10.1016/j.labeco.2005.05.006</a>.
+</div>
+<div id="ref-neymanscott1948" class="csl-entry" role="listitem">
+Neyman, J., and Elizabeth L. Scott. 1948. <span>“Consistent Estimates Based on Partially Consistent Observations.”</span> <em>Econometrica</em> 16 (1): 1–32. <a href="http://www.jstor.org/stable/1914288">http://www.jstor.org/stable/1914288</a>.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>There are other estimators that provide smoother estimates for the quantile regression coefficients using a kernel local weighted approach <span class="citation" data-cites="kaplan2017">(<a href="#ref-kaplan2017" role="doc-biblioref">Kaplan and Sun 2017</a>)</span>, as well as identifying the full set of quantile coefficients simultaneously assuming some parametric functional forms <span class="citation" data-cites="frumentobotai2016">(<a href="#ref-frumentobotai2016" role="doc-biblioref">Frumento and Bottai 2016</a>)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><span class="citation" data-cites="mss">(<a href="#ref-mss" role="doc-biblioref"><strong>mss?</strong></a>)</span> also discuss a model where heteroskedasticity can be an arbitrary nonlinear function <span class="math inline">\(\sigma(x_i'\gamma)\)</span>, but develop the estimator for the linear case, i.e., when <span class="math inline">\(\sigma()\)</span> is the identity function.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

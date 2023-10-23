@@ -41,31 +41,174 @@ Quantile regression (QR), introduced by @koenkerbasset1978, is an estimation str
 
 A relatively recent development in the literature has focused on extending quantile regressions analysis to include individual fixed effects in the framework of panel data. However, as described in @neymanscott1948, and @lancaster2000, when individual fixed effects are included in quantile regression analysis it generates an incident parameter problem. While many strategies have been proposed for estimating this type of model (see Galvão and Kato, 2018 for a brief review), neither has become standard because of their restrictive assumptions in regards to the individual effects, the computational complexity, and implementation. 
 
-More recently, @mss2019 (MSS hereafter) proposed a methodology based on a conditional location-scale model similar to the one described in @he1997, for the estimation of quantile regressions models for panel data via a method of moments. This method allows individual fixed effects allowing to have heterogeneous effects on the entire conditional distribution of the outcome, rather constraining their effect to be a location shift only as in @canay2011, @koenker2004, and @lancaster2000. 
+More recently, @mss2019 (MSS hereafter) proposed a methodology based on a conditional location-scale model similar to the one described in @he1997 and @zhao2020, for the estimation of quantile regressions models for panel data via a method of moments. This method allows individual fixed effects allowing to have heterogeneous effects on the entire conditional distribution of the outcome, rather constraining their effect to be a location shift only as in @canay2011, @koenker2004, and @lancaster2000. 
 
-In principle, under the assumption that data generating process behind the data is based on a multiplicative heteroskedastic process that is linear in parameters (@cameron2005; @mss2019; @he1997), the effect of a variable $X$ on the $q_th$ quantile can be derived as the combination of a location effect, and scale effect moderated by the quantile of an underlying i.i.d. error. For statistical inference, MSS derives the asymptotic distribution of the estimator, suggesting the use of bootstrap standard errors, as well.
+In principle, under the assumption that data generating process behind the data is based on a multiplicative heteroskedastic process that is linear in parameters (@cameron2005; @mss2019; @he1997; @zhao2020), the effect of a variable $X$ on the $q_th$ quantile can be derived as the combination of a location effect, and scale effect moderated by the quantile of an underlying i.i.d. error. For statistical inference, MSS derives the asymptotic distribution of the estimator, suggesting the use of bootstrap standard errors, as well.
 
 While this methodology is not meant to substitute the use of standard quantile regression analysis, given the assumptions required for the identification of the model, it provides a simple and fast alternative for the estimation of quantile regression models with individual fixed effects. 
 
 In this framework, our paper expands on @mss2019, following some of the suggestions by the authors regarding further research. First, making use of the properties of GMM estimators, we derive various alternatives for the estimation of standard errors based on the empirical Influence functions of the estimators. Second, we reconsider the application of Frisch–Waugh–Lovell (FWL) theorem (@frishwaugh1933 and @lovell1963) to extend the MSS estimator to allow for the inclusion of multiple fixed effects, for example, individual and year fixed effects. 
 
-The rest of the paper is restructured as follows. Section 2 presents the basic setup of the location-Scale model described in @he1997, tying the relationship between the standard quantile regression model, and the location and scale model. It also revisits MSS methodology, proposing alternative estimators for the standard errors based on the properties of GMM estimators and the empirical influence functions. It also shows that FWL theorem can be used to control for multiple fixed effects. Section 3 presents the results of a small simulation study and Section 4 illustrates the application of the proposed methods with two empirical examples. Seccion 5 concludes. 
+The rest of the paper is restructured as follows. Section 2 presents the basic setup of the location-Scale model described in @he1997 and @zhao2020, tying the relationship between the standard quantile regression model, and the location and scale model. It also revisits MSS methodology, proposing alternative estimators for the standard errors based on the properties of GMM estimators and the empirical influence functions. It also shows that FWL theorem can be used to control for multiple fixed effects. Section 3 presents the results of a small simulation study and Section 4 illustrates the application of the proposed methods with two empirical examples. Seccion 5 concludes. 
 
 # Methodology
 
-## Quantile Regression Location-Scale model @he1997
+## Quantile Regression: Location-Scale model 
 
-Quantile regressions are used to identify relationships between the explanatory variables $x$ and the conditional quantiles of the dependent variable $q_\tau (y|x)$. One of the most common formulations to represent the need for quantile regression model is given by:
+Quantile regressions are used to identify relationships between the explanatory variables $x$ and the conditional quantiles of the dependent variable $Q(y|\tau,X)$. This relationship is commonly assumed to follow a linear functional form:
 
-$$Y=X\beta(\tau), \tau \sim uniform(0,1) $$
+$$Q(Y|X,\tau) =X\beta(\tau)
+$${#eq-eq1}
 
-Which allows for nonlinearities on the effect of $X$ on $Y$ along all values of $\tau$. This formulation , also known as a random coefficient model, can be re-written as a location-scale model, as described in @he1997:  
+This allows for nonlinearities in the effect of $X$ on $Y$ across all values of $\tau$. This formulation can also be related to a random coefficient model, where all coefficients are assumed to be some nonlinear function of $\tau$, where $\tau$ follows a random uniform distribution.
 
-$$Y = X \beta + X \gamma(\tau)$$
+An alternative formulation of quantile regressions is the location-scale model. This approach assumes that the conditional quantile of $Y$ given $X$ and $\tau$ can be expressed as a combination of two models: the location model, which describes the central tendency of the conditional distribution, and the scale model, which describes deviations from the central tendency:
 
-Here, $\beta$ represent the location effect, which represents the average effect $X$ has on $Y$ and can be estimated using e , and $\gamma(\tau)$ represents the scale effect, which can be interpreted as the effect of $X$ on the conditional variance of $Y$.
+$$Q(Y|X,\tau) =X\beta+X\gamma(\tau)
+$${#eq-eq2}
+
+Here, the location parameters $\beta$ are typically identified using a linear regression model (as in @mss2019), or a median regression (as in @melly2005), and the scale parameters $\gamma(\tau)$ can be estimated using standard approaches.
+
+Both the standard quantile regression (@eq-eq1) and the location-scale specification (@eq-eq2) can be estimated as the solution to a weighted minimization problem:
+
+$$\hat{\beta}(\tau) = \underset{\beta}{\operatorname{argmin}}
+\left( \sum_{i\in y_i\geq x_i'\beta} \tau (y_i - x_i'\beta) - \sum_{i\in y_i<x_i'\beta} (1-\tau)(y_i - x_i'\beta) \right)
+$${#eq-eq3}
+
+One characteristic of this estimator is that the $\beta(\tau)$ coefficients are identified locally, and thus the estimated quantile coefficients will exhibit considerable variation when analyzed across $\tau$. It is also implicit that if one requires an analysis of the entire distribution, it would be necessary to estimate the model for each quantile.[^1]
+
+[^1]: There are other estimators that provide smoother estimates for the quantile regression coefficients using a kernel local weighted approach [@kaplan2017], as well as identifying the full set of quantile coefficients simultaneously assuming some parametric functional forms [@frumentobotai2016].
+
+One insightful extension to the location-scale parameterizations suggested by @he1997, @cameron2005, and @mss2019 is to assume that the data-generating process (DGP) can be written as a linear model with a multiplicative heteroskedastic process that is linear in parameters.[^2]
+
+$$y_i=x_i'\beta+\varepsilon_i \times x_i'\gamma(\tau)
+$${#eq-eq4}
+
+[^2]: @mss2019 also discuss a model where heteroskedasticity can be an arbitrary nonlinear function $\sigma(x_i'\gamma)$, but develop the estimator for the linear case, i.e., when $\sigma()$ is the identity function.
+
+Under the assumption that $\varepsilon$ is an independent and identically distributed (iid) unobserved random variable that is independent of $X$, the conditional quantile of $Y$ given $X$ and $\tau$ can be written as:
+
+$$Q(Y|X,\tau) =X\beta+X\gamma \times Q(\varepsilon|\tau)
+$${#eq-eq5}
+
+In this setup, the traditional quantile coefficients are identified as the location model coefficients, plus the scale model coefficients moderated by the $\tau_th$ unconditional quantile of the standardized error $\varepsilon$.
+
+$$\beta(\tau) = \beta + \gamma \times Q(\varepsilon|\tau)
+$${#eq-eq6}
+
+While this specification imposes a strong assumption on the DGP, it has two advantages over the standard quantile regression model. First, because the location and scale model can be identified globally, with only a single parmater ($Q(\varepsilon|\tau)$) requiring local estimation, this estimation approach would be more efficient than the standard quantile regression model (@zhao2000). Second, under the assumption that $X\gamma$ is strictly possitive, the model would produce quantile coefficients that do not cross. 
+
+Following MSS, the quantile regression model defined by @eq-eq5 can be estimated using a method of moments approach. And while its possible to identify all coefficients ($\beta,\gamma, Q(\varepsilon|\tau)$) simultaneously, we describe and use the implementation approach advocated by MSS which identifies each set of coefficients separately.
+
+1. The location model can be estimated using a standard linear regression model, where the dependent variable is the outcome $Y$, and the independent variables are the explanatory variables $X$ (including a constant) with an error $u$, which is by definition heteroskedastic. In this case, the location model coefficients are identified under the following condition:
+$$\begin{aligned}
+  y_i &=x_i'\beta+u_i \\
+  E[u 'X ] &=0
+  \end{aligned}
+$${#eq-eq7}
+
+2. After the location model is estimated, the scale coefficients can be identified by modeling heteroskedasticity as a linear function of characteristics $X$. For this we use the absolute value of the errors from the location model $u$ as dependent variable, which would allow us to estimate the conditional standard deviation (rather than conditional variance) of the errors. In this case, the coefficients are identified under the following condition: 
+
+$$\begin{aligned}
+  |u_i| &=x_i'\gamma+v_i \\
+  E[ (|u|-X \gamma) X ] &=0
+  \end{aligned}
+$${#eq-eq8}
+
+3. Finally, given the location and scale coefficients, the $\tau_{th}$ quantile of the error $e$ can be estimated using the following condition:
+
+$$\begin{aligned}
+  E\left[  \mathbb{1}\left(x_i' (\beta + \gamma Q(\varepsilon|\tau)) \geq y_i \right) - \tau \right] &=0  \\
+  E\left[  \mathbb{1}\left(   Q(\varepsilon|\tau)\geq \frac{y_i-x_i'\beta}{x_i'\gamma} \right) - \tau \right] &=0  \\
+  \end{aligned}
+$${#eq-eq9}
+
+Where one identifies the quantile of the error $\varepsilon$ using standardized errors $\frac{y_i-x_i'\beta}{x_i'\gamma}$, or by finding the values that identify the overall quantile coefficients $\beta(\tau)=\beta + \gamma Q(\varepsilon|\tau)$. Afterwords, the conditional quantile coefficients is simply defined as the combination of the location and scale coefficients.
 
 ## Standard Errors: GLS, Robust, Clustered
+
+As discussed in the previous section, the estimation of quantile regression coefficients using the location-scale model with heteroskedstic linear errors can be estimated using a the following set of moments, which fits in the Generalized Method of Moments framework:
+
+$$\begin{aligned}
+  E[u_i x_i ] &= E[h_{1,i}]=0 \\
+  E[ (|u_i|-x_i \gamma) x_i ] &=E[h_{2,i}]=0 \\
+  E\left[  \mathbb{1}\left(   Q(\varepsilon|\tau)\geq \frac{y_i-x_i'\beta}{x_i'\gamma} \right) - \tau \right] 
+  &=E[h_{3,i}]=0 
+  \end{aligned}
+$${#eq-eq10}
+
+Under the conditions described in @newey_chapter_1994 (see section 7), @cameron2005 (see chapter 6.3.9) or as shown in @mss2019, the location, scale and residual quantile coefficients are asymptotically normal.[^3] 
+
+[^3]: @zhao2000 also shows that the quantile coefficients for the location-scale model also follows a normal distribution, but uses the assumption that the location model is derived using a least absolute deviation approach (median regression).
+
+Call $\theta=[ \beta' \ \ \gamma'  \ \ Q(\varepsilon|\tau)' ]'$ the set of coefficients that are identified in @eq-eq10, a just identified model.  And the functions $G_{k,l}$ and $S_{k.l}$ equal to:
+
+$$\begin{aligned}
+G_{k,l} &= N^{-1} \sum_{i=1}^N \frac{\partial h_{k,i}}{\partial \theta_l} \Big|_{\hat\theta} \ \forall k,l \in [1,2,3] \\
+S_{k,l} &= N^{-1} \sum_{i=1}^N h_{k,i} h_{l,i}' \Big|_{\hat\theta} \ \forall k,l \in [1,2,3]
+\end{aligned}
+$$
+
+where $\theta_1 = \beta$, $\theta_2 = \gamma$ and $\theta_3 = Q(\varepsilon,\tau)$.
+
+Then 
+$$
+\sqrt{N}(\hat\theta - \theta) \xrightarrow{d} N(0, G^{-1} S G^{-1})
+$$
+
+with, $G$ and $S$ defined as:
+
+$$\begin{aligned}
+G &= \begin{bmatrix}
+G_{1,1} &       0 & 0       \\
+G_{2,1} & G_{2,2} & 0       \\
+G_{3,1} & G_{3,2} & G_{3,3} 
+\end{bmatrix}  \text{ and }
+S &= \begin{bmatrix}
+S_{1,1} & S_{1,2} & S_{1,3}    \\
+S_{2,1} & S_{2,2} & S_{2,3}  \\
+S_{3,1} & S_{3,2} & S_{3,3} 
+\end{bmatrix}
+\end{aligned}
+$$
+
+
+Because 
+
+$$
+Var(\hat\theta) = \frac{1}{N} \left(
+    \frac{1}{N} 
+    \sum_{i=1}^N  \lambda_i(\theta) \lambda_i(\theta)'  
+\right) = \frac{1}{N^2} 
+\lambda(\theta)'\lambda(\theta)
+$$
+
+
+$$
+\lambda_i(\theta) = \bar G(\theta)^{-1} h_i (x_i,\theta)
+$$
+
+Finally, the variance covariance of $\hat \beta(\tau)$ will be given by:
+
+$$Var(\hat\beta(\tau)) = \Xi Var(\hat\theta) \Xi'$$
+
+where $\Xi$ is a $k \times (2k+1)$ matrix defined as:
+
+$$
+\begin{aligned}
+    \Xi &= I(k), \hat q(\tau) I(k), \hat \gamma \\
+    \Xi &= \left[ \begin{array}{cccc|cccc|}
+           1 & 0 & \dots & 0 &\hat q_(\tau) & 0 & ... & 0  & \hat\gamma_0 \\
+           0 & 1 & \dots & 0 &0& \hat q_(\tau) & ... & 0 & \hat\gamma_1 \\
+          \vdots & \vdots & \dots & 0 &...&...& ... & 0             & ...\\
+           0 & 0 & \dots & 1 &0 & 0 & ... & \hat q(\tau)   & \hat\gamma_k
+        \end{array} \right]         
+\end{aligned}
+$$
+
+
+
+
 
 ## Multiple Fixed Effects: Expanding on @mss2019
 

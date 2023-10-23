@@ -82,6 +82,38 @@ keywords = {Incidental parameters, Bayes, Nuisance parameters, Maximum likelihoo
 abstract = {This paper was written to mark the 50th anniversary of Neyman and Scott's Econometrica paper defining the incidental parameter problem. It surveys the history both of the paper and of the problem in the statistics and econometrics literature.}
 }
 
+
+@article{zhao2000,
+	title = {Restricted {Regression} {Quantiles}},
+	volume = {72},
+	issn = {0047-259X},
+	url = {https://www.sciencedirect.com/science/article/pii/S0047259X99918493},
+	doi = {https://doi.org/10.1006/jmva.1999.1849},
+	abstract = {Regression quantiles can be used as prediction intervals for the response variable. But such applications are often hampered by the problem of quantile crossing in finite sample cases. This article examines the efficiency properties of restricted regression quantiles that are proposed by X. He (1997, Amer. Statist.51, 186–192) to overcome the crossing problem of the usual regression quantiles of R. Koenker and G. Bassett (1978, Econometrica46, 33–50) for linear models. An example using esterase assay data is presented to illustrate the use of restricted regression quantiles in constructing calibration intervals.},
+	number = {1},
+	journal = {Journal of Multivariate Analysis},
+	author = {Zhao, Quanshui},
+	year = {2000},
+	keywords = {efficiency, heteroscedasticity, linear model, regression quantile},
+	pages = {78--99},
+}
+
+
+@incollection{newey_chapter_1994,
+	title = {Chapter 36 {Large} sample estimation and hypothesis testing},
+	volume = {4},
+	isbn = {978-0-444-88766-5},
+	url = {https://linkinghub.elsevier.com/retrieve/pii/S1573441205800054},
+	language = {en},
+	urldate = {2023-10-23},
+	booktitle = {Handbook of {Econometrics}},
+	publisher = {Elsevier},
+	author = {Newey, Whitney K. and McFadden, Daniel},
+	year = {1994},
+	doi = {10.1016/S1573-4412(05)80005-4},
+	pages = {2111--2245},
+}
+
 @article{neymanscott1948,
  ISSN = {00129682, 14680262},
  URL = {http://www.jstor.org/stable/1914288},
@@ -181,5 +213,73 @@ eprint = {https://www.tandfonline.com/doi/pdf/10.1080/01621459.1963.10480682}
 	note = {OCLC: 61895919},
 }
 
+@article{frumentobotai2016,
+author = {Frumento, Paolo and Bottai, Matteo},
+title = {Parametric modeling of quantile regression coefficient functions},
+journal = {Biometrics},
+volume = {72},
+number = {1},
+pages = {74-84},
+keywords = {Inspiratory capacity, Integrated loss minimization (ILM), Quantile regression coefficients modeling (QRCM)},
+doi = {https://doi.org/10.1111/biom.12410},
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1111/biom.12410},
+eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1111/biom.12410},
+abstract = {Summary Estimating the conditional quantiles of outcome variables of interest is frequent in many research areas, and quantile regression is foremost among the utilized methods. The coefficients of a quantile regression model depend on the order of the quantile being estimated. For example, the coefficients for the median are generally different from those of the 10th centile. In this article, we describe an approach to modeling the regression coefficients as parametric functions of the order of the quantile. This approach may have advantages in terms of parsimony, efficiency, and may expand the potential of statistical modeling. Goodness-of-fit measures and testing procedures are discussed, and the results of a simulation study are presented. We apply the method to analyze the data that motivated this work. The described method is implemented in the qrcm R package.},
+year = {2016}
+}
+
+
+@article{romano_2017,
+	title = {Resurrecting weighted least squares},
+	volume = {197},
+	issn = {0304-4076},
+	url = {https://www.sciencedirect.com/science/article/pii/S030440761630197X},
+	doi = {https://doi.org/10.1016/j.jeconom.2016.10.003},
+	abstract = {This paper shows how asymptotically valid inference in regression models based on the weighted least squares (WLS) estimator can be obtained even when the model for reweighting the data is misspecified. Like the ordinary least squares estimator, the WLS estimator can be accompanied by heteroskedasticity-consistent (HC) standard errors without knowledge of the functional form of conditional heteroskedasticity. First, we provide rigorous proofs under reasonable assumptions; second, we provide numerical support in favor of this approach. Indeed, a Monte Carlo study demonstrates attractive finite-sample properties compared to the status quo, in terms of both estimation and inference.},
+	number = {1},
+	journal = {Journal of Econometrics},
+	author = {Romano, Joseph P. and Wolf, Michael},
+	year = {2017},
+	keywords = {Conditional heteroskedasticity, HC standard errors, Weighted least squares},
+	pages = {1--19},
+}
+
+
+
+@article{kaplan2017,
+	title = {Smoothed estimating equations for instrumental variables quantile regression},
+	volume = {33},
+	issn = {0266-4666, 1469-4360},
+	url = {https://www.cambridge.org/core/journals/econometric-theory/article/abs/smoothed-estimating-equations-for-instrumental-variables-quantile-regression/59EE6581C077098DDBB87F3E98F9BF90#},
+	doi = {10.1017/S0266466615000407},
+	abstract = {The moment conditions or estimating equations for instrumental variables quantile regression involve the discontinuous indicator function. We instead use smoothed estimating equations (SEE), with bandwidth h. We show that the mean squared error (MSE) of the vector of the SEE is minimized for some h {\textgreater} 0, leading to smaller asymptotic MSE of the estimating equations and associated parameter estimators. The same MSE-optimal h also minimizes the higher-order type I error of a SEE-based χ2 test and increases size-adjusted power in large samples. Computation of the SEE estimator also becomes simpler and more reliable, especially with (more) endogenous regressors. Monte Carlo simulations demonstrate all of these superior properties in finite samples, and we apply our estimator to JTPA data. Smoothing the estimating equations is not just a technical operation for establishing Edgeworth expansions and bootstrap refinements; it also brings the real benefits of having more precise estimators and more powerful tests.},
+	language = {en},
+	number = {1},
+	urldate = {2023-10-23},
+	journal = {Econometric Theory},
+	author = {Kaplan, David M. and Sun, Yixiao},
+	month = feb,
+	year = {2017},
+	note = {Publisher: Cambridge University Press},
+	pages = {105--157},
+	file = {Accepted Version:C\:\\Users\\Fernando\\Zotero\\storage\\WDYU6NP6\\Kaplan and Sun - 2017 - SMOOTHED ESTIMATING EQUATIONS FOR INSTRUMENTAL VAR.pdf:application/pdf},
+}
+
+
+@article{melly2005,
+	title = {Decomposition of differences in distribution using quantile regression},
+	volume = {12},
+	issn = {0927-5371},
+	url = {https://www.sciencedirect.com/science/article/pii/S0927537105000382},
+	doi = {https://doi.org/10.1016/j.labeco.2005.05.006},
+	abstract = {This paper proposes a semiparametric estimator of distribution functions in the presence of covariates. The method is based on the estimation of the conditional distribution by quantile regression. The conditional distribution is then integrated over the range of covariates. Counterfactual distributions can be estimated, allowing the decomposition of changes in distribution into three factors: coefficients, covariates and residuals. Sources of changes in wage inequality in the USA between 1973 and 1989 are examined. Unlike most of the literature, we find that residuals account for only 20\% of the explosion of inequality in the 80s.},
+	number = {4},
+	journal = {Labour Economics},
+	author = {Melly, Blaise},
+	year = {2005},
+	keywords = {Oaxaca Decomposition, Quantile Regression, Wage Inequality},
+	pages = {577--590},
+	annote = {European Association of Labour Economists 16th Annual Conference, Universidade Nova de Lisboa, Lisbon, 9th – 11th Sepetember, 2004},
+}
 
 
