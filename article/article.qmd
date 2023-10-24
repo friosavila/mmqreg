@@ -41,15 +41,15 @@ Quantile regression (QR), introduced by @koenkerbasset1978, is an estimation str
 
 A relatively recent development in the literature has focused on extending quantile regressions analysis to include individual fixed effects in the framework of panel data. However, as described in @neymanscott1948, and @lancaster2000, when individual fixed effects are included in quantile regression analysis it generates an incident parameter problem. While many strategies have been proposed for estimating this type of model (see Galvão and Kato, 2018 for a brief review), neither has become standard because of their restrictive assumptions in regards to the individual effects, the computational complexity, and implementation. 
 
-More recently, @mss2019 (MSS hereafter) proposed a methodology based on a conditional location-scale model similar to the one described in @he1997 and @zhao2020, for the estimation of quantile regressions models for panel data via a method of moments. This method allows individual fixed effects allowing to have heterogeneous effects on the entire conditional distribution of the outcome, rather constraining their effect to be a location shift only as in @canay2011, @koenker2004, and @lancaster2000. 
+More recently, @mss2019 (MSS hereafter) proposed a methodology based on a conditional location-scale model similar to the one described in @he1997 and @zhao2000, for the estimation of quantile regressions models for panel data via a method of moments. This method allows individual fixed effects allowing to have heterogeneous effects on the entire conditional distribution of the outcome, rather constraining their effect to be a location shift only as in @canay2011, @koenker2004, and @lancaster2000. 
 
-In principle, under the assumption that data generating process behind the data is based on a multiplicative heteroskedastic process that is linear in parameters (@cameron2005; @mss2019; @he1997; @zhao2020), the effect of a variable $X$ on the $q_th$ quantile can be derived as the combination of a location effect, and scale effect moderated by the quantile of an underlying i.i.d. error. For statistical inference, MSS derives the asymptotic distribution of the estimator, suggesting the use of bootstrap standard errors, as well.
+In principle, under the assumption that data generating process behind the data is based on a multiplicative heteroskedastic process that is linear in parameters (@cameron2005, @mss2019, @he1997 and @zhao2000 ), the effect of a variable $X$ on the $q_th$ quantile can be derived as the combination of a location effect, and scale effect moderated by the quantile of an underlying i.i.d. error. For statistical inference, MSS derives the asymptotic distribution of the estimator, suggesting the use of bootstrap standard errors, as well.
 
 While this methodology is not meant to substitute the use of standard quantile regression analysis, given the assumptions required for the identification of the model, it provides a simple and fast alternative for the estimation of quantile regression models with individual fixed effects. 
 
 In this framework, our paper expands on @mss2019, following some of the suggestions by the authors regarding further research. First, making use of the properties of GMM estimators, we derive various alternatives for the estimation of standard errors based on the empirical Influence functions of the estimators. Second, we reconsider the application of Frisch–Waugh–Lovell (FWL) theorem (@frishwaugh1933 and @lovell1963) to extend the MSS estimator to allow for the inclusion of multiple fixed effects, for example, individual and year fixed effects. 
 
-The rest of the paper is restructured as follows. Section 2 presents the basic setup of the location-Scale model described in @he1997 and @zhao2020, tying the relationship between the standard quantile regression model, and the location and scale model. It also revisits MSS methodology, proposing alternative estimators for the standard errors based on the properties of GMM estimators and the empirical influence functions. It also shows that FWL theorem can be used to control for multiple fixed effects. Section 3 presents the results of a small simulation study and Section 4 illustrates the application of the proposed methods with two empirical examples. Seccion 5 concludes. 
+The rest of the paper is restructured as follows. Section 2 presents the basic setup of the location-Scale model described in @he1997 and @zhao2000, tying the relationship between the standard quantile regression model, and the location and scale model. It also revisits MSS methodology, proposing alternative estimators for the standard errors based on the properties of GMM estimators and the empirical influence functions. It also shows that FWL theorem can be used to control for multiple fixed effects. Section 3 presents the results of a small simulation study and Section 4 illustrates the application of the proposed methods with two empirical examples. Seccion 5 concludes. 
 
 # Methodology
 
@@ -141,71 +141,35 @@ Under the conditions described in @newey_chapter_1994 (see section 7), @cameron2
 
 [^3]: @zhao2000 also shows that the quantile coefficients for the location-scale model also follows a normal distribution, but uses the assumption that the location model is derived using a least absolute deviation approach (median regression).
 
-Call $\theta=[ \beta' \ \ \gamma'  \ \ Q(\varepsilon|\tau)' ]'$ the set of coefficients that are identified in @eq-eq10, a just identified model.  And the functions $G_{k,l}$ and $S_{k.l}$ equal to:
-
-$$\begin{aligned}
-G_{k,l} &= N^{-1} \sum_{i=1}^N \frac{\partial h_{k,i}}{\partial \theta_l} \Big|_{\hat\theta} \ \forall k,l \in [1,2,3] \\
-S_{k,l} &= N^{-1} \sum_{i=1}^N h_{k,i} h_{l,i}' \Big|_{\hat\theta} \ \forall k,l \in [1,2,3]
-\end{aligned}
+Call $\theta=[ \beta' \ \ \gamma'  \ \ Q(\varepsilon|\tau)' ]'$ the set of coefficients that are identified in @eq-eq10, a just identified model.  And the function $h_i$ is a vector function that stacks all the moments at the individual level described in @eq-eq10. Then $\hat\theta$ follows a normal distribution with mean $\theta$ and variance-covariance matrix $V(\theta)$ that is estimated as:
+$$
+\hat{V}(\hat\theta)=\frac{1}{N} 
+\bar G(\hat\theta)^{-1} 
+\left( \frac{1}{N} \sum_{i=1}^N h_i h_i'  \Big|_{\theta=\hat\theta} \right) 
+\bar G(\hat\theta)^{-1} 
 $$
 
-where $\theta_1 = \beta$, $\theta_2 = \gamma$ and $\theta_3 = Q(\varepsilon,\tau)$.
+where the inner product is the moment covariance matrix, and $\bar{G}(\theta)$ is the Jacobian matrix of the moment equations (@eq-eq10) evaluated at $\hat\theta$.
 
-Then 
+$$\bar{G}(\theta) =-\frac{1}{N} \sum_{i=1} \frac{\partial h_i}{\partial \theta'} \Big|_{\theta=\hat\theta}$$
+
+This is equivalent to the Eicker-White Heteroskedastic-Consistent estimator for least-squares estimators. 
+
+In this framework, the quantile regression coefficients, a combination of the location-scale-quantile estimates, will follow a normal distribution with mean $\beta(\tau) = \beta+Q(\varepsilon,\tau)\gamma$ and variance-covariance matrix equal to:
+
+$$\hat{V}(\beta(\tau)) = \Xi \hat{V}(\hat\theta) \Xi'
 $$
-\sqrt{N}(\hat\theta - \theta) \xrightarrow{d} N(0, G^{-1} S G^{-1})
-$$
-
-with, $G$ and $S$ defined as:
-
-$$\begin{aligned}
-G &= \begin{bmatrix}
-G_{1,1} &       0 & 0       \\
-G_{2,1} & G_{2,2} & 0       \\
-G_{3,1} & G_{3,2} & G_{3,3} 
-\end{bmatrix}  \text{ and }
-S &= \begin{bmatrix}
-S_{1,1} & S_{1,2} & S_{1,3}    \\
-S_{2,1} & S_{2,2} & S_{2,3}  \\
-S_{3,1} & S_{3,2} & S_{3,3} 
-\end{bmatrix}
-\end{aligned}
-$$
-
-
-Because 
-
-$$
-Var(\hat\theta) = \frac{1}{N} \left(
-    \frac{1}{N} 
-    \sum_{i=1}^N  \lambda_i(\theta) \lambda_i(\theta)'  
-\right) = \frac{1}{N^2} 
-\lambda(\theta)'\lambda(\theta)
-$$
-
-
-$$
-\lambda_i(\theta) = \bar G(\theta)^{-1} h_i (x_i,\theta)
-$$
-
-Finally, the variance covariance of $\hat \beta(\tau)$ will be given by:
-
-$$Var(\hat\beta(\tau)) = \Xi Var(\hat\theta) \Xi'$$
 
 where $\Xi$ is a $k \times (2k+1)$ matrix defined as:
 
+$$\Xi = [ I(k), \hat Q(\varepsilon|\tau) \cdot I(k), \hat \gamma ]
 $$
-\begin{aligned}
-    \Xi &= I(k), \hat q(\tau) I(k), \hat \gamma \\
-    \Xi &= \left[ \begin{array}{cccc|cccc|}
-           1 & 0 & \dots & 0 &\hat q_(\tau) & 0 & ... & 0  & \hat\gamma_0 \\
-           0 & 1 & \dots & 0 &0& \hat q_(\tau) & ... & 0 & \hat\gamma_1 \\
-          \vdots & \vdots & \dots & 0 &...&...& ... & 0             & ...\\
-           0 & 0 & \dots & 1 &0 & 0 & ... & \hat q(\tau)   & \hat\gamma_k
-        \end{array} \right]         
-\end{aligned}
-$$
+ 
+with $I(k)$ being an identity matrix of dimension $k$ (number of explanatory variables in $X$ including the constant).
 
+The different types of Standard errors estimation, thus, depend on the assumptions imposed for the estimation of $V(\theta)$. 
+
+ 
 
 
 
