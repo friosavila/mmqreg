@@ -177,7 +177,7 @@ model, Quantile regression},
 effects}
 \author{Fernando Rios-Avila \and Leonardo Siles \and Gustavo
 Canavire-Bacarreza}
-\date{2023-10-24}
+\date{2023-10-26}
 
 \begin{document}
 \maketitle
@@ -191,7 +191,7 @@ properties of the proposed method in the presence of two sets of fixed
 effects. Finally, we apply the proposed method to estimate
 \textbf{something interesting}
 \end{abstract}
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, enhanced, borderline west={3pt}{0pt}{shadecolor}, interior hidden, breakable, boxrule=0pt, sharp corners]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[sharp corners, enhanced, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, frame hidden, interior hidden, breakable]}{\end{tcolorbox}}\fi
 
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
@@ -263,9 +263,8 @@ proposed methods with two empirical examples. Seccion 5 concludes.
 \hypertarget{methodology}{%
 \section{Methodology}\label{methodology}}
 
-\hypertarget{quantile-regression-location-scale-model}{%
-\subsection{Quantile Regression: Location-Scale
-model}\label{quantile-regression-location-scale-model}}
+\hypertarget{sec-betas}{%
+\subsection{Quantile Regression: Location-Scale model}\label{sec-betas}}
 
 Quantile regressions are used to identify relationships between the
 explanatory variables \(x\) and the conditional quantiles of the
@@ -413,9 +412,8 @@ the values that identify the overall quantile coefficients
 conditional quantile coefficients is simply defined as the combination
 of the location and scale coefficients.
 
-\hypertarget{standard-errors-gls-robust-clustered}{%
-\subsection{Standard Errors: GLS, Robust,
-Clustered}\label{standard-errors-gls-robust-clustered}}
+\hypertarget{sec-se}{%
+\subsection{Standard Errors: GLS, Robust, Clustered}\label{sec-se}}
 
 As discussed in the previous section, the estimation of quantile
 regression coefficients using the location-scale model with
@@ -484,6 +482,112 @@ assumptions imposed for the estimation of \(V(\theta)\).
 \subsection{Multiple Fixed Effects: Expanding on Machado and Santos
 Silva (2019)}\label{multiple-fixed-effects-expanding-on-mss2019}}
 
+Using the setup describe in the previous section, Machado and Santos
+Silva (2019) proposes an extension to the model proposed by He (1997)
+that would allow for the estimation of quantile regression models with
+panel data, allowing for the inclussion of individual fixed effects.
+However, as the authors suggest, the methodology can be generalized to
+allow for the inclusion of multiple fixed effects. This type of analysis
+may be useful when considering data such as employer-employee linked
+data (Abowd, Kramarz, and Roux 2006), or teacher-student linked data
+(Harris and Sass 2011). Or, in the most common case, allowing to control
+for both individual and time fixed effects.
+
+Reconsider the original model, and assume there are sets of unobserved
+heterogeneity that are assumed to be constant across observations, if
+they belong to common groups. In panel data, the groups would be the
+individual fixed effects and the time fixed effects. Without loss of
+generality, we can assume that the data generating process is as
+follows:
+
+\[\begin{aligned}
+  y_{i} &= x_{i}' \beta + \delta_{g1} + \delta_{g2} + \nu_i \\
+  \nu_i &= \varepsilon_i \times (x_{i}' \gamma + \zeta_{g1} + \zeta_{g2})   
+  \end{aligned}
+\]
+
+where we assume \(x_{i}\) vary across groups \(g_1\) and \(g_2\), thus
+are not collinear, and that \(\delta's\) and \(\zeta's\) are the
+location and scale effects associated with groups fixed
+effects.\footnote{We could just as well consider multiple sets of fixed
+  effects}
+
+If the dimension of groups \(g_k\) is low, this model could be estimated
+using a dummy inclussion approach following Section~\ref{sec-betas}, and
+standard errors obtained as discussed in Section~\ref{sec-se}. However,
+if the dimensionsionality of \(g_k\) is high, dummy inclussion approach
+may not be feasible. Instead, a more feasible approach is to apply the
+Frisch-Waugh-Lovell (FWL) theorem, and partial out the impact of the
+group fixed effects on the control variables \(x_{i}\), the outcome of
+interest \(y_{i}\), with a similar approach for the identification of
+\(\sigma(x)\). In the case of unbalanced setups, with multiple groups,
+the estimation involves iterative processes for which various approaches
+have been sugested and implemented (see Correia (2016), Gaure (2013),
+Rios-Avila (2015), among others).
+
+When applying the partialing out approach, some modifications to the
+approach described in Section~\ref{sec-betas} is needed.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  For all dependent and independent variables in the model (\(w=y,x\)),
+  we partial out the group fixed effects, and obtain the
+  centered-residualized variables:
+\end{enumerate}
+
+\[\begin{aligned}
+w_{i} &= \delta_{g1}^w + \delta_{g2}^w + u_{i}^w \\
+w_{i}^{rc} &= E(w_{i}) + \hat{u}_{i}^w
+\end{aligned}
+\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  We estimate the location model using the centered-residualized
+  variables:
+\end{enumerate}
+
+\[y_{i}^{rc} = x_{i}^{rc'} \beta + nu_{i}
+\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Since \(|\hat \nu_i|\) is the dependent variable for the scale model,
+  we apply the partialling out and recentering to this expression
+  (\(|\hat \nu_i|^{rc}\)), and use that to estimate the model:
+\end{enumerate}
+
+\[|\hat\nu_{i}|^{rc} = x_{i}^{rc'} \gamma + e_{i}\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Finally the standardized residuals \(\varepsilon_i\) can be obtained
+  as follows
+\end{enumerate}
+
+\[\hat{\varepsilon}_{i} = \frac{\nu_{i}}{|\hat\nu_{i}|- \hat e_{i}}\]
+
+where \(|\hat\nu_{i}|- \hat e_{i}\) is the prediction for the
+conditional standard deviation
+\(\sigma(x_i)=x_{i}' \gamma + \zeta_{g1} + \zeta_{g2}\)
+
+The \(\tau_{th}\) quantile of the error \(\varepsilon\) can be estimated
+as usual, and the variance-covariance matrices obtained in the same way
+as before (see Section~\ref{sec-se}), but using \(x_{i}^{rc}\) instead
+of \(x_{i}\) when estimating the influence functions for all estimated
+coefficients.
+
 \hypertarget{monte-carlo-simulations}{%
 \section{Monte Carlo Simulations}\label{monte-carlo-simulations}}
 
@@ -497,12 +601,92 @@ interesting}}{Application: Something interesting}}\label{application-something-i
 \hypertarget{appendix}{%
 \section{Appendix}\label{appendix}}
 
+The estimation of quantile regression via moments assumes that the DGP
+is linear in parameters, with an heteroskedastic error term that is also
+linear function of parameters:
+
+\[y = x\beta + e_i \times x\gamma\]
+
+where \(e_i\) is an unobserved i.i.d. random variable that is
+independent of \(x\), and such that \(x\gamma\) is larger than zero for
+any \(x\).
+
+In this case, the \(\tau_{th}\)conditional quantile model can be written
+as:
+
+\[q(y|\tau,X) = x(\beta + q(e|\tau) \times \gamma)\]
+
+This model is identified under the following conditions:
+
+\[\begin{aligned}
+  E[(y_i-x_i'\beta)x_i ]  &= E[h_{1,i}]=0 \\
+  E[ (|y_i-x_i'\beta|-x_i' \gamma) x_i ] &=E[h_{2,i}]=0 \\
+  E\left[  \mathbb{1}\left( q(\varepsilon|\tau) x_i'\gamma +x_i'\beta\geq  y_i  \right) - \tau \right] 
+   &=E[h_{3,i}]=0 
+\end{aligned}
+\]
+
+In this model, to estimate the variance-covariance matrix the set of
+coefficients \(\theta'=[\beta' \ \gamma' \ q(\varepsilon|\tau)']\), we
+need to obtain the influence functions of all coefficients, which are
+defined as:
+
+\[\lambda_i = \bar G(\theta)^{-1}
+\begin{bmatrix}
+h_{1,i} \\
+h_{2,i} \\
+h_{3,i}
+\end{bmatrix}
+\]
+
+where the Jacobian matrix \(\bar G(\theta)\) is defined as:
+
+\[\bar G(\theta) = \begin{bmatrix}
+\bar G_{11} & G_{12} & G_{13} \\
+\bar G_{21} & \bar G_{22} & G_{23} \\
+\bar G_{31} & \bar G_{32} & \bar G_{13} \\
+\end{bmatrix}
+\]
+
+with
+
+\[\bar G_{j,k} = - \frac 1 N \sum_{i=1}^N \frac{\partial h_{j,i}}{\partial \theta_k'} \ \forall j,k \in 1,2,3
+\]
+
+\hypertarget{first-moment-condition-location-model}{%
+\subsubsection{First Moment Condition: Location
+Model}\label{first-moment-condition-location-model}}
+
+\[h_{1,i}=x_i(y_i-x_i'\beta)\]
+
+\[\begin{aligned}
+\bar G_{1,1} &=- \frac{1}{N} \sum_{i=1}^N \frac{\partial h_{j,i}}{\partial \beta'} \\
+             &=- \frac{1}{N} \sum_{i=1}^N (-x_i x_i') \\
+             &= N^{-1} X'X
+\end{aligned}
+\]
+
+\[\begin{aligned}
+\bar G_{1,2} = \bar G_{1,3} = 0
+\]
+
+\hypertarget{second-moment-condition-scale-model}{%
+\subsubsection{Second Moment Condition: Scale
+model}\label{second-moment-condition-scale-model}}
+
 \hypertarget{references}{%
 \section*{References}\label{references}}
 \addcontentsline{toc}{section}{References}
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-abowed2006}{}}%
+Abowd, John M., Francis Kramarz, and Sébastien Roux. 2006. {``Wages,
+Mobility and Firm Performance: Advantages and Insights from Using
+Matched Worker--Firm Data*.''} \emph{The Economic Journal} 116 (512):
+F245--85.
+https://doi.org/\url{https://doi.org/10.1111/j.1468-0297.2006.01099.x}.
+
 \leavevmode\vadjust pre{\hypertarget{ref-cameron2005}{}}%
 Cameron, Adrian Colin, and Pravin K. Trivedi. 2005.
 \emph{Microeconometrics: Methods and Applications}. Cambridge ; New
@@ -513,6 +697,11 @@ Canay, Ivan A. 2011. {``A Simple Approach to Quantile Regression for
 Panel Data.''} \emph{The Econometrics Journal} 14 (3): 368--86.
 https://doi.org/\url{https://doi.org/10.1111/j.1368-423X.2011.00349.x}.
 
+\leavevmode\vadjust pre{\hypertarget{ref-correia_feasible_nodate}{}}%
+Correia, Sergio. 2016. {``A {Feasible} {Estimator} for {Linear} {Models}
+with {Multi}-{Way} {Fixed} {Effects}.''}
+\url{http://scorreia.com/research/hdfe.pdf}.
+
 \leavevmode\vadjust pre{\hypertarget{ref-frishwaugh1933}{}}%
 Frisch, Ragnar, and Frederick V. Waugh. 1933. {``Partial Time
 Regressions as Compared with Individual Trends.''} \emph{Econometrica} 1
@@ -522,6 +711,17 @@ Regressions as Compared with Individual Trends.''} \emph{Econometrica} 1
 Frumento, Paolo, and Matteo Bottai. 2016. {``Parametric Modeling of
 Quantile Regression Coefficient Functions.''} \emph{Biometrics} 72 (1):
 74--84. https://doi.org/\url{https://doi.org/10.1111/biom.12410}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-gaure2013}{}}%
+Gaure, Simen. 2013. {``{OLS} with Multiple High Dimensional Category
+Variables.''} \emph{Computational Statistics \& Data Analysis} 66:
+8--18. https://doi.org/\url{https://doi.org/10.1016/j.csda.2013.03.024}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-harrissass2011}{}}%
+Harris, Douglas N., and Tim R. Sass. 2011. {``Teacher Training, Teacher
+Quality and Student Achievement.''} \emph{Journal of Public Economics}
+95 (7): 798--812.
+https://doi.org/\url{https://doi.org/10.1016/j.jpubeco.2010.11.009}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-he1997}{}}%
 He, Xuming. 1997. {``Quantile Curves Without Crossing.''} \emph{The
@@ -575,6 +775,11 @@ Sample Estimation and Hypothesis Testing.''} In \emph{Handbook of
 Neyman, J., and Elizabeth L. Scott. 1948. {``Consistent Estimates Based
 on Partially Consistent Observations.''} \emph{Econometrica} 16 (1):
 1--32. \url{http://www.jstor.org/stable/1914288}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-rios2015}{}}%
+Rios-Avila, Fernando. 2015. {``Feasible {Fitting} of {Linear} {Models}
+with {N} {Fixed} {Effects}.''} \emph{The Stata Journal} 15 (3): 881--98.
+\url{https://doi.org/10.1177/1536867X1501500318}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-zhao2000}{}}%
 Zhao, Quanshui. 2000. {``Restricted {Regression} {Quantiles}.''}

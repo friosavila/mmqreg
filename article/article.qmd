@@ -53,7 +53,7 @@ The rest of the paper is restructured as follows. Section 2 presents the basic s
 
 # Methodology
 
-## Quantile Regression: Location-Scale model 
+## Quantile Regression: Location-Scale model {#sec-betas}
 
 Quantile regressions are used to identify relationships between the explanatory variables $x$ and the conditional quantiles of the dependent variable $Q(y|\tau,X)$. This relationship is commonly assumed to follow a linear functional form:
 
@@ -125,7 +125,7 @@ $${#eq-eq9}
 
 Where one identifies the quantile of the error $\varepsilon$ using standardized errors $\frac{y_i-x_i'\beta}{x_i'\gamma}$, or by finding the values that identify the overall quantile coefficients $\beta(\tau)=\beta + \gamma Q(\varepsilon|\tau)$. Afterwords, the conditional quantile coefficients is simply defined as the combination of the location and scale coefficients.
 
-## Standard Errors: GLS, Robust, Clustered
+## Standard Errors: GLS, Robust, Clustered {#sec-se}
 
 As discussed in the previous section, the estimation of quantile regression coefficients using the location-scale model with heteroskedstic linear errors can be estimated using a the following set of moments, which fits in the Generalized Method of Moments framework:
 
@@ -169,12 +169,50 @@ with $I(k)$ being an identity matrix of dimension $k$ (number of explanatory var
 
 The different types of Standard errors estimation, thus, depend on the assumptions imposed for the estimation of $V(\theta)$. 
 
- 
-
-
-
-
 ## Multiple Fixed Effects: Expanding on @mss2019
+
+Using the setup described in the previous section, @mss2019 proposes an extension to the model proposed by @he1997 that would allow for the estimation of quantile regression models with panel data, allowing for the inclusion of individual fixed effects. However, as the authors suggest, the methodology can be generalized to allow for the inclusion of multiple fixed effects. This type of analysis may be useful when considering data such as employer-employee linked data [@abowed2006], or teacher-student linked data [@harrissass2011]. Or, in the most common case, allowing to control for both individual and time fixed effects.
+
+Reconsider the original model, and assume there are sets of unobserved heterogeneity that are assumed to be constant across observations, if they belong to common groups. In panel data, the groups would be the individual fixed effects and the time fixed effects. Without loss of generality, we can assume that the data generating process is as follows:
+
+$$\begin{aligned}
+  y_{i} &= x_{i}' \beta + \delta_{g1} + \delta_{g2} + \nu_i \\
+  \nu_i &= \varepsilon_i \times (x_{i}' \gamma + \zeta_{g1} + \zeta_{g2})   
+  \end{aligned}
+$$
+
+where we assume $x_{i}$ vary across groups $g_1$ and $g_2$, thus are not collinear, and that $\delta's$ and $\zeta's$ are the location and scale effects associated with groups fixed effects.[^4]
+
+[^4]: We could just as well consider multiple sets of fixed effects
+
+If the dimension of groups $g_k$ is low, this model could be estimated using a dummy inclussion approach following @sec-betas, and standard errors obtained as discussed in @sec-se. However, if the dimensionality of $g_k$ is high, the dummy inclusion approach may not be feasible. Instead, a more feasible approach is to apply the Frisch-Waugh-Lovell (FWL) theorem, and partial out the impact of the group fixed effects on the control variables $x_{i}$, the outcome of interest $y_{i}$, with a similar approach for the identification of $\sigma(x)$. In the case of unbalanced setups, with multiple groups, the estimation involves iterative processes for which various approaches have been suggested and implemented (see @correia_feasible_nodate, @gaure2013, @rios2015, among others).
+
+When applying the partialing out approach, some modifications to the approach described in @sec-betas are needed.
+
+1. For all dependent and independent variables in the model ($w=y,x$), we partial out the group fixed effects, and obtain the centered-residualized variables:
+
+$$\begin{aligned}
+w_{i} &= \delta_{g1}^w + \delta_{g2}^w + u_{i}^w \\
+w_{i}^{rc} &= E(w_{i}) + \hat{u}_{i}^w
+\end{aligned}
+$$
+
+2. We estimate the location model using the centered-residualized variables:
+    
+$$y_{i}^{rc} = x_{i}^{rc'} \beta + nu_{i}
+$$
+
+3. Since $|\hat \nu_i|$ is the dependent variable for the scale model, we apply the partialling out and recentering to this expression ($|\hat \nu_i|^{rc}$), and use that to estimate the model:
+  
+$$|\hat\nu_{i}|^{rc} = x_{i}^{rc'} \gamma + e_{i}$$
+
+4. Finally the standardized residuals $\varepsilon_i$ can be obtained as follows 
+
+$$\hat{\varepsilon}_{i} = \frac{\nu_{i}}{|\hat\nu_{i}|- \hat e_{i}}$$
+
+where $|\hat\nu_{i}|- \hat e_{i}$ is the prediction for the conditional standard deviation $\sigma(x_i)=x_{i}' \gamma + \zeta_{g1} + \zeta_{g2}$
+    
+The $\tau_{th}$ quantile of the error $\varepsilon$ can be estimated as usual, and the variance-covariance matrices obtained in the same way as before (see @sec-se), but using  $x_{i}^{rc}$ instead of $x_{i}$ when estimating the influence functions for all estimated coefficients. 
 
 # Monte Carlo Simulations
 
@@ -183,5 +221,139 @@ The different types of Standard errors estimation, thus, depend on the assumptio
 # Conclusions
 
 # Appendix {.appendix} 
+
+The estimation of quantile regression via moments assumes that the DGP is linear in parameters, with an heteroskedastic error term that is also linear function of parameters:
+
+$$\begin{aligned}
+y = x\beta + \nu \\
+\nu = \varepsilon \times x\gamma
+\end{aligned}
+$$
+
+where $\varepsilon$ is an unobserved i.i.d. random variable that is independent of $x$, and such that $x\gamma$ is larger than zero for any $x$.
+
+In this case, the $\tau_{th}$ conditional quantile model can be written as:
+
+$$q(y|\tau,X) = x(\beta + q(e|\tau) \times \gamma)$$
+
+This model is identified under the following conditions:
+
+$$\begin{aligned}
+  E[(y_i-x_i'\beta)x_i ]  &= E[h_{1,i}]=0 \\
+  E[ (|y_i-x_i'\beta|-x_i' \gamma) x_i ] &=E[h_{2,i}]=0 \\
+  E\left[  \mathbb{1}\left( q(\varepsilon|\tau) x_i'\gamma +x_i'\beta\geq  y_i  \right) - \tau \right] 
+   &=E[h_{3,i}]=0 
+\end{aligned}
+$$
+
+In this model, to estimate the variance-covariance matrix the set of coefficients $\theta'=[\beta' \ \gamma' \ q(\varepsilon|\tau)']$, we need to obtain the influence functions of all coefficients, which are defined as:
+
+$$\lambda_i = \bar G(\theta)^{-1}
+\begin{bmatrix}
+h_{1,i} \\
+h_{2,i} \\
+h_{3,i}
+\end{bmatrix}
+$$
+
+where the Jacobian matrix $\bar G(\theta)$ is defined as:
+
+$$\bar G(\theta) = \begin{bmatrix}
+\bar G_{11} & G_{12} & G_{13} \\
+\bar G_{21} & \bar G_{22} & G_{23} \\
+\bar G_{31} & \bar G_{32} & \bar G_{13} \\
+\end{bmatrix}
+$$ 
+
+with 
+
+$$\bar G_{j,k} = - \frac 1 N \sum_{i=1}^N \frac{\partial h_{j,i}}{\partial \theta_k'} \ \forall j,k \in 1,2,3
+$$
+
+### First Moment Condition: Location Model
+
+$$h_{1,i}=x_i(y_i-x_i'\beta)$$
+
+$$\begin{aligned}
+\bar G_{1,1} &=- \frac{1}{N} \sum_{i=1}^N \frac{\partial h_{1,i}}{\partial \beta'} \\
+             &=- \frac{1}{N} \sum_{i=1}^N (-x_i x_i') \\
+             &= N^{-1} X'X
+\end{aligned}
+$$
+
+$$
+\bar G_{1,2} = \bar G_{1,3} = 0
+$$
+
+
+### Second Moment Condition: Scale model
+
+$$h_{2,i}=x_i(|y_i-x_i'\beta|-x_i'\gamma)$$
+
+$$\begin{aligned}
+\bar G_{2,1} &= -\frac{1}{N} \sum \frac{\partial h_{2,i}}{\partial \beta'} \\
+             &=  \frac{1}{N} \sum x_i x_i' \frac{y_i-x_i'\beta}{|y_i-x_i'\beta|} \\
+\frac{y_i-x_i'\beta}{|y_i-x_i'\beta|} &= sign(y_i-x_i'\beta) \\            
+\end{aligned}
+$$
+
+Under the assumption $\varepsilon_i \times x\gamma$, or in this case $y_i-x_i'\beta$, is uncorrelated with $x$, we can simplify the expression as:
+
+$$\begin{aligned}
+\bar G_{2,1} &= N^{-1} \left(N^{-1}\sum sign(y_i-x_i'\beta)\right) \sum x_i x_i' \\
+&= N^{-1} E[sign(y_i-x_i'\beta)] X'X
+\end{aligned}
+$$
+
+$$\begin{aligned}
+\bar G_{2,2} &= -\frac{1}{N} \sum \frac{\partial h_{2,i}}{\partial \gamma'} \\
+             &=  \frac{1}{N} \sum x_i x_i' 
+             &= N^{-1} X'X
+\end{aligned}
+$$
+
+$$\bar G_{2,3}=0$$
+
+### Third Moment Condition: Quantile of Standardized Residual 
+
+$$h_{3,i} = \mathbb{1}\left( q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i \geq 0 \right) - \tau$$
+
+Because the indicator function $\mathbb{1}()$ is not differentiable, we impose some smoothing assumptions:
+
+First:
+
+$$\begin{aligned}
+E[h_{3,i}] -\tau &= E[\mathbb{1}\left( q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i \geq 0 \right)] - \tau \\
+                &= E\left[E[\mathbb{1}\left( q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i \geq 0 \right)|x]\right] - \tau
+\end{aligned}
+$$
+
+Because we are aiming to identify the conditional quantile function of $y$, and under the assumption of the DGP it follows that:
+
+$$\begin{aligned}
+q(y|\tau) &= q(\varepsilon|\tau) x_i'\gamma +x_i'\beta \\
+E[\mathbb{1}\left( q(y|\tau) - y_i \geq 0 \right)|x] &= \tau 
+\end{aligned}
+$$
+
+and asymptotically, we expect that 
+
+$$E[\mathbb{1}\left( q(y|\tau) - y_i \geq 0 \right)|x]=
+E[\mathbb{1}\left( q(y|\tau) \geq  y_i \right)|x] = \tau = F_{y |X} \big( q(y|\tau) \big) 
+$$
+
+but also that 
+
+$$F_{y|X} \big( q(y|\tau)) = \tau = F_{\varepsilon}( q(\varepsilon|\tau) )
+$$
+
+where $F_{y|X}$ is the conditional cumulative distribution function (CDF) of $y$, and $F_{\varepsilon}$ is the unconditonal CDF of the iid error $\varepsilon$.
+
+Second, based on non-parametric estimation of the CDF, we can approximate $F_{y|X} \big( q(y|\tau))$ as:
+
+$$F_{y|X} \big( q(y|\tau) ) \approx \frac{\sum_{i=1}^N F_{y|X) ( q(y|\tau) - y_i) 
+
+
+
 
 # References {-}
