@@ -318,42 +318,83 @@ $$\bar G_{2,3}=0$$
 
 $$h_{3,i} = \mathbb{1}\left( q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i \geq 0 \right) - \tau$$
 
-Because the indicator function $\mathbb{1}()$ is not differentiable, we impose some smoothing assumptions:
+Because the indicator function $\mathbb{1}()$ is not differentiable, we borrow from the non-parametric literature, and approximate the indicator function with the integral of a kernel density function $I()$. This function $I()$, is monotonic and symetrical function around zero, with a domain over the real numbers, and a range between 0 and 1. 
 
-First:
+With an arbirarily small bandwidth $h$, this function will approximate the indicator function:
+
+$$
+\lim_{h\rightarrow 0} I\left(\frac{z}{h}\right) \approx \mathbb{1}(z\geq 0)
+$$
+
+Thus the function $h_{3,i}$ can be approximated as:
+
+$$h_{3,i} \approx I\left( q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i  \right) - \tau$$
+
+Now, we can obtain the Jacobian matrix $\bar G_{3,1}$ as:
 
 $$\begin{aligned}
-E[h_{3,i}] -\tau &= E[\mathbb{1}\left( q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i \geq 0 \right)] - \tau \\
-                &= E\left[E[\mathbb{1}\left( q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i \geq 0 \right)|x]\right] - \tau
+\bar G_{3,1} &= -\frac{1}{N} \sum \frac{\partial h_{3,i}}{\partial \beta'} \\
+             &= -N^{-1} \sum K_h(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i ) x_i'
 \end{aligned}
 $$
 
-Because we are aiming to identify the conditional quantile function of $y$, and under the assumption of the DGP it follows that:
+Under the assumption that we have enough observations within each combination of $x$, and of multiplicative heteroskedasticity, we have:
 
 $$\begin{aligned}
-q(y|\tau) &= q(\varepsilon|\tau) x_i'\gamma +x_i'\beta \\
-E[\mathbb{1}\left( q(y|\tau) - y_i \geq 0 \right)|x] &= \tau 
+E(K_h(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i )|X) &= f_{y|X}(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta) \\
+&=\frac{1}{x_i'\gamma} f_{\varepsilon}(q(\varepsilon|\tau)) \\
 \end{aligned}
 $$
 
-and asymptotically, we expect that 
+where $f_{y|X}$ is the conditional probability density function of $y$ given $X$, and $f_\varepsilon$ is the unconditional distribution of the standardized error. With this, we can rewrite the Jacobian matrix as:
 
-$$E[\mathbb{1}\left( q(y|\tau) - y_i \geq 0 \right)|x]=
-E[\mathbb{1}\left( q(y|\tau) \geq  y_i \right)|x] = \tau = F_{y |X} \big( q(y|\tau) \big) 
+$$\bar G_{3,1} &= -N^{-1} f_{\varepsilon}\big(q(\varepsilon|\tau)\big) \sum  \frac{x_i'}{x_i'\gamma} 
 $$
 
-but also that 
+Asymptotically, however, the expression $\sum\frac{a_i}{b_i}$ can be approximated using taylor expansions by $N\frac{\bar a}{\bar b}$.[^6] Thus, we can rewrite the last term as:
 
-$$F_{y|X} \big( q(y|\tau)) = \tau = F_{\varepsilon}( q(\varepsilon|\tau) )
+[^6:] This approximation will be useful when we consider the estimation of the influence functions.
+$$\bar G_{3,1} = - f_{\varepsilon}\big(q(\varepsilon|\tau)\big) \frac{\bar x_i'}{\bar x_i'\gamma} 
 $$
 
-where $F_{y|X}$ is the conditional cumulative distribution function (CDF) of $y$, and $F_{\varepsilon}$ is the unconditonal CDF of the iid error $\varepsilon$.
+The Jacobian for the second matrix $\bar G_{3,2}$ can be derived similarly:
 
-Second, based on non-parametric estimation of the CDF, we can approximate $F_{y|X} \big( q(y|\tau))$ as:
+$$\begin{aligned}
+\bar G_{3,2} &= -\frac{1}{N} \sum \frac{\partial h_{3,i}}{\partial \gamma'} \\
+             &= -N^{-1} \sum K_h(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i ) q(\varepsilon,\tau) x_i' \\
+             &=-N^{-1} \sum f_{y|x}(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta ) q(\varepsilon,\tau) x_i' \\
+             &=-N^{-1} f_{\varepsilon}(q(\varepsilon|\tau)) q(\varepsilon,\tau) \sum \frac{x_i'}{x_i'\gamma} \\
+             &=- f_{\varepsilon}(q(\varepsilon|\tau)) q(\varepsilon,\tau) \frac{\bar x_i'}{\bar x_i'\gamma}
+\end{aligned}
+$$
 
-$$F_{y|X} \big( q(y|\tau) ) \approx \frac{\sum_{i=1}^N F_{y|X) ( q(y|\tau) - y_i) 
+and the Jacobian for the third matrix $\bar G_{3,3}$ is:
 
+$$\begin{aligned}
+\bar G_{3,3} &= -\frac{1}{N} \sum \frac{\partial h_{3,i}}{\partial q(\varepsilon|\tau)} \\
+ &= -\frac{1}{N} \sum K_h(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i ) x_i'\gamma \\
+ &= -\frac{1}{N} \sum f_{y|X}(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta) x_i'\gamma \\
+ &= -\frac{1}{N} \sum f_{\varepsilon}(q(\varepsilon|\tau)) \frac{x_i'\gamma}{ x_i'\gamma} \\
+ &= - f_{\varepsilon}(q(\varepsilon|\tau)) 
+\end{aligned}
+$$
 
+### Influence functions
 
+**Location coefficients**:
+
+$$\lambda_i(\beta) = \bar G^{-1}_{1,1} h_{1,i} = N (X'X)^{-1}(x_i (y_i-x_i'\beta)) = N (X'X)^{-1}(x_i \nu_i)
+$$
+
+**Scale Coefficients coefficients**:
+
+$$\begin{aligned}
+\lambda_i(\gamma)&=\bar G_{22}^{-1}\Big(h_{2i}-\bar G_{21} \lambda_i(\beta)\big) \\
+&=N (X'X)^{-1}(x_i(|\nu_i|-x_i' \gamma))
+-  N E(sign(\nu_i))  (X'X)^{-1} x_i R_i \\
+&= N(X'X)^{-1} x_i \Big(2 R_i \big[1(R_i \geq 0) - E(1(R_i \geq 0)) \big]  -x_i'\gamma \Big) \\
+&= N(X'X)^{-1} x_i (\tilde R_i  -x_i'\gamma )
+\end{aligned}
+$$
 
 # References {-}

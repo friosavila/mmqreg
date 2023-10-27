@@ -67,7 +67,7 @@ div.csl-indent {
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="..\article.pdf"><i class="bi bi-file-pdf"></i>PDF (elsevier)</a></li></ul></div></div>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="article.pdf"><i class="bi bi-file-pdf"></i>PDF (elsevier)</a></li></ul></div></div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -342,29 +342,27 @@ h_{3,i}
 <section id="third-moment-condition-quantile-of-standardized-residual" class="level3">
 <h3 class="anchored" data-anchor-id="third-moment-condition-quantile-of-standardized-residual">Third Moment Condition: Quantile of Standardized Residual</h3>
 <p><span class="math display">\[h_{3,i} = \mathbb{1}\left( q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i \geq 0 \right) - \tau\]</span></p>
-<p>Because the indicator function <span class="math inline">\(\mathbb{1}()\)</span> is not differentiable, we impose some smoothing assumptions:</p>
-<p>First:</p>
+<p>Because the indicator function <span class="math inline">\(\mathbb{1}()\)</span> is not differentiable, we borrow from the non-parametric literature, and approximate the indicator function with the integral of a kernel density function <span class="math inline">\(I()\)</span>. This function <span class="math inline">\(I()\)</span>, is monotonic and symetrical function around zero, with a domain over the real numbers, and a range between 0 and 1.</p>
+<p>With an arbirarily small bandwidth <span class="math inline">\(h\)</span>, this function will approximate the indicator function:</p>
+<p><span class="math display">\[
+\lim_{h\rightarrow 0} I\left(\frac{z}{h}\right) \approx \mathbb{1}(z\geq 0)
+\]</span></p>
+<p>Thus the function <span class="math inline">\(h_{3,i}\)</span> can be approximated as:</p>
+<p><span class="math display">\[h_{3,i} \approx I\left( q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i  \right) - \tau\]</span></p>
+<p>Now, we can obtain the Jacobian matrix <span class="math inline">\(\bar G_{3,1}\)</span> as:</p>
 <p><span class="math display">\[\begin{aligned}
-E[h_{3,i}] -\tau &amp;= E[\mathbb{1}\left( q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i \geq 0 \right)] - \tau \\
-                &amp;= E\left[E[\mathbb{1}\left( q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i \geq 0 \right)|x]\right] - \tau
+\bar G_{3,1} &amp;= -\frac{1}{N} \sum \frac{\partial h_{3,i}}{\partial \beta'} \\
+             &amp;= -N^{-1} \sum K_h(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i ) x_i'
 \end{aligned}
 \]</span></p>
-<p>Because we are aiming to identify the conditional quantile function of <span class="math inline">\(y\)</span>, and under the assumption of the DGP it follows that:</p>
+<p>Under the assumption that we have enough observations within each combination of <span class="math inline">\(x\)</span>, and of multiplicative heteroskedasticity, we have:</p>
+<p><span class="math display">\[E(K_h(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i )|X) = f_{y|X}(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta)\]</span></p>
+<p><span class="math display">\[f_{y|X}(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta)= f_{\frac{y-x_i'\beta}{x_i\gamma|X}}(q(\varepsilon|\tau))\]</span></p>
+<p>where <span class="math inline">\(f_{y|X}\)</span> is the conditional probability density function of <span class="math inline">\(y\)</span> given <span class="math inline">\(X\)</span>. With this, we can rewrite the Jacobian matrix as:</p>
 <p><span class="math display">\[\begin{aligned}
-q(y|\tau) &amp;= q(\varepsilon|\tau) x_i'\gamma +x_i'\beta \\
-E[\mathbb{1}\left( q(y|\tau) - y_i \geq 0 \right)|x] &amp;= \tau
+\bar G_{3,1} &amp;= -N^{-1} \sum f_{y|X}(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta ) x_i'
 \end{aligned}
 \]</span></p>
-<p>and asymptotically, we expect that</p>
-<p><span class="math display">\[E[\mathbb{1}\left( q(y|\tau) - y_i \geq 0 \right)|x]=
-E[\mathbb{1}\left( q(y|\tau) \geq  y_i \right)|x] = \tau = F_{y |X} \big( q(y|\tau) \big)
-\]</span></p>
-<p>but also that</p>
-<p><span class="math display">\[F_{y|X} \big( q(y|\tau)) = \tau = F_{\varepsilon}( q(\varepsilon|\tau) )
-\]</span></p>
-<p>where <span class="math inline">\(F_{y|X}\)</span> is the conditional cumulative distribution function (CDF) of <span class="math inline">\(y\)</span>, and <span class="math inline">\(F_{\varepsilon}\)</span> is the unconditonal CDF of the iid error <span class="math inline">\(\varepsilon\)</span>.</p>
-<p>Second, based on non-parametric estimation of the CDF, we can approximate <span class="math inline">\(F_{y|X} \big( q(y|\tau))\)</span> as:</p>
-<p>$$F_{y|X} ( q(y|) ) \frac{<em>{i=1}^N F</em>{y|X) ( q(y|) - y_i)</p>
 </section>
 </div></section><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-abowed2006" class="csl-entry" role="listitem">
