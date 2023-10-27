@@ -200,7 +200,7 @@ model \sep
     Quantile regression
 \end{keyword}
 \end{frontmatter}
-    \ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, interior hidden, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, enhanced, sharp corners, breakable]}{\end{tcolorbox}}\fi
+    \ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[sharp corners, frame hidden, boxrule=0pt, interior hidden, borderline west={3pt}{0pt}{shadecolor}, enhanced, breakable]}{\end{tcolorbox}}\fi
 
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
@@ -280,7 +280,7 @@ explanatory variables \(x\) and the conditional quantiles of the
 dependent variable \(Q(y|\tau,X)\). This relationship is commonly
 assumed to follow a linear functional form:
 
-\begin{equation}\protect\hypertarget{eq-eq1}{}{Q(Y|X,\tau) =X\beta(\tau)
+\begin{equation}\protect\hypertarget{eq-eq1}{}{q(Y|X,\tau) =X\beta(\tau)
 }\label{eq-eq1}\end{equation}
 
 This allows for nonlinearities in the effect of \(X\) on \(Y\) across
@@ -296,7 +296,7 @@ models: the location model, which describes the central tendency of the
 conditional distribution, and the scale model, which describes
 deviations from the central tendency:
 
-\begin{equation}\protect\hypertarget{eq-eq2}{}{Q(Y|X,\tau) =X\beta+X\gamma(\tau)
+\begin{equation}\protect\hypertarget{eq-eq2}{}{q(Y|X,\tau) =X\beta+X\gamma(\tau)
 }\label{eq-eq2}\end{equation}
 
 Here, the location parameters \(\beta\) are typically identified using a
@@ -332,7 +332,10 @@ linear in parameters.\footnote{\citet{mss2019} also discuss a model
   \(\sigma(x_i'\gamma)\), but develop the estimator for the linear case,
   i.e., when \(\sigma()\) is the identity function.}
 
-\begin{equation}\protect\hypertarget{eq-eq4}{}{y_i=x_i'\beta+\varepsilon_i \times x_i'\gamma(\tau)
+\begin{equation}\protect\hypertarget{eq-eq4}{}{\begin{aligned}
+y_i &=x_i'\beta+\nu_i \\
+\nu_i &=\varepsilon_i \times x_i'\gamma 
+\end{aligned}
 }\label{eq-eq4}\end{equation}
 
 Under the assumption that \(\varepsilon\) is an independent and
@@ -340,7 +343,7 @@ identically distributed (iid) unobserved random variable that is
 independent of \(X\), the conditional quantile of \(Y\) given \(X\) and
 \(\tau\) can be written as:
 
-\begin{equation}\protect\hypertarget{eq-eq5}{}{Q(Y|X,\tau) =X\beta+X\gamma \times Q(\varepsilon|\tau)
+\begin{equation}\protect\hypertarget{eq-eq5}{}{q(Y|X,\tau) =X\beta+q(\varepsilon|\tau) \times X\gamma 
 }\label{eq-eq5}\end{equation}
 
 In this setup, the traditional quantile coefficients are identified as
@@ -348,13 +351,13 @@ the location model coefficients, plus the scale model coefficients
 moderated by the \(\tau_th\) unconditional quantile of the standardized
 error \(\varepsilon\).
 
-\begin{equation}\protect\hypertarget{eq-eq6}{}{\beta(\tau) = \beta + \gamma \times Q(\varepsilon|\tau)
+\begin{equation}\protect\hypertarget{eq-eq6}{}{\beta(\tau) = \beta + q(\varepsilon|\tau) \times \gamma 
 }\label{eq-eq6}\end{equation}
 
 While this specification imposes a strong assumption on the DGP, it has
 two advantages over the standard quantile regression model. First,
 because the location and scale model can be identified globally, with
-only a single parmater (\(Q(\varepsilon|\tau)\)) requiring local
+only a single parmater (\(q(\varepsilon|\tau)\)) requiring local
 estimation, this estimation approach would be more efficient than the
 standard quantile regression model (\citet{zhao2000}). Second, under the
 assumption that \(X\gamma\) is strictly possitive, the model would
@@ -363,12 +366,13 @@ produce quantile coefficients that do not cross.
 Following MSS, the quantile regression model defined by
 Equation~\ref{eq-eq5} can be estimated using a method of moments
 approach. And while its possible to identify all coefficients
-(\(\beta,\gamma, Q(\varepsilon|\tau)\)) simultaneously, we describe and
+(\(\beta,\gamma, q(\varepsilon|\tau)\)) simultaneously, we describe and
 use the implementation approach advocated by MSS which identifies each
 set of coefficients separately.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
+\tightlist
 \item
   The location model can be estimated using a standard linear regression
   model, where the dependent variable is the outcome \(Y\), and the
@@ -376,11 +380,18 @@ set of coefficients separately.
   constant) with an error \(u\), which is by definition heteroskedastic.
   In this case, the location model coefficients are identified under the
   following condition:
-  \begin{equation}\protect\hypertarget{eq-eq7}{}{\begin{aligned}
-    y_i &=x_i'\beta+u_i \\
-    E[u 'X ] &=0
-    \end{aligned}
-  }\label{eq-eq7}\end{equation}
+\end{enumerate}
+
+\begin{equation}\protect\hypertarget{eq-eq7}{}{\begin{aligned}
+      y_i &=x_i'\beta+\nu_i \\
+      E\big[ x_i \nu_i\big] &=0
+      \end{aligned}
+}\label{eq-eq7}\end{equation}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
 \item
   After the location model is estimated, the scale coefficients can be
   identified by modeling heteroskedasticity as a linear function of
@@ -392,8 +403,9 @@ set of coefficients separately.
 \end{enumerate}
 
 \begin{equation}\protect\hypertarget{eq-eq8}{}{\begin{aligned}
-  |u_i| &=x_i'\gamma+v_i \\
-  E[ (|u|-X \gamma) X ] &=0
+  |\nu_i| &=x_i'\gamma+\omega_i \\
+  E\big[ x_i \omega_i \big] &=0 \\
+  E\big[ x_i (|\nu_i| -x_i'\gamma ) \big] &=0
   \end{aligned}
 }\label{eq-eq8}\end{equation}
 
@@ -408,15 +420,15 @@ set of coefficients separately.
 \end{enumerate}
 
 \begin{equation}\protect\hypertarget{eq-eq9}{}{\begin{aligned}
-  E\left[  \mathbb{1}\left(x_i' (\beta + \gamma Q(\varepsilon|\tau)) \geq y_i \right) - \tau \right] &=0  \\
-  E\left[  \mathbb{1}\left(   Q(\varepsilon|\tau)\geq \frac{y_i-x_i'\beta}{x_i'\gamma} \right) - \tau \right] &=0  \\
+  E\left[  \mathbb{1}\left(x_i' (\beta + \gamma q(\varepsilon|\tau)) \geq y_i \right) - \tau \right] &=0  \\
+  E\left[  \mathbb{1}\left(   q(\varepsilon|\tau)\geq \frac{y_i-x_i'\beta}{x_i'\gamma} \right) - \tau \right] &=0  \\
   \end{aligned}
 }\label{eq-eq9}\end{equation}
 
 Where one identifies the quantile of the error \(\varepsilon\) using
 standardized errors \(\frac{y_i-x_i'\beta}{x_i'\gamma}\), or by finding
 the values that identify the overall quantile coefficients
-\(\beta(\tau)=\beta + \gamma Q(\varepsilon|\tau)\). Afterwords, the
+\(\beta(\tau)=\beta + \gamma q(\varepsilon|\tau)\). Afterwords, the
 conditional quantile coefficients is simply defined as the combination
 of the location and scale coefficients.
 
@@ -429,9 +441,9 @@ heteroskedstic linear errors can be estimated using a the following set
 of moments, which fits in the Generalized Method of Moments framework:
 
 \begin{equation}\protect\hypertarget{eq-eq10}{}{\begin{aligned}
-  E[u_i x_i ] &= E[h_{1,i}]=0 \\
-  E[ (|u_i|-x_i \gamma) x_i ] &=E[h_{2,i}]=0 \\
-  E\left[  \mathbb{1}\left(   Q(\varepsilon|\tau)\geq \frac{y_i-x_i'\beta}{x_i'\gamma} \right) - \tau \right] 
+  E[x_i \nu_i  ] &= E[h_{1,i}]=0 \\
+  E[x_i  (|\nu_i|-x_i \gamma) ] &=E[h_{2,i}]=0 \\
+  E\left[  \mathbb{1}\left(   q(\varepsilon|\tau)\geq \frac{y_i-x_i'\beta}{x_i'\gamma} \right) - \tau \right] 
   &=E[h_{3,i}]=0 
   \end{aligned}
 }\label{eq-eq10}\end{equation}
@@ -445,31 +457,33 @@ are asymptotically normal.\footnote{\citet{zhao2000} also shows that the
   is derived using a least absolute deviation approach (median
   regression).}
 
-Call \(\theta=[ \beta' \ \ \gamma' \ \ Q(\varepsilon|\tau)' ]'\) the set
-of coefficients that are identified in Equation~\ref{eq-eq10}, a just
-identified model. And the function \(h_i\) is a vector function that
-stacks all the moments at the individual level described in
-Equation~\ref{eq-eq10}. Then \(\hat\theta\) follows a normal
-distribution with mean \(\theta\) and variance-covariance matrix
-\(V(\theta)\) that is estimated as: \[
+Call \(\theta=[ \beta' \ \ \gamma' \ \ q(\varepsilon|\tau)' ]'\) the set
+of coefficients that are identified by the modement conditions in
+Equation~\ref{eq-eq10}, a just identified model. And the function
+\(h_i\) is a vector function that stacks all the moments at the
+individual level described in Equation~\ref{eq-eq10}. Then
+\(\hat\theta\) follows a normal distribution with mean \(\theta\) and
+variance-covariance matrix \(V(\theta)\) that is estimated as:
+
+\[
 \hat{V}(\hat\theta)=\frac{1}{N} 
 \bar G(\hat\theta)^{-1} 
 \left( \frac{1}{N} \sum_{i=1}^N h_i h_i'  \Big|_{\theta=\hat\theta} \right) 
 \bar G(\hat\theta)^{-1} 
 \]
 
-where the inner product is the moment covariance matrix, and
+Which is equivalent to the Eicker-White Heteroskedastic-Consistent
+estimator for least-squares estimators.
+
+Here, the inner product is the moment covariance matrix, and
 \(\bar{G}(\theta)\) is the Jacobian matrix of the moment equations
 (Equation~\ref{eq-eq10}) evaluated at \(\hat\theta\).
 
 \[\bar{G}(\theta) =-\frac{1}{N} \sum_{i=1} \frac{\partial h_i}{\partial \theta'} \Big|_{\theta=\hat\theta}\]
 
-This is equivalent to the Eicker-White Heteroskedastic-Consistent
-estimator for least-squares estimators.
-
 In this framework, the quantile regression coefficients, a combination
 of the location-scale-quantile estimates, will follow a normal
-distribution with mean \(\beta(\tau) = \beta+Q(\varepsilon,\tau)\gamma\)
+distribution with mean \(\beta(\tau) = \beta+q(\varepsilon|\tau)\gamma\)
 and variance-covariance matrix equal to:
 
 \[\hat{V}(\beta(\tau)) = \Xi \hat{V}(\hat\theta) \Xi'
@@ -477,14 +491,49 @@ and variance-covariance matrix equal to:
 
 where \(\Xi\) is a \(k \times (2k+1)\) matrix defined as:
 
-\[\Xi = [ I(k), \hat Q(\varepsilon|\tau) \cdot I(k), \hat \gamma ]
+\[\Xi = [ I(k), \hat q(\varepsilon|\tau) \times I(k), \hat \gamma ]
 \]
 
 with \(I(k)\) being an identity matrix of dimension \(k\) (number of
 explanatory variables in \(X\) including the constant).
 
+While it is possible to estimate the variance-covariance matrix using
+simultaneous model estimation, for a just identified model, it is more
+efficient to estimate each set of coefficients separately. The
+variance-covariance matrix can be estimated using the empirical
+influence functions of the estimators (see \citet{jann_2020} for an
+overview of the application, and \citet{hampel2005} for an in-depth
+review).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Need to add the general condition Var=(inf (theta) * inf(theta))
+\end{enumerate}
+
+Thatn inf(theta) = inf beta gamma and q)tay
+
+and finally define what the IFs are (see appendix)
+
 The different types of Standard errors estimation, thus, depend on the
 assumptions imposed for the estimation of \(V(\theta)\).
+
+\hypertarget{robust-standard-errors}{%
+\subsubsection{Robust Standard Errors}\label{robust-standard-errors}}
+
+Cross product of IFs
+
+\hypertarget{clustered-standard-errors}{%
+\subsubsection{Clustered Standard
+Errors}\label{clustered-standard-errors}}
+
+Sun then cross product
+
+\hypertarget{gls-standard-errors}{%
+\subsubsection{GLS Standard Errors}\label{gls-standard-errors}}
+
+Original paper;
 
 \hypertarget{multiple-fixed-effects-expanding-on-mss2019}{%
 \subsection{\texorpdfstring{Multiple Fixed Effects: Expanding on
@@ -610,6 +659,9 @@ interesting}}{Application: Something interesting}}\label{application-something-i
 \hypertarget{appendix}{%
 \section{Appendix}\label{appendix}}
 
+\hypertarget{model-identification}{%
+\subsection{Model Identification}\label{model-identification}}
+
 The estimation of quantile regression via moments assumes that the DGP
 is linear in parameters, with an heteroskedastic error term that is also
 linear function of parameters:
@@ -627,7 +679,7 @@ any \(x\).
 In this case, the \(\tau_{th}\) conditional quantile model can be
 written as:
 
-\[q(y|\tau,X) = x(\beta + q(e|\tau) \times \gamma)\]
+\[q(y|\tau,X) = x(\beta + q(\varepsilon |\tau) \times \gamma)\]
 
 This model is identified under the following conditions:
 
@@ -639,8 +691,15 @@ This model is identified under the following conditions:
 \end{aligned}
 \]
 
+For simplicity, for the rest of the appendix, I will use
+\(q^\varepsilon_\tau\) to represent \(q(\varepsilon |\tau)\).
+
+\hypertarget{estimation-of-the-variance-covariance-matrix}{%
+\subsection{Estimation of the variance-covariance
+matrix}\label{estimation-of-the-variance-covariance-matrix}}
+
 In this model, to estimate the variance-covariance matrix the set of
-coefficients \(\theta'=[\beta' \ \gamma' \ q(\varepsilon|\tau)']\), we
+coefficients \(\theta'=[\beta' \ \gamma' \ q^\varepsilon_\tau]\), we
 need to obtain the influence functions of all coefficients, which are
 defined as:
 
@@ -719,7 +778,11 @@ expression as:
 \subsubsection{Third Moment Condition: Quantile of Standardized
 Residual}\label{third-moment-condition-quantile-of-standardized-residual}}
 
-\[h_{3,i} = \mathbb{1}\left( q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i \geq 0 \right) - \tau\]
+\[\begin{aligned}
+h_{3,i} &= \mathbb{1}\left( q^\varepsilon_\tau x_i'\gamma +x_i'\beta - y_i \geq 0 \right) - \tau \text{ or}\\
+h_{3,i} &= \mathbb{1}\left( q^\varepsilon_\tau  \geq \frac{y_i- x_i'\beta}{x_i'\gamma}  \right) - \tau = \mathbb{1}\big( q^\varepsilon_\tau  \geq \varepsilon  \big) - \tau \\
+\end{aligned}
+\]
 
 Because the indicator function \(\mathbb{1}()\) is not differentiable,
 we borrow from the non-parametric literature, and approximate the
@@ -737,29 +800,149 @@ the indicator function:
 
 Thus the function \(h_{3,i}\) can be approximated as:
 
-\[h_{3,i} \approx I\left( q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i  \right) - \tau\]
+\[h_{3,i} \approx I\left( q^\varepsilon_\tau x_i'\gamma +x_i'\beta - y_i  \right) - \tau\]
 
 Now, we can obtain the Jacobian matrix \(\bar G_{3,1}\) as:
 
 \[\begin{aligned}
 \bar G_{3,1} &= -\frac{1}{N} \sum \frac{\partial h_{3,i}}{\partial \beta'} \\
-             &= -N^{-1} \sum K_h(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i ) x_i'
+             &= -N^{-1} \sum K_h(q^\varepsilon_\tau x_i'\gamma +x_i'\beta - y_i ) x_i'
 \end{aligned}
 \]
 
 Under the assumption that we have enough observations within each
 combination of \(x\), and of multiplicative heteroskedasticity, we have:
+
 \[\begin{aligned}
-E(K_h(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta - y_i )|X) &= f_{y|X}(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta) \\
-f_{y|X}(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta) &= f_{\frac{y-x_i'\beta}{x_i\gamma|X}(q(\varepsilon|\tau))
+E(K_h(q^\varepsilon_\tau x_i'\gamma +x_i'\beta - y_i )|X) &= f_{y|X}(q^\varepsilon_\tau x_i'\gamma +x_i'\beta) \\
+&=\frac{1}{x_i'\gamma} f_{\varepsilon}(q^\varepsilon_\tau) \\
 \end{aligned}
 \]
 
 where \(f_{y|X}\) is the conditional probability density function of
-\(y\) given \(X\). With this, we can rewrite the Jacobian matrix as:
+\(y\) given \(X\), and \(f_\varepsilon\) is the unconditional
+distribution of the standardized error. With this, we can rewrite the
+Jacobian matrix as:
+
+\[\bar G_{3,1} = -N^{-1} f_{\varepsilon}\big(q^\varepsilon_\tau\big) \sum  \frac{x_i'}{x_i'\gamma} 
+\]
+
+Asymptotically, however, the expression \(\sum\frac{a_i}{b_i}\) can be
+approximated using taylor expansions by \(N\frac{\bar a}{\bar b}\).
+\footnote{This approximation will be useful when we consider the
+  estimation of the influence functions.} Thus, we can rewrite the last
+term as:
+
+\[\bar G_{3,1} = - f_{\varepsilon}\big(q^\varepsilon_\tau\big) \frac{\bar x_i'}{\bar x_i'\gamma} 
+\]
+
+The Jacobian for the second matrix \(\bar G_{3,2}\) can be derived
+similarly:
 
 \[\begin{aligned}
-\bar G_{3,1} &= -N^{-1} \sum f_{y|X}(q(\varepsilon|\tau) x_i'\gamma +x_i'\beta ) x_i'
+\bar G_{3,2} &= -\frac{1}{N} \sum \frac{\partial h_{3,i}}{\partial \gamma'} \\
+             &= -N^{-1} \sum K_h(q^\varepsilon_\tau x_i'\gamma +x_i'\beta - y_i ) q^\varepsilon_\tau x_i' \\
+             &=-N^{-1} \sum f_{y|x}(q^\varepsilon_\tau x_i'\gamma +x_i'\beta ) q^\varepsilon_\tau x_i' \\
+             &=-N^{-1} f_{\varepsilon}(q^\varepsilon_\tau) q^\varepsilon_\tau \sum \frac{x_i'}{x_i'\gamma} \\
+             &=- f_{\varepsilon}(q^\varepsilon_\tau) q^\varepsilon_\tau \frac{\bar x_i'}{\bar x_i'\gamma}
+\end{aligned}
+\]
+
+and the Jacobian for the third matrix \(\bar G_{3,3}\) is:
+
+\[\begin{aligned}
+\bar G_{3,3} &= -\frac{1}{N} \sum \frac{\partial h_{3,i}}{\partial q^\varepsilon_\tau} \\
+ &= -\frac{1}{N} \sum K_h(q^\varepsilon_\tau x_i'\gamma +x_i'\beta - y_i ) x_i'\gamma \\
+ &= -\frac{1}{N} \sum f_{y|X}(q^\varepsilon_\tau x_i'\gamma +x_i'\beta) x_i'\gamma \\
+ &= -\frac{1}{N} \sum f_{\varepsilon}(q^\varepsilon_\tau) \frac{x_i'\gamma}{ x_i'\gamma} \\
+ &= - f_{\varepsilon}(q^\varepsilon_\tau) 
+\end{aligned}
+\]
+
+\hypertarget{influence-functions}{%
+\subsection{Influence functions}\label{influence-functions}}
+
+\hypertarget{location-coefficients}{%
+\subsubsection{Location coefficients}\label{location-coefficients}}
+
+\[\lambda_i(\beta) = \bar G^{-1}_{1,1} h_{1,i} = N (X'X)^{-1}(x_i (y_i-x_i'\beta)) = N (X'X)^{-1}(x_i \nu_i)
+\]
+
+Which can also be written as a function of the standardized residuals:
+
+\[\lambda_i(\beta) = \bar G^{-1}_{1,1} h_{1,i} = N (X'X)^{-1}(x_i (y_i-x_i'\beta)) = N (X'X)^{-1}(x_i ( x_i'\gamma \times \varepsilon))
+\]
+
+\hypertarget{scale-coefficients-coefficients}{%
+\subsubsection{Scale Coefficients
+coefficients**}\label{scale-coefficients-coefficients}}
+
+\[\begin{aligned}
+\lambda_i(\gamma)&=\bar G_{2,2}^{-1}\Big(h_{2,i}-\bar G_{2,1} \lambda_i(\beta)\Big) \\
+&=N (X'X)^{-1} \Big(x_i(|\nu_i|-x_i' \gamma) 
+- N^{-1} E[sign(\nu_i)] X'X \big[ N (X'X)^{-1}(x_i \nu_i) \big] \Big) \\
+&=N (X'X)^{-1} \Big(x_i(|\nu_i|-x_i' \gamma) - E[sign(\nu_i)] (x_i \nu_i)  \Big) \\
+&=N (X'X)^{-1} x_i \Big( |\nu_i| - E[sign(\nu_i)] \nu_i -x_i' \gamma \Big) 
+\end{aligned}
+\]
+
+However,
+
+\[\begin{aligned}
+|\nu_i| &= \nu_i \times \mathbb{1}(\nu_i \geq 0) - \nu_i \times \mathbb{1}(\nu_i < 0) \\
+|\nu_i| &= \nu_i \times \mathbb{1}(\nu_i \geq 0) - \nu_i \times [1-\mathbb{1}(\nu_i \geq 0)] \\
+|\nu_i| &= 2 \nu_i \times \mathbb{1}(\nu_i \geq 0) - \nu_i  
+\end{aligned}
+\]
+
+And \[\begin{aligned}
+E[sign(\nu_i)] &= E[\mathbb{1}(\nu_i \geq 0)] - E[\mathbb{1}(\nu_i < 0)] \\
+E[sign(\nu_i)] &= E[\mathbb{1}(\nu_i \geq 0)] - E[(1-\mathbb{1}(\nu_i \geq 0))] \\
+E[sign(\nu_i)] &= 2 E[\mathbb{1}(\nu_i \geq 0)] - 1
+\end{aligned}
+\]
+
+Thus,
+
+\[\begin{aligned}
+\lambda_i(\gamma) &= N(X'X)^{-1} x_i   \Big( 2 \nu_i \times \mathbb{1}(\nu_i \geq 0) - \nu_i  - ( 2 E[\mathbb{1}(\nu_i \geq 0)] - 1) \nu_i -x_i' \gamma \Big) \\
+  &= N(X'X)^{-1} x_i   \Big( 2 \nu_i \times \mathbb{1}(\nu_i \geq 0) -  2 E[\mathbb{1}(\nu_i \geq 0)] \nu_i -x_i' \gamma \Big) \\
+  &= N(X'X)^{-1} x_i   \Big( 2 \nu_i \times \big[ \mathbb{1}(\nu_i \geq 0) -  E[\mathbb{1}(\nu_i \geq 0)] \big] -x_i'\gamma \Big) \\
+  &= N(X'X)^{-1} x_i   \Big( \tilde \nu_i -x_i' 
+  \gamma \Big)
+\end{aligned}
+\]
+
+This last expression is the equivalent simplification used in
+\citet{mss2019} and \citet{im2000}. If the scale function is strictly
+possitive, it also follows that
+\(\mathbb{1}(\nu_i \geq 0)= \mathbb{1}(\varepsilon_i \geq 0)\). Thus, it
+can be simplified as:
+
+\[\begin{aligned}
+\lambda_i(\gamma) &= N(X'X)^{-1} x_i ( x_i' \gamma ) \times (\tilde \varepsilon_i -1\big)
+\end{aligned}
+\]
+
+\hypertarget{quantile-of-standardized-residual}{%
+\subsubsection{Quantile of standardized
+residual}\label{quantile-of-standardized-residual}}
+
+\[\begin{aligned}
+\lambda_i(q^\varepsilon_\tau)&=\bar G_{3,3}^{-1}
+\Big(
+ h_{3,i}-\bar G_{3,1} \lambda_i(\beta)-\bar G_{3,2} \lambda_i(\gamma)
+\Big) \\
+&=-\frac{1}{f_{\varepsilon}(q^\varepsilon_\tau)} \times \Bigg( \Big(\mathbb{1} ( q^\varepsilon_\tau  \geq \varepsilon  ) - \tau \Big)  \\
+&+ f_{\varepsilon} (q^\varepsilon_\tau) \frac{\bar x_i'}{\bar x_i'\gamma} 
+N (X'X)^{-1} x_i  ( x_i'\gamma \times \varepsilon) \\
+&+ f_{\varepsilon}(q^\varepsilon_\tau) q^\varepsilon_\tau \frac{\bar x_i'}{\bar x_i'\gamma} N(X'X)^{-1} x_i   \big( \tilde \nu_i -x_i' 
+  \gamma \big) 
+\Bigg) \\
+&=\frac{\tau-\mathbb{1}\big( q^\varepsilon_\tau  \geq \varepsilon  \big) }{f_{\varepsilon}(q^\varepsilon_\tau)}
+- \frac{ x_i'\gamma \times \varepsilon_i }{\bar x_i'\gamma} 
+-  q^\varepsilon_\tau \frac{ \tilde \nu_i -x_i' 
+  \gamma }{\bar x_i'\gamma} 
 \end{aligned}
 \]
 
