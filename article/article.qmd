@@ -16,7 +16,7 @@ author:
         - id: wb
           name: World Bank
 abstract: |
-  This paper proposes a new method to estimate quantile regressions with multiple fixed effects. The method expands on the strategy proposed by @mss2019, allowing for multiple fixed effects, and providing various alternatives for the estimation of Standard errors. We provide Monte Carlo simulations to show the finite sample properties of the proposed method in the presence of two sets of fixed effects. Finally, we apply the proposed method to estimate **something interesting**
+  This paper proposes a new method to estimate quantile regressions with multiple fixed effects. The method expands on the strategy proposed by @mss2019, allowing for multiple fixed effects, and providing various alternatives for the estimation of Standard errors. We provide Monte Carlo simulations to show the finite sample properties of the proposed method in the presence of two sets of fixed effects. Finally, we apply the proposed method to estimate the determinants of the surplus of government as a share of GDP allowing for both time and country fixed effects.
 keywords: 
   - Fixed effects
   - Linear heteroskedasticity
