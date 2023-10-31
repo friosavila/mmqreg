@@ -13,7 +13,7 @@ program sim_mmqreg, eclass
 	bysort g2:replace f2=f2[1]
 	 
  	gen x  = 0.5*(rchi2(1)+0.5*(f1+f2))
-	gen  y = f1 + f2 + x + (1+x+sqrt(x)+f1+f2)*(rnormal()  )
+	gen  y = f1 + f2 + x + (1+x+sqrt(x)+f1+f2)*(rnormal()*0.5 )
 	mmqreg y x, q(25 75) abs(g2 g1) 
 	matrix b1 = _b[q25:x], _se[q25:x] 
 	matrix b2 = _b[q75:x], _se[q75:x]
@@ -27,9 +27,9 @@ program sim_mmqreg, eclass
 end
 
 
-parallel initialize 14
+parallel initialize 13
 foreach i in 2000  {
 parallel sim, reps(5000): sim_mmqreg  `i'
-save sim_`i', replace
+save sim_`i'_robust, replace
 }
 

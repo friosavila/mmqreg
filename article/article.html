@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.455">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -29,6 +29,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -81,7 +82,7 @@ div.csl-indent {
   <div class="quarto-title-meta-heading">Affiliations</div>
   
     <div class="quarto-title-meta-contents">
-    <p class="author">Fernando Rios-Avila </p>
+    <p class="author">Fernando Rios-Avila <a href="mailto:friosavi@levy.org" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
   </div>
     <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -89,10 +90,10 @@ div.csl-indent {
           </p>
       </div>
       <div class="quarto-title-meta-contents">
-    <p class="author">Leonardo Siles </p>
+    <p class="author">Leonardo Siles <a href="mailto:leo@gmail.com" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
   </div>
       <div class="quarto-title-meta-contents">
-    <p class="author">Gustavo Canavire-Bacarreza </p>
+    <p class="author">Gustavo Canavire-Bacarreza <a href="mailto:gcanavire@worldbank.org" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
   </div>
     <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -116,12 +117,20 @@ div.csl-indent {
   
 <div>
   <div class="abstract">
-    <div class="abstract-title">Abstract</div>
-    <p>This paper proposes a new method to estimate quantile regressions with multiple fixed effects. The method expands on the strategy proposed by <span class="citation" data-cites="mss2019">Machado and Santos Silva (<a href="#ref-mss2019" role="doc-biblioref">2019</a>)</span>, allowing for multiple fixed effects, and providing various alternatives for the estimation of Standard errors. We provide Monte Carlo simulations to show the finite sample properties of the proposed method in the presence of two sets of fixed effects. Finally, we apply the proposed method to estimate <strong>something interesting</strong></p>
+    <div class="block-title">Abstract</div>
+    <p>This paper proposes a new method to estimate quantile regressions with multiple fixed effects. The method expands on the strategy proposed by <span class="citation" data-cites="mss2019">Machado and Santos Silva (<a href="#ref-mss2019" role="doc-biblioref">2019</a>)</span>, allowing for multiple fixed effects, and providing various alternatives for the estimation of Standard errors. We provide Monte Carlo simulations to show the finite sample properties of the proposed method in the presence of two sets of fixed effects. Finally, we apply the proposed method to estimate the determinants of the surplus of government as a share of GDP allowing for both time and country fixed effects.</p>
+  </div>
+</div>
+
+<div>
+  <div class="keywords">
+    <div class="block-title">Keywords</div>
+    <p>Fixed effects, Linear heteroskedasticity, Location-scale model, Quantile regression</p>
   </div>
 </div>
 
 </header>
+
 
 <!--
 How to Render this?
@@ -151,7 +160,7 @@ quarto render article.qmd --to elsevier-pdf
 <p><span id="eq-eq2"><span class="math display">\[q(Y|X,\tau) =X\beta+X\gamma(\tau)
 \tag{2}\]</span></span></p>
 <p>Here, the location parameters <span class="math inline">\(\beta\)</span> are typically identified using a linear regression model (as in <span class="citation" data-cites="mss2019">Machado and Santos Silva (<a href="#ref-mss2019" role="doc-biblioref">2019</a>)</span>), or a median regression (as in <span class="citation" data-cites="melly2005">Melly (<a href="#ref-melly2005" role="doc-biblioref">2005</a>)</span>), and the scale parameters <span class="math inline">\(\gamma(\tau)\)</span> can be estimated using standard approaches.</p>
-<p>Both the standard quantile regression (<a href="#eq-eq1">Equation&nbsp;1</a>) and the location-scale specification (<a href="#eq-eq2">Equation&nbsp;2</a>) can be estimated as the solution to a weighted minimization problem:</p>
+<p>Both the standard quantile regression (<a href="#eq-eq1" class="quarto-xref">Equation&nbsp;1</a>) and the location-scale specification (<a href="#eq-eq2" class="quarto-xref">Equation&nbsp;2</a>) can be estimated as the solution to a weighted minimization problem:</p>
 <p><span id="eq-eq3"><span class="math display">\[\hat{\beta}(\tau) = \underset{\beta}{\operatorname{argmin}}
 \left( \sum_{i\in y_i\geq x_i'\beta} \tau (y_i - x_i'\beta) - \sum_{i\in y_i&lt;x_i'\beta} (1-\tau)(y_i - x_i'\beta) \right)
 \tag{3}\]</span></span></p>
@@ -169,7 +178,7 @@ y_i &amp;=x_i'\beta+\nu_i \\
 <p><span id="eq-eq6"><span class="math display">\[\beta(\tau) = \beta + q(\varepsilon|\tau) \times \gamma
 \tag{6}\]</span></span></p>
 <p>While this specification imposes a strong assumption on the DGP, it has two advantages over the standard quantile regression model. First, because the location and scale model can be identified globally, with only a single paramater (<span class="math inline">\(q(\varepsilon|\tau)\)</span>) requiring local estimation, this estimation approach would be more efficient than the standard quantile regression model (<span class="citation" data-cites="zhao2000">Zhao (<a href="#ref-zhao2000" role="doc-biblioref">2000</a>)</span>). Second, under the assumption that <span class="math inline">\(X\gamma\)</span> is strictly possitive, the model would produce quantile coefficients that do not cross.</p>
-<p>Following MSS, the quantile regression model defined by <a href="#eq-eq5">Equation&nbsp;5</a> can be estimated using a method of moments approach. And while its possible to identify all coefficients (<span class="math inline">\(\beta,\gamma, q(\varepsilon|\tau)\)</span>) simultaneously, we describe and use the implementation approach advocated by MSS which identifies each set of coefficients separately.</p>
+<p>Following MSS, the quantile regression model defined by <a href="#eq-eq5" class="quarto-xref">Equation&nbsp;5</a> can be estimated using a method of moments approach. And while its possible to identify all coefficients (<span class="math inline">\(\beta,\gamma, q(\varepsilon|\tau)\)</span>) simultaneously, we describe and use the implementation approach advocated by MSS which identifies each set of coefficients separately.</p>
 <ol type="1">
 <li>The location model can be estimated using a standard linear regression model, where the dependent variable is the outcome <span class="math inline">\(Y\)</span>, and the independent variables are the explanatory variables <span class="math inline">\(X\)</span> (including a constant) with an error <span class="math inline">\(u\)</span>, which is by definition heteroskedastic. In this case, the location model coefficients are identified under the following condition:</li>
 </ol>
@@ -208,7 +217,7 @@ y_i &amp;=x_i'\beta+\nu_i \\
   \end{aligned}
 \tag{10}\]</span></span></p>
 <p>Under the conditions described in <span class="citation" data-cites="newey_chapter_1994">Newey and McFadden (<a href="#ref-newey_chapter_1994" role="doc-biblioref">1994</a>)</span> (see section 7), <span class="citation" data-cites="cameron2005">Adrian Colin Cameron and Trivedi (<a href="#ref-cameron2005" role="doc-biblioref">2005</a>)</span> (see chapter 6.3.9) or as shown in <span class="citation" data-cites="mss2019">Machado and Santos Silva (<a href="#ref-mss2019" role="doc-biblioref">2019</a>)</span>, the location, scale and residual quantile coefficients are asymptotically normal.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
-<p>Call <span class="math inline">\(\theta=[ \beta' \ \ \gamma' \ \ q(\varepsilon|\tau)' ]'\)</span> the set of coefficients that are identified by the modement conditions in <a href="#eq-eq10">Equation&nbsp;10</a>, a just identified model. And the function <span class="math inline">\(h_i\)</span> is a vector function that stacks all the moments at the individual level described in <a href="#eq-eq10">Equation&nbsp;10</a>. Then <span class="math inline">\(\hat\theta\)</span> follows a normal distribution with mean <span class="math inline">\(\theta\)</span> and variance-covariance matrix <span class="math inline">\(V(\theta)\)</span> that is estimated as:</p>
+<p>Call <span class="math inline">\(\theta=[ \beta' \ \ \gamma' \ \ q(\varepsilon|\tau)' ]'\)</span> the set of coefficients that are identified by the modement conditions in <a href="#eq-eq10" class="quarto-xref">Equation&nbsp;10</a>, a just identified model. And the function <span class="math inline">\(h_i\)</span> is a vector function that stacks all the moments at the individual level described in <a href="#eq-eq10" class="quarto-xref">Equation&nbsp;10</a>. Then <span class="math inline">\(\hat\theta\)</span> follows a normal distribution with mean <span class="math inline">\(\theta\)</span> and variance-covariance matrix <span class="math inline">\(V(\theta)\)</span> that is estimated as:</p>
 <p><span class="math display">\[
 \hat{V}(\hat\theta)=\frac{1}{N}
 \bar G(\hat\theta)^{-1}
@@ -231,7 +240,7 @@ y_i &amp;=x_i'\beta+\nu_i \\
 <p>where the influence functions are defined as:</p>
 <p><span class="math display">\[\lambda_i(\theta) = \bar G(\theta)^{-1} h_i(\theta)\]</span></p>
 <p>For the specific case of quantile regressions via momoments, the influence functions for the location, scale and quantile coefficients are:<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
-<p><span class="math display">\[\begin{aligned}
+<p><span id="eq-ifs"><span class="math display">\[\begin{aligned}
 \lambda_i(\theta)&amp;=
   \begin{bmatrix}
   \lambda_{i}(\beta) \\
@@ -244,11 +253,11 @@ y_i &amp;=x_i'\beta+\nu_i \\
 - \frac{ x_i'\gamma \times \varepsilon_i }{\bar x_i'\gamma}
 -  q(\varepsilon|\tau) \frac{  x_i' \gamma  \times (\tilde \varepsilon_i -1\big)}{\bar x_i'\gamma}
 \end{aligned}
-\]</span></p>
+\tag{13}\]</span></span></p>
 <p>The different types of Standard errors estimation, thus, depend on the assumptions imposed for the estimation of <span class="math inline">\(V(\theta)\)</span>.</p>
 <section id="robust-standard-errors" class="level3">
 <h3 class="anchored" data-anchor-id="robust-standard-errors">Robust Standard Errors</h3>
-<p>The first, and most natural standard error estimator is given by equation <a href="#eq-eqvcv">Equation&nbsp;12</a>. This is equivalent to the Eicker-White Heteroskedastic-Consistent estimator for least-squares estimators. Considering the location-scale model, the variance-covariance matrix for the quantile coefficients can be estimated as:</p>
+<p>The first, and most natural standard error estimator is given by equation <a href="#eq-eqvcv" class="quarto-xref">Equation&nbsp;12</a>. This is equivalent to the Eicker-White Heteroskedastic-Consistent estimator for least-squares estimators. Considering the location-scale model, the variance-covariance matrix for the quantile coefficients can be estimated as:</p>
 <p><span class="math display">\[\hat{V}_{robust}
   \begin{pmatrix}
   \hat\beta \\
@@ -343,8 +352,8 @@ y_i &amp;=x_i'\beta+\nu_i \\
   \end{aligned}
 \]</span></p>
 <p>where we assume <span class="math inline">\(x_{i}\)</span> vary across groups <span class="math inline">\(g_1\)</span> and <span class="math inline">\(g_2\)</span>, thus are not collinear, and that <span class="math inline">\(\delta's\)</span> and <span class="math inline">\(\zeta's\)</span> are the location and scale effects associated with groups fixed effects.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
-<p>If the dimension of groups <span class="math inline">\(g_k\)</span> is low, this model could be estimated using a dummy inclussion approach following <a href="#sec-betas">Section&nbsp;2.1</a>, and standard errors obtained as discussed in <a href="#sec-se">Section&nbsp;2.2</a>. However, if the dimensionality of <span class="math inline">\(g_k\)</span> is high, the dummy inclusion approach may not be feasible. Instead, a more feasible approach is to apply the Frisch-Waugh-Lovell (FWL) theorem, and partial out the impact of the group fixed effects on the control variables <span class="math inline">\(x_{i}\)</span>, the outcome of interest <span class="math inline">\(y_{i}\)</span>, with a similar approach for the identification of <span class="math inline">\(\sigma(x)\)</span>. In the case of unbalanced setups, with multiple groups, the estimation involves iterative processes for which various approaches have been suggested and implemented (see <span class="citation" data-cites="correia_feasible_nodate">Correia (<a href="#ref-correia_feasible_nodate" role="doc-biblioref">2016</a>)</span>, <span class="citation" data-cites="gaure2013">Gaure (<a href="#ref-gaure2013" role="doc-biblioref">2013</a>)</span>, <span class="citation" data-cites="rios2015">Rios-Avila (<a href="#ref-rios2015" role="doc-biblioref">2015</a>)</span>, among others).</p>
-<p>When applying the partialing out approach, some modifications to the approach described in <a href="#sec-betas">Section&nbsp;2.1</a> are needed.</p>
+<p>If the dimension of groups <span class="math inline">\(g_k\)</span> is low, this model could be estimated using a dummy inclussion approach following <a href="#sec-betas" class="quarto-xref">Section&nbsp;2.1</a>, and standard errors obtained as discussed in <a href="#sec-se" class="quarto-xref">Section&nbsp;2.2</a>. However, if the dimensionality of <span class="math inline">\(g_k\)</span> is high, the dummy inclusion approach may not be feasible. Instead, a more feasible approach is to apply the Frisch-Waugh-Lovell (FWL) theorem, and partial out the impact of the group fixed effects on the control variables <span class="math inline">\(x_{i}\)</span>, the outcome of interest <span class="math inline">\(y_{i}\)</span>, with a similar approach for the identification of <span class="math inline">\(\sigma(x)\)</span>. In the case of unbalanced setups, with multiple groups, the estimation involves iterative processes for which various approaches have been suggested and implemented (see <span class="citation" data-cites="correia_feasible_nodate">Correia (<a href="#ref-correia_feasible_nodate" role="doc-biblioref">2016</a>)</span>, <span class="citation" data-cites="gaure2013">Gaure (<a href="#ref-gaure2013" role="doc-biblioref">2013</a>)</span>, <span class="citation" data-cites="rios2015">Rios-Avila (<a href="#ref-rios2015" role="doc-biblioref">2015</a>)</span>, among others).</p>
+<p>When applying the partialing out approach, some modifications to the approach described in <a href="#sec-betas" class="quarto-xref">Section&nbsp;2.1</a> are needed.</p>
 <ol type="1">
 <li>For all dependent and independent variables in the model (<span class="math inline">\(w=y,x\)</span>), we partial out the group fixed effects, and obtain the centered-residualized variables:</li>
 </ol>
@@ -354,7 +363,7 @@ w_{i}^{rc} &amp;= E(w_{i}) + \hat{u}_{i}^w
 \end{aligned}
 \]</span></p>
 <ol start="2" type="1">
-<li>We estimate the location model using the centered-residualized variables:</li>
+<li>We estimate the location model using the centered-residualized variables:<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></li>
 </ol>
 <p><span class="math display">\[y_{i}^{rc} = x_{i}^{rc'} \beta + \nu_{i}
 \]</span></p>
@@ -367,15 +376,643 @@ w_{i}^{rc} &amp;= E(w_{i}) + \hat{u}_{i}^w
 </ol>
 <p><span class="math display">\[\hat{\varepsilon}_{i} = \frac{\nu_{i}}{|\hat\nu_{i}|- \hat \omega_{i}}\]</span></p>
 <p>where <span class="math inline">\(|\hat\nu_{i}|- \hat \omega_{i}\)</span> is the prediction for the conditional standard deviation <span class="math inline">\(\sigma(x_i)=x_{i}' \gamma + \zeta_{g1} + \zeta_{g2}\)</span></p>
-<p>The <span class="math inline">\(\tau_{th}\)</span> quantile of the error <span class="math inline">\(\varepsilon\)</span> can be estimated as usual, and the variance-covariance matrices obtained in the same way as before (see <a href="#sec-se">Section&nbsp;2.2</a>), but using <span class="math inline">\(x_{i}^{rc}\)</span> instead of <span class="math inline">\(x_{i}\)</span> when estimating the influence functions for all estimated coefficients.</p>
+<p>The <span class="math inline">\(\tau_{th}\)</span> quantile of the error <span class="math inline">\(\varepsilon\)</span> can be estimated as usual, and the variance-covariance matrices obtained in the same way as before (see <a href="#sec-se" class="quarto-xref">Section&nbsp;2.2</a>), but using <span class="math inline">\(x_{i}^{rc}\)</span> instead of <span class="math inline">\(x_{i}\)</span> when estimating the influence functions for all estimated coefficients.</p>
 </section>
 </section>
 <section id="simulation-evidence" class="level1">
 <h1>Simulation Evidence</h1>
+<p>To show the performance of the extended strategy, we implement the results of a small simulation study. We consider a simple model with a single explanatory variable <span class="math inline">\(x\)</span>, and a single fixed effect <span class="math inline">\(g\)</span>. The data generating process is as follows:</p>
 </section>
 <section id="illustrative-application" class="level1">
 <h1>Illustrative application</h1>
-<p>In this section we replicate one of the excercises from MSS, allowing for time and individual fixed effects, as well as for different standard errors estimations. We use data from <span class="citation" data-cites="perpersson_economic_2005">(<a href="#ref-perpersson_economic_2005" role="doc-biblioref"><strong>perpersson_economic_2005?</strong></a>)</span></p>
+<p>In this section we replicate one of the excercises from MSS, allowing for time and individual fixed effects, as well as for different standard errors estimations. We use data from <span class="citation" data-cites="persson_economic_2005">Persson and Tabellini (<a href="#ref-persson_economic_2005" role="doc-biblioref">2005</a>)</span>, to estimate the relationship between surplus of goverment as share of GDP, and a measure of quality of democracy (POLITY); log of real income per capita (LYP); trade volume as share of GDP (TRADE), Share of population between 15-65 uears of age (P1564), the share of the population 65 years or older (P65); one-year lag of the dependent variable (LSP); oil prices in US dollars differntiating importer and exported countries (OILIM and OILEX); and the output gap (YGAP). In addition to country fixed effects (as illustrated in MSS), we also show results allowing for time fixed effects. <a href="#tbl-tb1" class="quarto-xref">Table&nbsp;1</a> and <a href="#tbl-tb2" class="quarto-xref">Table&nbsp;2</a> provide the results for the model with and without time fixed effects, respectively. It show cases the location and scale coefficients, as well as the quantile coefficients for the 25th, 50th and 75th quantiles. We also report GLS-Standard errors, Robust standard errors (brackets) and clustered standard errors at the country level.</p>
+<div id="tbl-tb1" class="anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="table quarto-float-caption quarto-float-tbl" id="tbl-tb1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: The determinants of government surpluses: Individual Fixed effects
+</figcaption>
+<div aria-describedby="tbl-tb1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;">polityt</th>
+<th style="text-align: center;">lyp</th>
+<th style="text-align: center;">trade</th>
+<th style="text-align: center;">p1564</th>
+<th style="text-align: center;">p65</th>
+<th style="text-align: center;">lspl</th>
+<th style="text-align: center;">oil_im</th>
+<th style="text-align: center;">oil_ex</th>
+<th style="text-align: center;">ygap</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Location</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>&nbsp;coeff</td>
+<td style="text-align: center;">0.116</td>
+<td style="text-align: center;">-0.715</td>
+<td style="text-align: center;">0.030</td>
+<td style="text-align: center;">0.121</td>
+<td style="text-align: center;">0.028</td>
+<td style="text-align: center;">0.691</td>
+<td style="text-align: center;">-0.047</td>
+<td style="text-align: center;">-0.006</td>
+<td style="text-align: center;">0.010</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;se_gls</td>
+<td style="text-align: center;">0.046</td>
+<td style="text-align: center;">0.540</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.033</td>
+<td style="text-align: center;">0.070</td>
+<td style="text-align: center;">0.035</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.022</td>
+<td style="text-align: center;">0.028</td>
+</tr>
+<tr class="even">
+<td>&nbsp;se_r</td>
+<td style="text-align: center;">0.047</td>
+<td style="text-align: center;">0.597</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.031</td>
+<td style="text-align: center;">0.070</td>
+<td style="text-align: center;">0.037</td>
+<td style="text-align: center;">0.007</td>
+<td style="text-align: center;">0.017</td>
+<td style="text-align: center;">0.021</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;se_cl</td>
+<td style="text-align: center;">0.046</td>
+<td style="text-align: center;">0.465</td>
+<td style="text-align: center;">0.007</td>
+<td style="text-align: center;">0.032</td>
+<td style="text-align: center;">0.071</td>
+<td style="text-align: center;">0.035</td>
+<td style="text-align: center;">0.010</td>
+<td style="text-align: center;">0.020</td>
+<td style="text-align: center;">0.023</td>
+</tr>
+<tr class="even">
+<td>Scale</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td>&nbsp;coeff</td>
+<td style="text-align: center;">-0.097</td>
+<td style="text-align: center;">-0.616</td>
+<td style="text-align: center;">0.003</td>
+<td style="text-align: center;">0.036</td>
+<td style="text-align: center;">0.087</td>
+<td style="text-align: center;">-0.085</td>
+<td style="text-align: center;">0.013</td>
+<td style="text-align: center;">0.016</td>
+<td style="text-align: center;">-0.004</td>
+</tr>
+<tr class="even">
+<td>&nbsp;se_gls</td>
+<td style="text-align: center;">0.032</td>
+<td style="text-align: center;">0.371</td>
+<td style="text-align: center;">0.005</td>
+<td style="text-align: center;">0.023</td>
+<td style="text-align: center;">0.048</td>
+<td style="text-align: center;">0.024</td>
+<td style="text-align: center;">0.006</td>
+<td style="text-align: center;">0.015</td>
+<td style="text-align: center;">0.019</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;se_r</td>
+<td style="text-align: center;">0.031</td>
+<td style="text-align: center;">0.398</td>
+<td style="text-align: center;">0.005</td>
+<td style="text-align: center;">0.020</td>
+<td style="text-align: center;">0.049</td>
+<td style="text-align: center;">0.025</td>
+<td style="text-align: center;">0.005</td>
+<td style="text-align: center;">0.010</td>
+<td style="text-align: center;">0.015</td>
+</tr>
+<tr class="even">
+<td>&nbsp;se_cl</td>
+<td style="text-align: center;">0.048</td>
+<td style="text-align: center;">0.800</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.031</td>
+<td style="text-align: center;">0.067</td>
+<td style="text-align: center;">0.029</td>
+<td style="text-align: center;">0.004</td>
+<td style="text-align: center;">0.010</td>
+<td style="text-align: center;">0.012</td>
+</tr>
+<tr class="odd">
+<td>Q25</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>&nbsp;coeff</td>
+<td style="text-align: center;">0.191</td>
+<td style="text-align: center;">-0.239</td>
+<td style="text-align: center;">0.028</td>
+<td style="text-align: center;">0.093</td>
+<td style="text-align: center;">-0.039</td>
+<td style="text-align: center;">0.756</td>
+<td style="text-align: center;">-0.057</td>
+<td style="text-align: center;">-0.018</td>
+<td style="text-align: center;">0.013</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;se_gls</td>
+<td style="text-align: center;">0.059</td>
+<td style="text-align: center;">0.684</td>
+<td style="text-align: center;">0.010</td>
+<td style="text-align: center;">0.042</td>
+<td style="text-align: center;">0.088</td>
+<td style="text-align: center;">0.045</td>
+<td style="text-align: center;">0.010</td>
+<td style="text-align: center;">0.027</td>
+<td style="text-align: center;">0.035</td>
+</tr>
+<tr class="even">
+<td>&nbsp;se_r</td>
+<td style="text-align: center;">0.056</td>
+<td style="text-align: center;">0.656</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.036</td>
+<td style="text-align: center;">0.086</td>
+<td style="text-align: center;">0.040</td>
+<td style="text-align: center;">0.010</td>
+<td style="text-align: center;">0.020</td>
+<td style="text-align: center;">0.025</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;se_cl</td>
+<td style="text-align: center;">0.073</td>
+<td style="text-align: center;">0.687</td>
+<td style="text-align: center;">0.006</td>
+<td style="text-align: center;">0.041</td>
+<td style="text-align: center;">0.098</td>
+<td style="text-align: center;">0.023</td>
+<td style="text-align: center;">0.010</td>
+<td style="text-align: center;">0.021</td>
+<td style="text-align: center;">0.029</td>
+</tr>
+<tr class="even">
+<td>Q50</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td>&nbsp;coeff</td>
+<td style="text-align: center;">0.108</td>
+<td style="text-align: center;">-0.765</td>
+<td style="text-align: center;">0.030</td>
+<td style="text-align: center;">0.124</td>
+<td style="text-align: center;">0.035</td>
+<td style="text-align: center;">0.684</td>
+<td style="text-align: center;">-0.046</td>
+<td style="text-align: center;">-0.005</td>
+<td style="text-align: center;">0.009</td>
+</tr>
+<tr class="even">
+<td>&nbsp;se_gls</td>
+<td style="text-align: center;">0.046</td>
+<td style="text-align: center;">0.535</td>
+<td style="text-align: center;">0.007</td>
+<td style="text-align: center;">0.033</td>
+<td style="text-align: center;">0.069</td>
+<td style="text-align: center;">0.035</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.022</td>
+<td style="text-align: center;">0.027</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;se_r</td>
+<td style="text-align: center;">0.046</td>
+<td style="text-align: center;">0.593</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.031</td>
+<td style="text-align: center;">0.069</td>
+<td style="text-align: center;">0.036</td>
+<td style="text-align: center;">0.007</td>
+<td style="text-align: center;">0.017</td>
+<td style="text-align: center;">0.021</td>
+</tr>
+<tr class="even">
+<td>&nbsp;se_cl</td>
+<td style="text-align: center;">0.043</td>
+<td style="text-align: center;">0.484</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.032</td>
+<td style="text-align: center;">0.070</td>
+<td style="text-align: center;">0.036</td>
+<td style="text-align: center;">0.010</td>
+<td style="text-align: center;">0.020</td>
+<td style="text-align: center;">0.023</td>
+</tr>
+<tr class="odd">
+<td>Q75</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>&nbsp;coeff</td>
+<td style="text-align: center;">0.031</td>
+<td style="text-align: center;">-1.258</td>
+<td style="text-align: center;">0.033</td>
+<td style="text-align: center;">0.153</td>
+<td style="text-align: center;">0.104</td>
+<td style="text-align: center;">0.616</td>
+<td style="text-align: center;">-0.036</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.006</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;se_gls</td>
+<td style="text-align: center;">0.048</td>
+<td style="text-align: center;">0.551</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.034</td>
+<td style="text-align: center;">0.071</td>
+<td style="text-align: center;">0.036</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.022</td>
+<td style="text-align: center;">0.028</td>
+</tr>
+<tr class="even">
+<td>&nbsp;se_r</td>
+<td style="text-align: center;">0.049</td>
+<td style="text-align: center;">0.696</td>
+<td style="text-align: center;">0.009</td>
+<td style="text-align: center;">0.034</td>
+<td style="text-align: center;">0.075</td>
+<td style="text-align: center;">0.043</td>
+<td style="text-align: center;">0.007</td>
+<td style="text-align: center;">0.018</td>
+<td style="text-align: center;">0.023</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;se_cl</td>
+<td style="text-align: center;">0.039</td>
+<td style="text-align: center;">0.919</td>
+<td style="text-align: center;">0.012</td>
+<td style="text-align: center;">0.041</td>
+<td style="text-align: center;">0.079</td>
+<td style="text-align: center;">0.055</td>
+<td style="text-align: center;">0.010</td>
+<td style="text-align: center;">0.022</td>
+<td style="text-align: center;">0.020</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>As expected, <a href="#tbl-tb1" class="quarto-xref">Table&nbsp;1</a> shows that point estimates for the point estimates for the quantile regressions are identical to the ones reported in <span class="citation" data-cites="mss2019">Machado and Santos Silva (<a href="#ref-mss2019" role="doc-biblioref">2019</a>)</span> (table 6), including analytical standard errors (GLS). With our estimator, however, we are able to also produce both robust and clustered standard errors for location and scale coefficients. Except for few cases, Robust and Clustered standard errors are larger than GLS standard errors, which may be an indication of misspecification of the model. The GLS standard errors we report differ from the ones in MSS, because they use panel standard errors, equivalent to our clustered standard errors, instead of the analytical standard errors we derive.</p>
+<p>Considering the estimated effects across quantiles, we observe few differences in the reported GLS standard errors compared to the analytical standard errors reported MSS. Our clustered standard errors, however, are closer to the bootstrap based standard errors the authors report.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+<p>In <a href="#tbl-tb2" class="quarto-xref">Table&nbsp;2</a>, we report the results including both individual and year fixed effects. Because Oil prices only vary across years, the variableis excluded from the model specification. Accounting for time fixed effects, does not change the general conclusions one could make based no the results from <a href="#tbl-tb1" class="quarto-xref">Table&nbsp;1</a>. The two largest differences are that the log of income percapita has a positive effect on Goverment Surpluses, but only for the 25th quantile, because of the largest impact on the Scale component. Similarly, we observe that the income gap now has an impact on Goverment surplus that is always negative, but increasing across quantiles. In both instances, the effects are not statistically significant.</p>
+<div id="tbl-tb2" class="anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="table quarto-float-caption quarto-float-tbl" id="tbl-tb2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: The determinants of government surpluses: Individual and Time Fixed effects
+</figcaption>
+<div aria-describedby="tbl-tb2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;">polity</th>
+<th style="text-align: center;">lyp</th>
+<th style="text-align: center;">trade</th>
+<th style="text-align: center;">prop1564</th>
+<th style="text-align: center;">prop65</th>
+<th style="text-align: center;">lspl</th>
+<th style="text-align: center;">ygap</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Location</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>&nbsp;coeff</td>
+<td style="text-align: center;">0.126</td>
+<td style="text-align: center;">-0.418</td>
+<td style="text-align: center;">0.028</td>
+<td style="text-align: center;">0.108</td>
+<td style="text-align: center;">0.042</td>
+<td style="text-align: center;">0.693</td>
+<td style="text-align: center;">-0.014</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;se_gls</td>
+<td style="text-align: center;">0.087</td>
+<td style="text-align: center;">1.157</td>
+<td style="text-align: center;">0.015</td>
+<td style="text-align: center;">0.072</td>
+<td style="text-align: center;">0.136</td>
+<td style="text-align: center;">0.066</td>
+<td style="text-align: center;">0.053</td>
+</tr>
+<tr class="even">
+<td>&nbsp;se_r</td>
+<td style="text-align: center;">0.047</td>
+<td style="text-align: center;">0.703</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.038</td>
+<td style="text-align: center;">0.068</td>
+<td style="text-align: center;">0.038</td>
+<td style="text-align: center;">0.022</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;se_cl</td>
+<td style="text-align: center;">0.048</td>
+<td style="text-align: center;">0.506</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.044</td>
+<td style="text-align: center;">0.077</td>
+<td style="text-align: center;">0.037</td>
+<td style="text-align: center;">0.022</td>
+</tr>
+<tr class="even">
+<td>Scale</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td>&nbsp;coeff</td>
+<td style="text-align: center;">-0.095</td>
+<td style="text-align: center;">-1.255</td>
+<td style="text-align: center;">0.005</td>
+<td style="text-align: center;">0.033</td>
+<td style="text-align: center;">0.040</td>
+<td style="text-align: center;">-0.081</td>
+<td style="text-align: center;">0.008</td>
+</tr>
+<tr class="even">
+<td>&nbsp;se_gls</td>
+<td style="text-align: center;">0.081</td>
+<td style="text-align: center;">1.073</td>
+<td style="text-align: center;">0.014</td>
+<td style="text-align: center;">0.067</td>
+<td style="text-align: center;">0.126</td>
+<td style="text-align: center;">0.061</td>
+<td style="text-align: center;">0.049</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;se_r</td>
+<td style="text-align: center;">0.031</td>
+<td style="text-align: center;">0.452</td>
+<td style="text-align: center;">0.005</td>
+<td style="text-align: center;">0.025</td>
+<td style="text-align: center;">0.045</td>
+<td style="text-align: center;">0.025</td>
+<td style="text-align: center;">0.017</td>
+</tr>
+<tr class="even">
+<td>&nbsp;se_cl</td>
+<td style="text-align: center;">0.041</td>
+<td style="text-align: center;">0.848</td>
+<td style="text-align: center;">0.006</td>
+<td style="text-align: center;">0.030</td>
+<td style="text-align: center;">0.048</td>
+<td style="text-align: center;">0.033</td>
+<td style="text-align: center;">0.013</td>
+</tr>
+<tr class="odd">
+<td>Q25</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>&nbsp;coeff</td>
+<td style="text-align: center;">0.201</td>
+<td style="text-align: center;">0.576</td>
+<td style="text-align: center;">0.025</td>
+<td style="text-align: center;">0.082</td>
+<td style="text-align: center;">0.010</td>
+<td style="text-align: center;">0.757</td>
+<td style="text-align: center;">-0.020</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;se_gls</td>
+<td style="text-align: center;">0.154</td>
+<td style="text-align: center;">2.070</td>
+<td style="text-align: center;">0.024</td>
+<td style="text-align: center;">0.118</td>
+<td style="text-align: center;">0.219</td>
+<td style="text-align: center;">0.121</td>
+<td style="text-align: center;">0.085</td>
+</tr>
+<tr class="even">
+<td>&nbsp;se_r</td>
+<td style="text-align: center;">0.058</td>
+<td style="text-align: center;">0.751</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.049</td>
+<td style="text-align: center;">0.080</td>
+<td style="text-align: center;">0.040</td>
+<td style="text-align: center;">0.026</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;se_cl</td>
+<td style="text-align: center;">0.073</td>
+<td style="text-align: center;">0.761</td>
+<td style="text-align: center;">0.006</td>
+<td style="text-align: center;">0.052</td>
+<td style="text-align: center;">0.087</td>
+<td style="text-align: center;">0.023</td>
+<td style="text-align: center;">0.027</td>
+</tr>
+<tr class="even">
+<td>Q50</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td>&nbsp;coeff</td>
+<td style="text-align: center;">0.119</td>
+<td style="text-align: center;">-0.512</td>
+<td style="text-align: center;">0.029</td>
+<td style="text-align: center;">0.111</td>
+<td style="text-align: center;">0.045</td>
+<td style="text-align: center;">0.687</td>
+<td style="text-align: center;">-0.013</td>
+</tr>
+<tr class="even">
+<td>&nbsp;se_gls</td>
+<td style="text-align: center;">0.091</td>
+<td style="text-align: center;">1.230</td>
+<td style="text-align: center;">0.014</td>
+<td style="text-align: center;">0.070</td>
+<td style="text-align: center;">0.130</td>
+<td style="text-align: center;">0.072</td>
+<td style="text-align: center;">0.051</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;se_r</td>
+<td style="text-align: center;">0.046</td>
+<td style="text-align: center;">0.695</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.037</td>
+<td style="text-align: center;">0.068</td>
+<td style="text-align: center;">0.038</td>
+<td style="text-align: center;">0.022</td>
+</tr>
+<tr class="even">
+<td>&nbsp;se_cl</td>
+<td style="text-align: center;">0.045</td>
+<td style="text-align: center;">0.529</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.044</td>
+<td style="text-align: center;">0.077</td>
+<td style="text-align: center;">0.039</td>
+<td style="text-align: center;">0.021</td>
+</tr>
+<tr class="odd">
+<td>Q75</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>&nbsp;coeff</td>
+<td style="text-align: center;">0.041</td>
+<td style="text-align: center;">-1.555</td>
+<td style="text-align: center;">0.033</td>
+<td style="text-align: center;">0.138</td>
+<td style="text-align: center;">0.078</td>
+<td style="text-align: center;">0.619</td>
+<td style="text-align: center;">-0.007</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;se_gls</td>
+<td style="text-align: center;">0.067</td>
+<td style="text-align: center;">0.898</td>
+<td style="text-align: center;">0.011</td>
+<td style="text-align: center;">0.053</td>
+<td style="text-align: center;">0.098</td>
+<td style="text-align: center;">0.052</td>
+<td style="text-align: center;">0.038</td>
+</tr>
+<tr class="even">
+<td>&nbsp;se_r</td>
+<td style="text-align: center;">0.048</td>
+<td style="text-align: center;">0.827</td>
+<td style="text-align: center;">0.009</td>
+<td style="text-align: center;">0.037</td>
+<td style="text-align: center;">0.075</td>
+<td style="text-align: center;">0.046</td>
+<td style="text-align: center;">0.026</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;se_cl</td>
+<td style="text-align: center;">0.038</td>
+<td style="text-align: center;">0.980</td>
+<td style="text-align: center;">0.012</td>
+<td style="text-align: center;">0.050</td>
+<td style="text-align: center;">0.086</td>
+<td style="text-align: center;">0.063</td>
+<td style="text-align: center;">0.020</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
 </section>
 <section id="conclusions" class="level1">
 <h1>Conclusions</h1>
@@ -488,7 +1125,7 @@ E(K_h(q^\varepsilon_\tau x_i'\gamma +x_i'\beta - y_i )|X) &amp;= f_{y|X}(q^\vare
 <p>where <span class="math inline">\(f_{y|X}\)</span> is the conditional probability density function of <span class="math inline">\(y\)</span> given <span class="math inline">\(X\)</span>, and <span class="math inline">\(f_\varepsilon\)</span> is the unconditional distribution of the standardized error. With this, we can rewrite the Jacobian matrix as:</p>
 <p><span class="math display">\[\bar G_{3,1} = -N^{-1} f_{\varepsilon}\big(q^\varepsilon_\tau\big) \sum  \frac{x_i'}{x_i'\gamma}
 \]</span></p>
-<p>Asymptotically, however, the expression <span class="math inline">\(\sum\frac{a_i}{b_i}\)</span> can be approximated using taylor expansions by <span class="math inline">\(N\frac{\bar a}{\bar b}\)</span>. <a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> Thus, we can rewrite the last term as:</p>
+<p>Asymptotically, however, the expression <span class="math inline">\(\sum\frac{a_i}{b_i}\)</span> can be approximated using taylor expansions by <span class="math inline">\(N\frac{\bar a}{\bar b}\)</span>. <a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> Thus, we can rewrite the last term as:</p>
 <p><span class="math display">\[\bar G_{3,1} = - f_{\varepsilon}\big(q^\varepsilon_\tau\big) \frac{\bar x_i'}{\bar x_i'\gamma}
 \]</span></p>
 <p>The Jacobian for the second matrix <span class="math inline">\(\bar G_{3,2}\)</span> can be derived similarly:</p>
@@ -587,7 +1224,7 @@ N (X'X)^{-1} x_i  ( x_i'\gamma \times \varepsilon) \\
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-abowed2006" class="csl-entry" role="listitem">
 Abowd, John M., Francis Kramarz, and Sébastien Roux. 2006. <span>“Wages, Mobility and Firm Performance: Advantages and Insights from Using Matched Worker–Firm Data*.”</span> <em>The Economic Journal</em> 116 (512): F245–85. https://doi.org/<a href="https://doi.org/10.1111/j.1468-0297.2006.01099.x">https://doi.org/10.1111/j.1468-0297.2006.01099.x</a>.
 </div>
@@ -657,25 +1294,30 @@ Newey, Whitney K., and Daniel McFadden. 1994. <span>“Chapter 36 <span>Large</s
 <div id="ref-neymanscott1948" class="csl-entry" role="listitem">
 Neyman, J., and Elizabeth L. Scott. 1948. <span>“Consistent Estimates Based on Partially Consistent Observations.”</span> <em>Econometrica</em> 16 (1): 1–32. <a href="http://www.jstor.org/stable/1914288">http://www.jstor.org/stable/1914288</a>.
 </div>
+<div id="ref-persson_economic_2005" class="csl-entry" role="listitem">
+Persson, Torsten, and Guido Enrico Tabellini. 2005. <em>The Economic Effects of Constitutions</em>. 1. MIT Press paperback ed. Munich Lectures in Economics. Cambridge, Mass.: MIT Press.
+</div>
 <div id="ref-rios2015" class="csl-entry" role="listitem">
 Rios-Avila, Fernando. 2015. <span>“Feasible <span>Fitting</span> of <span>Linear</span> <span>Models</span> with <span>N</span> <span>Fixed</span> <span>Effects</span>.”</span> <em>The Stata Journal</em> 15 (3): 881–98. <a href="https://doi.org/10.1177/1536867X1501500318">https://doi.org/10.1177/1536867X1501500318</a>.
 </div>
 <div id="ref-zhao2000" class="csl-entry" role="listitem">
 Zhao, Quanshui. 2000. <span>“Restricted <span>Regression</span> <span>Quantiles</span>.”</span> <em>Journal of Multivariate Analysis</em> 72 (1): 78–99. https://doi.org/<a href="https://doi.org/10.1006/jmva.1999.1849">https://doi.org/10.1006/jmva.1999.1849</a>.
 </div>
-</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+</div></section><aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p>There are other estimators that provide smoother estimates for the quantile regression coefficients using a kernel local weighted approach <span class="citation" data-cites="kaplan2017">(<a href="#ref-kaplan2017" role="doc-biblioref">Kaplan and Sun 2017</a>)</span>, as well as identifying the full set of quantile coefficients simultaneously assuming some parametric functional forms <span class="citation" data-cites="frumentobotai2016">(<a href="#ref-frumentobotai2016" role="doc-biblioref">Frumento and Bottai 2016</a>)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p><span class="citation" data-cites="mss2019">Machado and Santos Silva (<a href="#ref-mss2019" role="doc-biblioref">2019</a>)</span> also discuss a model where heteroskedasticity can be an arbitrary nonlinear function <span class="math inline">\(\sigma(x_i'\gamma)\)</span>, but develop the estimator for the linear case, i.e., when <span class="math inline">\(\sigma()\)</span> is the identity function.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p><span class="citation" data-cites="zhao2000">Zhao (<a href="#ref-zhao2000" role="doc-biblioref">2000</a>)</span> also shows that the quantile coefficients for the location-scale model also follows a normal distribution, but uses the assumption that the location model is derived using a least absolute deviation approach (median regression).<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>The derivation of the influence functions can be found in <a href="#sec-appendix">Section&nbsp;6</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>The derivation of the influence functions can be found in <a href="#sec-appendix" class="quarto-xref">Section&nbsp;6</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5"><p>It should be noted that one could just as well apply the insights of <span class="citation" data-cites="cameron_robust_2011">A. Colin Cameron, Gelbach, and Miller (<a href="#ref-cameron_robust_2011" role="doc-biblioref">2011</a>)</span>, allowing for multiway clustering.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6"><p>As discussed in most econometric textbooks, like <span class="citation" data-cites="cameron2005">Adrian Colin Cameron and Trivedi (<a href="#ref-cameron2005" role="doc-biblioref">2005</a>)</span>, one approach to correct for heteroskedasticity, when the heteroskedasticity functional form is known, or can be estimated, is to use weighted least squares. While feasible, however, this approach would defeat the purpose of identifying quantile effects exploiting the heteroskedasticity of the model.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn7"><p>We could just as well consider multiple sets of fixed effects<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8"><p>This approximation will be useful when we consider the estimation of the influence functions.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>Using centered-residualized variables allow us to include a constant in the model specification, which simplifies the derivation of the influence functions. However, as with other fixed effects models, the constant is not identified, and thus should not be interpreted.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>There are two possible reasons that may explain the differences in the GLS standard errors. On the one hand, in our derivation, the influence function of the standardized <span class="math inline">\(\tau_{th}\)</span> quantile (see #eq-infs) does not have the same leading term as the one reported in MSS (see theorem 3, and the definition of <span class="math inline">\(W\)</span>).<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>This approximation will be useful when we consider the estimation of the influence functions.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section></div></main>
+</aside></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -756,10 +1398,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -769,8 +1410,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -783,6 +1433,128 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        for (let i = 0; i < 2; i++) {
+          container.appendChild(note.children[i].cloneNode(true));
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -826,6 +1598,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -851,6 +1624,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -911,6 +1710,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

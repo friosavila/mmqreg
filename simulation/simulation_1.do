@@ -29,8 +29,8 @@ matrix coleq b = q25 q25 q75 q75 q25b q25b q75b q75b
 ereturn post b
 end
 
-parallel initialize 15
-foreach i in 500 1000 2000 4000 {
+parallel initialize 13
+foreach i in 2000 {
 parallel sim, reps(5000): sim_mmqreg  `i'
 save sim_`i', replace
 }

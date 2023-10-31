@@ -106,7 +106,7 @@
     \def\thefnote{\alph{fnote}}}}
 \DeclareOption{doubleblind}{\doubleblindtrue}
 
-\ExecuteOptions{a4paper,10pt,oneside,onecolumn,number,preprint,centertitle}
+\ExecuteOptions{a4paper,5pt,oneside,onecolumn,number,preprint,centertitle}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions
 \LoadClass{article}
@@ -114,6 +114,9 @@
 \let\comma\@empty
 \let\tnotesep\@empty
 \let\@title\@empty
+% extra
+\usepackage{geometry}
+\geometry{  margin=1in}
 
 \def\useelstitle{}
 
@@ -1045,7 +1048,7 @@
            {-6\p@}%
            {\normalfont\itshape}}
 \newdimen\leftMargin
-\leftMargin=2em
+\leftMargin=1em
 \newtoks\@enLab  %\newtoks\@enfont
 \def\@enQmark{?}
 \def\@enLabel#1#2{%
