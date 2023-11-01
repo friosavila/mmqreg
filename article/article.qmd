@@ -10,11 +10,16 @@ author:
         corresponding: true
   - name: Leonardo Siles
     email: leo@gmail.com
+    affiliations:
+        - name: Universidad Catolica Boliviana
+          id: ucb
   - name: Gustavo Canavire-Bacarreza
     email: gcanavire@worldbank.org
     affiliations:
         - id: wb
           name: World Bank
+    note: |
+      The opinions expressed in this paper are those of the authors and do not necessarily reflect the views of the World Bank, its Board of Directors, or the countries it represents         
 abstract: |
   This paper proposes a new method to estimate quantile regressions with multiple fixed effects. The method expands on the strategy proposed by @mss2019, allowing for multiple fixed effects, and providing various alternatives for the estimation of Standard errors. We provide Monte Carlo simulations to show the finite sample properties of the proposed method in the presence of two sets of fixed effects. Finally, we apply the proposed method to estimate the determinants of the surplus of government as a share of GDP allowing for both time and country fixed effects.
 keywords: 
@@ -112,7 +117,7 @@ While this specification imposes a strong assumption on the DGP, it has two adva
 
 Following MSS, the quantile regression model defined by @eq-eq5 can be estimated using a method of moments approach. And while its possible to identify all coefficients ($\beta,\gamma, q(\varepsilon|\tau)$) simultaneously, we describe and use the implementation approach advocated by MSS which identifies each set of coefficients separately.
 
-1.  The location model can be estimated using a standard linear regression model, where the dependent variable is the outcome $Y$, and the independent variables are the explanatory variables $X$ (including a constant) with an error $u$, which is by definition heteroskedastic. In this case, the location model coefficients are identified under the following condition: 
+First, the location model can be estimated using a standard linear regression model, where the dependent variable is the outcome $Y$, and the independent variables are the explanatory variables $X$ (including a constant) with an error $u$, which is by definition heteroskedastic. In this case, the location model coefficients are identified under the following condition: 
 
 $$\begin{aligned}
       y_i &=x_i'\beta+\nu_i \\
@@ -120,7 +125,7 @@ $$\begin{aligned}
       \end{aligned}
 $$ {#eq-eq7}
 
-2.  After the location model is estimated, the scale coefficients can be identified by modeling heteroskedasticity as a linear function of characteristics $X$. For this we use the absolute value of the errors from the location model $u$ as dependent variable, which would allow us to estimate the conditional standard deviation (rather than conditional variance) of the errors. In this case, the coefficients are identified under the following condition:
+Second, after the location model is estimated, the scale coefficients can be identified by modeling heteroskedasticity as a linear function of characteristics $X$. For this we use the absolute value of the errors from the location model $u$ as dependent variable, which would allow us to estimate the conditional standard deviation (rather than conditional variance) of the errors. In this case, the coefficients are identified under the following condition:
 
 $$\begin{aligned}
   |\nu_i| &=x_i'\gamma+\omega_i \\
@@ -129,7 +134,7 @@ $$\begin{aligned}
   \end{aligned}
 $$ {#eq-eq8}
 
-3.  Finally, given the location and scale coefficients, the $\tau_{th}$ quantile of the error $\varepsilon$ can be estimated using the following condition:
+Thurd, given the location and scale coefficients, the $\tau_{th}$ quantile of the error $\varepsilon$ can be estimated using the following condition:
 
 $$\begin{aligned}
   E\left[  \mathbb{1}\left(x_i' (\beta + \gamma q(\varepsilon|\tau)) \geq y_i \right) - \tau \right] &=0  \\
@@ -196,7 +201,7 @@ $$\lambda_i(\theta) = \bar G(\theta)^{-1} h_i(\theta)$$
 
 For the specific case of quantile regressions via momoments, the influence functions for the location, scale and quantile coefficients are:[^7]
 
-[^7]: The derivation of the influence functions can be found in @sec-appendix.
+[^7]: The derivation of the influence functions can be found in the appendix.
 
 
 $$\begin{aligned}
@@ -346,7 +351,7 @@ If the dimension of groups $g_k$ is low, this model could be estimated using a d
 
 When applying the partialing out approach, some modifications to the approach described in @sec-betas are needed.
 
-1.  For all dependent and independent variables in the model ($w=y,x$), we partial out the group fixed effects, and obtain the centered-residualized variables:
+First, for all dependent and independent variables in the model ($w=y,x$), we partial out the group fixed effects, and obtain the centered-residualized variables:
 
 $$\begin{aligned}
 w_{i} &= \delta_{g1}^w + \delta_{g2}^w + u_{i}^w \\
@@ -354,7 +359,7 @@ w_{i}^{rc} &= E(w_{i}) + \hat{u}_{i}^w
 \end{aligned}
 $$
 
-2.  We estimate the location model using the centered-residualized variables:[^rc]
+Afterwards, we estimate the location model using the centered-residualized variables:[^rc]
 
 $$y_{i}^{rc} = x_{i}^{rc'} \beta + \nu_{i}
 $$
@@ -362,11 +367,11 @@ $$
 [^rc]: Using centered-residualized variables allow us to include a constant in the model specification, which simplifies the derivation of the influence functions. However, as with other fixed effects models, the constant is not identified, and thus should not be interpreted.
 
 
-3.  Since $|\hat \nu_i|$ is the dependent variable for the scale model, we apply the partialling out and recentering to this expression ($|\hat \nu_i|^{rc}$), and use that to estimate the model:
+Since $|\hat \nu_i|$ is the dependent variable for the scale model, we apply the partialling out and recentering to this expression ($|\hat \nu_i|^{rc}$), and use that to estimate the model:
 
 $$|\hat\nu_{i}|^{rc} = x_{i}^{rc'} \gamma + \omega_{i}$$
 
-4.  Finally the standardized residuals $\varepsilon_i$ can be obtained as follows
+Finally the standardized residuals $\varepsilon_i$ can be obtained as follows
 
 $$\hat{\varepsilon}_{i} = \frac{\nu_{i}}{|\hat\nu_{i}|- \hat \omega_{i}}$$
 
@@ -376,12 +381,12 @@ The $\tau_{th}$ quantile of the error $\varepsilon$ can be estimated as usual, a
 
 # Simulation Evidence
 
-To show the performance of the extended strategy, we implement a small simulation study. We consider a simple model with a single explanatory variable $x$. In contrast with MSS, we consider a two-way fixed effect structure that is more general than the panel structure used in by the authors. For this excercise, we consider the following data generating process:
+To show the performance of the extended strategy, we implement a small simulation study. We consider a simple model with a single explanatory variable $x$. In contrast with MSS, we consider a two-way fixed effect structure that is more general than the panel structure. For this excercise, we consider the following data generating process:
 
 $$y_i = \alpha_{1i} + \alpha_{2i} + x_i + (1+x_i + \alpha_{1i} + \alpha_{2i} ) \varepsilon_i
 $$
 
-where $\alpha_{1i}\sim \chi^2(1)$, $\alpha_{2i} \sim \chi^2(1)$ and $x_i = 0.5 * (\chi_i +0.5(\alpha_{1i}+\alpha_{2i}))$ with $\chi_i \sim \chi^2(1)$. We only consider the case when the error term $\varepsilon_i$ is assumed to be normally distributed with mean zero and standard deviation 0.5. We assume that there are 50 mutually exclusive fixed effect groups for each set of fixed effects. Observations are assigned to each subgroup randomly, using a uniform distribution between 1 and 50. We consider a sample sizes of 500, 1000, 2000 and 4000 observations, which implies an average of 10, 20, 40 and 80 observations per group. The model is estimated using the location-scale model with heteroskedastic linear errors, and we report the coefficients for the 25th and 75th quantiles. We run this excercise 5000 times. @tbl-sim1 reports the bias, simulated standard error and mean squared error. We also report the results obtained using an adaptation bias-corrected estimator based on the split-panel jackknife estimator proposed by @dhaene2015.[^jk] These results are labeled JKC.
+where $\alpha_{1i}\sim \chi^2(1)$, $\alpha_{2i} \sim \chi^2(1)$ and $x_i = 0.5 * (\chi_i +0.5(\alpha_{1i}+\alpha_{2i}))$ with $\chi_i \sim \chi^2(1)$. We only consider the case when the error term $\varepsilon_i$ is assumed to be normally distributed with mean zero and standard deviation of 0.5. We assume that there are 50 mutually exclusive fixed effect groups for each set of fixed effects. Observations are assigned to each subgroup randomly, using a uniform distribution between 1 and 50. We consider a sample sizes of 500, 1000, 2000 and 4000 observations, which implies an average of 10, 20, 40 and 80 observations per group. The model is estimated using the location-scale model with heteroskedastic linear errors, and we report the coefficients for the 25th and 75th quantiles. We run this excercise 5000 times. @tbl-sim1 reports the bias, simulated standard error and mean squared error. We also report the results obtained using an adaptation bias-corrected estimator based on the split-panel jackknife estimator proposed by @dhaene2015.[^jk] These results are labeled JKC.
 
 [^jk]: For the implementation, we estimate the model using the full sample, then, randomly assign each observation into one of two groups, and re-estimate the quantile coefficients for each group. The bias-corrected estimator is then obtained as $\hat\beta(\tau)_{jkc}=2*\hat\beta(\tau)_{full}-0.5*\big(\hat\beta(\tau)_{s1}+\hat\beta(\tau)_{s1}\big)$.
 
@@ -540,11 +545,24 @@ In @tbl-tb2, we report the results including both individual and year fixed effe
 
 # Conclusions
 
-# Appendix {#sec-appendix}
+In this paper, we have extended the methodology proposed by @mss2019, allowing for the estimation of quantile regression models with multiple sets of fixed effects, as well as alternative Standard Errors estimations. This methodology would allow researchers to implement more comprehensive analysis of datasets characterized by complex hierarchies and unobserved heterogeneity. This extension is particularly valuable in contexts where group specific effects vary across the conditional distribution of the outcome of interest.
 
-## Derivation of the influence functions
+Using a small simulation study, we show that our extended approach is as effective in identifying the parameters of interest as @mss2019 indicated, even in contexts with two sets of fixed effects.  Notably, the bias-corrected estimator based on the split-panel jackknife estimator exhibits promising results, mitigating biases when samples are small, but increasing standard errors.
 
-### Model Identification
+Furthermore, we have assessed the impact of misspecified heteroskedasticity and intra-cluster correlation on the performance of standard error estimations. Our findings emphasize the importance of using appropriate standard error estimators to ensure accurate inference. In particular, we find that GLS standard errors are biased when the model heteroskedasticity is misspecified, and that robust and clustered standard errors perform better in these cases. This may also suggest a venue for future research, testing the validity of the location-scale model assumption.
+
+# References {.unnumbered}
+
+::: {#refs}
+:::
+
+{{< pagebreak >}}
+
+\appendix
+
+# Derivation of the influence functions
+
+## Model Identification
 
 The estimation of quantile regression via moments assumes that the DGP is linear in parameters, with an heteroskedastic error term that is also linear function of parameters:
 
@@ -572,7 +590,7 @@ $$
 
 For simplicity, for the rest of the appendix, I will use $q^\varepsilon_\tau$ to represent $q(\varepsilon |\tau)$.
 
-### Estimation of the variance-covariance matrix
+## Estimation of the variance-covariance matrix
 
 In this model, to estimate the variance-covariance matrix the set of coefficients $\theta'=[\beta' \ \gamma' \ q^\varepsilon_\tau]$, we need to obtain the influence functions of all coefficients, which are defined as:
 
@@ -598,7 +616,7 @@ with
 $$\bar G_{j,k} = - \frac 1 N \sum_{i=1}^N \frac{\partial h_{j,i}}{\partial \theta_k'} \ \forall j,k \in 1,2,3
 $$
 
-#### First Moment Condition: Location Model
+**First Moment Condition: Location Model**
 
 $$h_{1,i}=x_i(y_i-x_i'\beta)$$
 
@@ -613,7 +631,7 @@ $$
 \bar G_{1,2} = \bar G_{1,3} = 0
 $$
 
-#### Second Moment Condition: Scale model
+**Second Moment Condition: Scale model**
 
 $$h_{2,i}=x_i(|y_i-x_i'\beta|-x_i'\gamma)$$
 
@@ -641,7 +659,7 @@ $$
 
 $$\bar G_{2,3}=0$$
 
-#### Third Moment Condition: Quantile of Standardized Residual
+**Third Moment Condition: Quantile of Standardized Residual**
 
 $$\begin{aligned}
 h_{3,i} &= \mathbb{1}\left( q^\varepsilon_\tau x_i'\gamma +x_i'\beta - y_i \geq 0 \right) - \tau \text{ or}\\
@@ -712,9 +730,9 @@ $$\begin{aligned}
 \end{aligned}
 $$
 
-### Influence functions
+## Influence functions
 
-#### Location coefficients
+**Location coefficients**
 
 $$\lambda_i(\beta) = \bar G^{-1}_{1,1} h_{1,i} = N (X'X)^{-1}(x_i (y_i-x_i'\beta)) = N (X'X)^{-1}(x_i \nu_i)
 $$
@@ -724,7 +742,7 @@ Which can also be written as a function of the standardized residuals:
 $$\lambda_i(\beta) = \bar G^{-1}_{1,1} h_{1,i} = N (X'X)^{-1}(x_i (y_i-x_i'\beta)) = N (X'X)^{-1}(x_i ( x_i'\gamma \times \varepsilon))
 $$
 
-#### Scale Coefficients
+**Scale Coefficients**
 
 $$\begin{aligned}
 \lambda_i(\gamma)&=\bar G_{2,2}^{-1}\Big(h_{2,i}-\bar G_{2,1} \lambda_i(\beta)\Big) \\
@@ -771,7 +789,7 @@ $$\begin{aligned}
 $$
 
 
-#### Quantile of standardized residual
+**Quantile of standardized residual**
 
 $$\begin{aligned}
 \lambda_i(q^\varepsilon_\tau)&=\bar G_{3,3}^{-1}
@@ -791,13 +809,11 @@ N (X'X)^{-1} x_i  ( x_i'\gamma \times \varepsilon) \\
 \end{aligned}
 $$
 
-## Implementation
+# Implementation
 
 The method described here can be implemented using any of the following packages
 
-- `mmqreg` in Stata: Installed from Github
+- `mmqreg` in Stata: `net install mmqre, from(https://friosavila.github.io/stpackages)
 - `mmqreg` in R: Programs Available in Github
 - `mmqreg` in Python: 
 - `mmqreg` in julia: 
-
-# References {.unnumbered}

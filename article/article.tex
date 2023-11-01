@@ -150,23 +150,27 @@ effects}
 \corref{cor1}%
 }
  \ead{friosavi@levy.org} 
-\author[]{Leonardo Siles%
+\author[2]{Leonardo Siles%
 %
 }
  \ead{leo@gmail.com} 
-\author[2]{Gustavo Canavire-Bacarreza%
+\author[3]{Gustavo Canavire-Bacarreza%
 %
-}
+\fnref{fn1}}
  \ead{gcanavire@worldbank.org} 
 
 \affiliation[1]{organization={Levy Economics Institute of Bard
 College},,postcodesep={}}
-\affiliation[2]{organization={World Bank},,postcodesep={}}
+\affiliation[2]{organization={Universidad Catolica
+Boliviana},,postcodesep={}}
+\affiliation[3]{organization={World Bank},,postcodesep={}}
 
 \cortext[cor1]{Corresponding author}
 
 
-
+\fntext[fn1]{The opinions expressed in this paper are those of the
+authors and do not necessarily reflect the views of the World Bank, its
+Board of Directors, or the countries it represents}
         
 \begin{abstract}
 This paper proposes a new method to estimate quantile regressions with
@@ -355,17 +359,12 @@ approach. And while its possible to identify all coefficients
 use the implementation approach advocated by MSS which identifies each
 set of coefficients separately.
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  The location model can be estimated using a standard linear regression
-  model, where the dependent variable is the outcome \(Y\), and the
-  independent variables are the explanatory variables \(X\) (including a
-  constant) with an error \(u\), which is by definition heteroskedastic.
-  In this case, the location model coefficients are identified under the
-  following condition:
-\end{enumerate}
+First, the location model can be estimated using a standard linear
+regression model, where the dependent variable is the outcome \(Y\), and
+the independent variables are the explanatory variables \(X\) (including
+a constant) with an error \(u\), which is by definition heteroskedastic.
+In this case, the location model coefficients are identified under the
+following condition:
 
 \begin{equation}\phantomsection\label{eq-eq7}{\begin{aligned}
       y_i &=x_i'\beta+\nu_i \\
@@ -373,19 +372,13 @@ set of coefficients separately.
       \end{aligned}
 }\end{equation}
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{1}
-\tightlist
-\item
-  After the location model is estimated, the scale coefficients can be
-  identified by modeling heteroskedasticity as a linear function of
-  characteristics \(X\). For this we use the absolute value of the
-  errors from the location model \(u\) as dependent variable, which
-  would allow us to estimate the conditional standard deviation (rather
-  than conditional variance) of the errors. In this case, the
-  coefficients are identified under the following condition:
-\end{enumerate}
+Second, after the location model is estimated, the scale coefficients
+can be identified by modeling heteroskedasticity as a linear function of
+characteristics \(X\). For this we use the absolute value of the errors
+from the location model \(u\) as dependent variable, which would allow
+us to estimate the conditional standard deviation (rather than
+conditional variance) of the errors. In this case, the coefficients are
+identified under the following condition:
 
 \begin{equation}\phantomsection\label{eq-eq8}{\begin{aligned}
   |\nu_i| &=x_i'\gamma+\omega_i \\
@@ -394,15 +387,9 @@ set of coefficients separately.
   \end{aligned}
 }\end{equation}
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{2}
-\tightlist
-\item
-  Finally, given the location and scale coefficients, the \(\tau_{th}\)
-  quantile of the error \(\varepsilon\) can be estimated using the
-  following condition:
-\end{enumerate}
+Thurd, given the location and scale coefficients, the \(\tau_{th}\)
+quantile of the error \(\varepsilon\) can be estimated using the
+following condition:
 
 \begin{equation}\phantomsection\label{eq-eq9}{\begin{aligned}
   E\left[  \mathbb{1}\left(x_i' (\beta + \gamma q(\varepsilon|\tau)) \geq y_i \right) - \tau \right] &=0  \\
@@ -503,7 +490,7 @@ where the influence functions are defined as:
 For the specific case of quantile regressions via momoments, the
 influence functions for the location, scale and quantile coefficients
 are:\footnote{The derivation of the influence functions can be found in
-  Section~\ref{sec-appendix}.}
+  the appendix.}
 
 \begin{equation}\phantomsection\label{eq-ifs}{\begin{aligned}
 \lambda_i(\theta)&=
@@ -715,14 +702,9 @@ among others).
 When applying the partialing out approach, some modifications to the
 approach described in Section~\ref{sec-betas} are needed.
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  For all dependent and independent variables in the model (\(w=y,x\)),
-  we partial out the group fixed effects, and obtain the
-  centered-residualized variables:
-\end{enumerate}
+First, for all dependent and independent variables in the model
+(\(w=y,x\)), we partial out the group fixed effects, and obtain the
+centered-residualized variables:
 
 \[\begin{aligned}
 w_{i} &= \delta_{g1}^w + \delta_{g2}^w + u_{i}^w \\
@@ -730,42 +712,24 @@ w_{i}^{rc} &= E(w_{i}) + \hat{u}_{i}^w
 \end{aligned}
 \]
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{1}
-\tightlist
-\item
-  We estimate the location model using the centered-residualized
-  variables:\footnote{Using centered-residualized variables allow us to
-    include a constant in the model specification, which simplifies the
-    derivation of the influence functions. However, as with other fixed
-    effects models, the constant is not identified, and thus should not
-    be interpreted.}
-\end{enumerate}
+Afterwards, we estimate the location model using the
+centered-residualized variables:\footnote{Using centered-residualized
+  variables allow us to include a constant in the model specification,
+  which simplifies the derivation of the influence functions. However,
+  as with other fixed effects models, the constant is not identified,
+  and thus should not be interpreted.}
 
 \[y_{i}^{rc} = x_{i}^{rc'} \beta + \nu_{i}
 \]
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{2}
-\tightlist
-\item
-  Since \(|\hat \nu_i|\) is the dependent variable for the scale model,
-  we apply the partialling out and recentering to this expression
-  (\(|\hat \nu_i|^{rc}\)), and use that to estimate the model:
-\end{enumerate}
+Since \(|\hat \nu_i|\) is the dependent variable for the scale model, we
+apply the partialling out and recentering to this expression
+(\(|\hat \nu_i|^{rc}\)), and use that to estimate the model:
 
 \[|\hat\nu_{i}|^{rc} = x_{i}^{rc'} \gamma + \omega_{i}\]
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{3}
-\tightlist
-\item
-  Finally the standardized residuals \(\varepsilon_i\) can be obtained
-  as follows
-\end{enumerate}
+Finally the standardized residuals \(\varepsilon_i\) can be obtained as
+follows
 
 \[\hat{\varepsilon}_{i} = \frac{\nu_{i}}{|\hat\nu_{i}|- \hat \omega_{i}}\]
 
@@ -784,9 +748,8 @@ coefficients.
 To show the performance of the extended strategy, we implement a small
 simulation study. We consider a simple model with a single explanatory
 variable \(x\). In contrast with MSS, we consider a two-way fixed effect
-structure that is more general than the panel structure used in by the
-authors. For this excercise, we consider the following data generating
-process:
+structure that is more general than the panel structure. For this
+excercise, we consider the following data generating process:
 
 \[y_i = \alpha_{1i} + \alpha_{2i} + x_i + (1+x_i + \alpha_{1i} + \alpha_{2i} ) \varepsilon_i
 \]
@@ -795,7 +758,7 @@ where \(\alpha_{1i}\sim \chi^2(1)\), \(\alpha_{2i} \sim \chi^2(1)\) and
 \(x_i = 0.5 * (\chi_i +0.5(\alpha_{1i}+\alpha_{2i}))\) with
 \(\chi_i \sim \chi^2(1)\). We only consider the case when the error term
 \(\varepsilon_i\) is assumed to be normally distributed with mean zero
-and standard deviation 0.5. We assume that there are 50 mutually
+and standard deviation of 0.5. We assume that there are 50 mutually
 exclusive fixed effect groups for each set of fixed effects.
 Observations are assigned to each subgroup randomly, using a uniform
 distribution between 1 and 50. We consider a sample sizes of 500, 1000,
@@ -1239,12 +1202,46 @@ Q75 & & & & & & & \\
 
 \section{Conclusions}\label{conclusions}
 
-\section{Appendix}\label{sec-appendix}
+In this paper, we have extended the methodology proposed by
+\citet{mss2019}, allowing for the estimation of quantile regression
+models with multiple sets of fixed effects, as well as alternative
+Standard Errors estimations. This methodology would allow researchers to
+implement more comprehensive analysis of datasets characterized by
+complex hierarchies and unobserved heterogeneity. This extension is
+particularly valuable in contexts where group specific effects vary
+across the conditional distribution of the outcome of interest.
 
-\subsection{Derivation of the influence
+Using a small simulation study, we show that our extended approach is as
+effective in identifying the parameters of interest as \citet{mss2019}
+indicated, even in contexts with two sets of fixed effects. Notably, the
+bias-corrected estimator based on the split-panel jackknife estimator
+exhibits promising results, mitigating biases when samples are small,
+but increasing standard errors.
+
+Furthermore, we have assessed the impact of misspecified
+heteroskedasticity and intra-cluster correlation on the performance of
+standard error estimations. Our findings emphasize the importance of
+using appropriate standard error estimators to ensure accurate
+inference. In particular, we find that GLS standard errors are biased
+when the model heteroskedasticity is misspecified, and that robust and
+clustered standard errors perform better in these cases. This may also
+suggest a venue for future research, testing the validity of the
+location-scale model assumption.
+
+\section*{References}\label{references}
+\addcontentsline{toc}{section}{References}
+
+\renewcommand{\bibsection}{}
+\bibliography{bibliography.bib}
+
+\newpage{}
+
+\appendix
+
+\section{Derivation of the influence
 functions}\label{derivation-of-the-influence-functions}
 
-\subsubsection{Model Identification}\label{model-identification}
+\subsection{Model Identification}\label{model-identification}
 
 The estimation of quantile regression via moments assumes that the DGP
 is linear in parameters, with an heteroskedastic error term that is also
@@ -1278,7 +1275,7 @@ This model is identified under the following conditions:
 For simplicity, for the rest of the appendix, I will use
 \(q^\varepsilon_\tau\) to represent \(q(\varepsilon |\tau)\).
 
-\subsubsection{Estimation of the variance-covariance
+\subsection{Estimation of the variance-covariance
 matrix}\label{estimation-of-the-variance-covariance-matrix}
 
 In this model, to estimate the variance-covariance matrix the set of
@@ -1308,8 +1305,7 @@ with
 \[\bar G_{j,k} = - \frac 1 N \sum_{i=1}^N \frac{\partial h_{j,i}}{\partial \theta_k'} \ \forall j,k \in 1,2,3
 \]
 
-\paragraph{First Moment Condition: Location
-Model}\label{first-moment-condition-location-model}
+\textbf{First Moment Condition: Location Model}
 
 \[h_{1,i}=x_i(y_i-x_i'\beta)\]
 
@@ -1324,8 +1320,7 @@ Model}\label{first-moment-condition-location-model}
 \bar G_{1,2} = \bar G_{1,3} = 0
 \]
 
-\paragraph{Second Moment Condition: Scale
-model}\label{second-moment-condition-scale-model}
+\textbf{Second Moment Condition: Scale model}
 
 \[h_{2,i}=x_i(|y_i-x_i'\beta|-x_i'\gamma)\]
 
@@ -1355,8 +1350,7 @@ expression as:
 
 \[\bar G_{2,3}=0\]
 
-\paragraph{Third Moment Condition: Quantile of Standardized
-Residual}\label{third-moment-condition-quantile-of-standardized-residual}
+\textbf{Third Moment Condition: Quantile of Standardized Residual}
 
 \[\begin{aligned}
 h_{3,i} &= \mathbb{1}\left( q^\varepsilon_\tau x_i'\gamma +x_i'\beta - y_i \geq 0 \right) - \tau \text{ or}\\
@@ -1439,9 +1433,9 @@ and the Jacobian for the third matrix \(\bar G_{3,3}\) is:
 \end{aligned}
 \]
 
-\subsubsection{Influence functions}\label{influence-functions}
+\subsection{Influence functions}\label{influence-functions}
 
-\paragraph{Location coefficients}\label{location-coefficients}
+\textbf{Location coefficients}
 
 \[\lambda_i(\beta) = \bar G^{-1}_{1,1} h_{1,i} = N (X'X)^{-1}(x_i (y_i-x_i'\beta)) = N (X'X)^{-1}(x_i \nu_i)
 \]
@@ -1451,7 +1445,7 @@ Which can also be written as a function of the standardized residuals:
 \[\lambda_i(\beta) = \bar G^{-1}_{1,1} h_{1,i} = N (X'X)^{-1}(x_i (y_i-x_i'\beta)) = N (X'X)^{-1}(x_i ( x_i'\gamma \times \varepsilon))
 \]
 
-\paragraph{Scale Coefficients}\label{scale-coefficients}
+\textbf{Scale Coefficients}
 
 \[\begin{aligned}
 \lambda_i(\gamma)&=\bar G_{2,2}^{-1}\Big(h_{2,i}-\bar G_{2,1} \lambda_i(\beta)\Big) \\
@@ -1500,8 +1494,7 @@ can be simplified as:
 \end{aligned}
 \]
 
-\paragraph{Quantile of standardized
-residual}\label{quantile-of-standardized-residual}
+\textbf{Quantile of standardized residual}
 
 \[\begin{aligned}
 \lambda_i(q^\varepsilon_\tau)&=\bar G_{3,3}^{-1}
@@ -1521,7 +1514,7 @@ N (X'X)^{-1} x_i  ( x_i'\gamma \times \varepsilon) \\
 \end{aligned}
 \]
 
-\subsection{Implementation}\label{implementation}
+\section{Implementation}\label{implementation}
 
 The method described here can be implemented using any of the following
 packages
@@ -1529,7 +1522,8 @@ packages
 \begin{itemize}
 \tightlist
 \item
-  \texttt{mmqreg} in Stata: Installed from Github
+  \texttt{mmqreg} in Stata: `net install mmqre,
+  from(https://friosavila.github.io/stpackages)
 \item
   \texttt{mmqreg} in R: Programs Available in Github
 \item
@@ -1539,8 +1533,6 @@ packages
 \end{itemize}
 
 
-\renewcommand\refname{References}
-  \bibliography{bibliography.bib}
 
 
 \end{document}
