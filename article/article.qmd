@@ -53,7 +53,7 @@ quarto render article.qmd --to elsevier-pdf
 
 Quantile regression (QR), introduced by @koenkerbasset1978, is an estimation strategy used for modeling the relationships between explanatory variables X and the conditional quantiles of the dependent variable $q_\tau (y|x)$. Using QR one can obtain richer characterizations of the relationships between dependent and independent variables, by accounting for otherwise unobserved heterogeneity.
 
-A relatively recent development in the literature has focused on extending quantile regressions analysis to include individual fixed effects in the framework of panel data. However, as described in @neymanscott1948, and @lancaster2000, when individual fixed effects are included in quantile regression analysis it generates an incident parameter problem. While many strategies have been proposed for estimating this type of model (see @galvao2017quantile for a brief review), neither has become standard because of their restrictive assumptions in regards to the individual effects, the computational complexity, and implementation.
+A relatively recent development in the literature has focused on extending quantile regressions analysis to include individual fixed effects in the framework of panel data. However, as described in @neymanscott1948, and @lancaster2000, when individual fixed effects are included in quantile regression analysis it generates an incidental parameter problem. While many strategies have been proposed for estimating this type of model (see @galvao2017quantile for a brief review), neither has become standard because of their restrictive assumptions in regards to the individual effects, the computational complexity, and implementation.
 
 More recently, @mss2019 (MSS hereafter) proposed a methodology based on a conditional location-scale model similar to the one described in @he1997 and @zhao2000, for the estimation of quantile regressions models for panel data via a method of moments. This method allows individual fixed effects allowing to have heterogeneous effects on the entire conditional distribution of the outcome, rather constraining their effect to be a location shift only as in @canay2011, @koenker2004, and @lancaster2000.
 
@@ -134,7 +134,7 @@ $$\begin{aligned}
   \end{aligned}
 $$ {#eq-eq8}
 
-Thurd, given the location and scale coefficients, the $\tau_{th}$ quantile of the error $\varepsilon$ can be estimated using the following condition:
+Third, given the location and scale coefficients, the $\tau_{th}$ quantile of the error $\varepsilon$ can be estimated using the following condition:
 
 $$\begin{aligned}
   E\left[  \mathbb{1}\left(x_i' (\beta + \gamma q(\varepsilon|\tau)) \geq y_i \right) - \tau \right] &=0  \\
@@ -390,7 +390,7 @@ where $\alpha_{1i}\sim \chi^2(1)$, $\alpha_{2i} \sim \chi^2(1)$ and $x_i = 0.5 *
 
 [^jk]: For the implementation, we estimate the model using the full sample, then, randomly assign each observation into one of two groups, and re-estimate the quantile coefficients for each group. The bias-corrected estimator is then obtained as $\hat\beta(\tau)_{jkc}=2*\hat\beta(\tau)_{full}-0.5*\big(\hat\beta(\tau)_{s1}+\hat\beta(\tau)_{s1}\big)$.
 
-Similar to the findings in MSS, we find that the estimator presents a bias when the sample is small ($N=500$), but this bias shrinks as the sample sizes increases. As MSS describes, the bias seems to be proportional to the sample size, or more precisely to $N/N_{g1}$ and $N/N_{g2}$, where $N_{g1}$ and $N_{g2}$ are the average number of observations per group. Interestingly, the bias-corrected estimator presents an almost zero bias, even when the samples are is small (about 10 observations per sub-group). Also replicating the results of MSS, despite bias reduction obtained using the JKC estimator, the standard errors and mean squared error (MSE) are larger than without correction.
+Similar to the findings in MSS, we find that the estimator presents a bias when the sample is small ($N=500$), but this bias shrinks as the sample sizes increases. As MSS describes, the bias seems to be proportional to the sample size, or more precisely to $N/N_{g1}$ and $N/N_{g2}$, where $N_{g1}$ and $N_{g2}$ are the average number of observations per group. Interestingly, the bias-corrected estimator presents an almost zero bias, even when the samples are small (about 10 observations per sub-group). Also replicating the results of MSS, despite bias reduction obtained using the JKC estimator, the standard errors and mean squared error (MSE) are larger than without correction.
 
 
 ::: {#tbl-sim1 layout-nrow=2 layout-ncol=2}
@@ -505,7 +505,7 @@ In this section we replicate one of the excercises from MSS, allowing for time a
 
 : The determinants of government surpluses: Individual Fixed effects {#tbl-tb1}
 
-As expected, @tbl-tb1 shows that point estimates for the point estimates are identical to the ones reported in @mss2019 (Table 6), including analytical standard errors (GLS). With our estimator, however, we are able to also produce both robust and clustered standard errors for location and scale coefficients. Except for a few cases, robust and clustered standard errors are larger than GLS standard errors, which may be an indication of misspecification of the model. The GLS standard errors we report differ from the ones in MSS because they use panel standard errors, which are equivalent to our clustered standard errors, instead of the analytical standard errors we derive.
+As expected, @tbl-tb1 shows that point estimates are identical to the ones reported in @mss2019 (Table 6), including analytical standard errors (GLS). With our estimator, however, we are able to also produce both robust and clustered standard errors for location and scale coefficients. Except for a few cases, robust and clustered standard errors are larger than GLS standard errors, which may be an indication of misspecification of the model. The GLS standard errors we report differ from the ones in MSS because they use panel standard errors, which are equivalent to our clustered standard errors, instead of the analytical standard errors we derive.
 
 Considering the estimated effects across quantiles, we observe few differences in the reported GLS standard errors compared to the analytical standard errors reported MSS. Our clustered standard errors, however, are closer to the bootstrap based standard errors the authors report.[^20]
 
