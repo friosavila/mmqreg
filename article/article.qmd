@@ -9,9 +9,9 @@ author:
     attributes:
         corresponding: true
   - name: Leonardo Siles
-    email: leo@gmail.com
+    email: leonardosiles@hotmail.com
     affiliations:
-        - name: Universidad Catolica Boliviana
+        - name: Universidad Católica Boliviana
           id: ucb
   - name: Gustavo Canavire-Bacarreza
     email: gcanavire@worldbank.org
@@ -814,6 +814,6 @@ $$
 The method described here can be implemented using any of the following packages
 
 - `mmqreg` in Stata: `net install mmqre, from(https://friosavila.github.io/stpackages)
-- `mmqreg` in R: Programs Available in Github
+- `mmqreg` in R: Program Available in mmqreg repository in GitHub (https://github.com/friosavila/mmqreg)
 - `mmqreg` in Python: 
 - `mmqreg` in julia: 
