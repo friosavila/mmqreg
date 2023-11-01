@@ -1,0 +1,1 @@
+Add mmqreg to R package list
