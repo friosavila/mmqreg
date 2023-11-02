@@ -98,7 +98,7 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
   } else {
     # Weights provided
 
-    weights <- as.vector(weights)
+    weights <- as.matrix(data[, weights])
     nwgt <- weights / mean(weights) # normalized wgts vector
     w <- diag(n); diag(w) <- nwgt   # normalized wgts diagonal matrix
 
@@ -109,11 +109,11 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
       ixx <- solve(xx)
 
       # Location
-      b <- ixx %*% crossprod(t(x) %*% w, y)
+      b <- ixx %*% t(x) %*% w %*% y
       e <- y - x %*% b
 
       # Scale
-      g <- ixx %*% crossprod(t(x) %*% w, abs(e))
+      g <- ixx %*% t(x) %*% w %*% abs(e)
       xg <-  x %*% g
       se <- e/xg
 
@@ -138,12 +138,12 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
       # Location HDFE, weights
       xx <- t(x) %*% w %*% x
       ixx <- solve(xx)
-      b <- ixx %*% crossprod(t(x) %*% w, y)
+      b <- ixx %*% t(x) %*% w %*% y
       e <- y - x %*% b
 
       # Scale HDFE, weights
       erc <- fixest::demean(X = abs(e), f = fe, weights = nwgt) + colMeans(abs(e))
-      g <- ixx %*% crossprod(t(x) %*% w, erc)
+      g <- ixx %*% t(x) %*% w %*% erc
       xg <- abs(e) - (erc - x %*% g)
       se <- e/xg
 
@@ -159,19 +159,21 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
     }
 
     # Influence functions, weights
+    # Helper function 'mult'
     mult <- function(x, e){
       xm <- matrix(NA, nrow = n, ncol = k)
       for (i in 1:k) {
         xm[, i] <- x[, i] * e
       }
       return(xm)
-    } # Helper function
-    if1 <- t(n*ixx%*%t(mult(x, e)))
-    if1 <- if1 * nwgt
+    }
+
+    if1 <- t(n*ixx%*%t(mult(x, e * nwgt)))
+
     vt <- 2*e*((e>=0) - mean(e>=0))
-    if2 <- t(n*ixx%*%t(mult(x, vt - xg)))
-    if2 <- if2 * nwgt
+    if2 <- t(n*ixx%*%t(mult(x, (vt - xg) * nwgt)))
     # sv <- 2*se*((se>=0) - mean(se>=0)) - 1
+
     ifq <- matrix(NA, n, length(tau)); dimnames(ifq)[[2]] <- dimnames(qt)[[2]]
     for (i in 1:length(tau)) {
       ifq[, i] <- 1/f[i]*(tau[i] - ((qt[i]*xg - e) >= 0)) - e/mean(xg) - qt[i]/mean(xg)*(vt - xg)
@@ -181,10 +183,10 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
     ifx <- cbind(if1, if2, ifq)
   }
 
-  # b(t)
+  # Quantile coefficients b(t)
   bt <- matrix(b, nrow(b), ncol(qt)) + g %*% qt
 
-  # VCE
+  # Empty lists and matrices to fill in
   vcov0 <- list()
   vcov1 <- list()
   vcov2 <- list()
@@ -220,7 +222,7 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
   se0.g <- matrix(sqrt(diag(vcov0[[1]][[1]]))[(k+1):(2*k)], k, 1, dimnames = dimnames(g))
 
 
-  # VCOV of estimators -- ASYMPTOTIC
+  # VCOV of estimators -- Robust
 
   for (i in 1:length(tau)) {
     vcov.i <- list()                                # temp
@@ -238,7 +240,7 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
   se1.b <- matrix(sqrt(diag(vcov1[[1]][[1]]))[1:k], k, 1, dimnames = dimnames(b))
   se1.g <- matrix(sqrt(diag(vcov1[[1]][[1]]))[(k+1):(2*k)], k, 1, dimnames = dimnames(g))
 
-  # VCOV of estimators -- CLUSTERED
+  # VCOV of estimators -- Clustered
   if (!is.character(vcov)) {
     for (i in 1:length(tau)) {
       vcov.i <- list()                                # temp
@@ -278,15 +280,15 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
     return(qtile)
 
 
-  } else if (vcov == "asymptotic") {
+  } else if (vcov == "robust") {
     location <- cbind(b, se1.b)
     dimnames(location)[[2]] <- c("coef.", "s.e.")
-    dimnames(location)[[1]][5] <- "intercept"
+    #dimnames(location)[[1]][5] <- "intercept"
     location
 
     scale <- cbind(g, se1.g)
     dimnames(scale)[[2]] <- c("coef.", "s.e.")
-    dimnames(scale)[[1]][5] <- "intercept"
+    #dimnames(scale)[[1]][5] <- "intercept"
     scale
 
     qtile <- cbind(bt, se1.bt)
@@ -295,7 +297,7 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
   } else {
     location <- cbind(b, se2.b)
     dimnames(location)[[2]] <- c("coef.", "s.e.")
-    dimnames(location)[[1]][5] <- "intercept"
+    #dimnames(location)[[1]][5] <- "intercept"
     location
 
     scale <- cbind(g, se2.g)
@@ -308,3 +310,4 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
   }
 
 }
+
