@@ -195,8 +195,7 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
   se2.bt <- matrix(NA, k, length(tau), dimnames = dimnames(bt))
 
   # VCOV of estimators -- GLS
-  su <- se
-  sv <- vt/xg
+  sv <- (vt/xg) - 1
   qxx <- apply(if1, 2, function(x) {x/su})
   Pxx <- crossprod(qxx, xg)
   Qxx <- crossprod(qxx)
@@ -310,4 +309,3 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
   }
 
 }
-
