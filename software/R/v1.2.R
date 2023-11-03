@@ -1,4 +1,4 @@
-# Version 1.1
+# Version 1.2
 # Output has to be more 'user friendly'
 
 
@@ -38,7 +38,11 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
       se_qr <- summary(se_qr, se = "iid", cov = T)
       f <- c()
       for (i in 1:length(tau)) {
-        f[i] <- se_qr[[i]][["scale"]]
+        if (length(tau) == 1) {
+          f[i] <- se_qr[["scale"]]
+        } else {
+          f[i] <- se_qr[[i]][["scale"]]
+        }
       }
 
     } else {
@@ -68,7 +72,11 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
       se_qr <- summary(se_qr, se = "iid", cov = T)
       f <- c()
       for (i in 1:length(tau)) {
-        f[i] <- se_qr[[i]][["scale"]]
+        if (length(tau) == 1) {
+          f[i] <- se_qr[["scale"]]
+        } else {
+          f[i] <- se_qr[[i]][["scale"]]
+        }
       }
     }
 
@@ -123,7 +131,11 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
       se_qr <- summary(se_qr, se = "iid", cov = T)
       f <- c()
       for (i in 1:length(tau)) {
-        f[i] <- se_qr[[i]][["scale"]]
+        if (length(tau) == 1) {
+          f[i] <- se_qr[["scale"]]
+        } else {
+          f[i] <- se_qr[[i]][["scale"]]
+        }
       }
 
     } else {
@@ -153,7 +165,11 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
       se_qr <- summary(se_qr, se = "iid", cov = T)
       f <- c()
       for (i in 1:length(tau)) {
-        f[i] <- se_qr[[i]][["scale"]]
+        if (length(tau) == 1) {
+          f[i] <- se_qr[["scale"]]
+        } else {
+          f[i] <- se_qr[[i]][["scale"]]
+        }
       }
 
     }
@@ -176,7 +192,8 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
 
     ifq <- matrix(NA, n, length(tau)); dimnames(ifq)[[2]] <- dimnames(qt)[[2]]
     for (i in 1:length(tau)) {
-      ifq[, i] <- 1/f[i]*(tau[i] - ((qt[i]*xg - e) >= 0)) - e/mean(xg) - qt[i]/mean(xg)*(vt - xg)
+      ifq[, i] <- 1/f[i]*(tau[i] - ((qt[i]*xg - e) >= 0)) -
+        e/mean(xg) - qt[i]/mean(xg)*(vt - xg)
       ifq[, i] <- nwgt * ifq[, i]
     }
 
@@ -196,20 +213,22 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
 
   # VCOV of estimators -- GLS
   sv <- (vt/xg) - 1
-  qxx <- apply(if1, 2, function(x) {x/su})
-  Pxx <- crossprod(qxx, xg)
-  Qxx <- crossprod(qxx)
-  us2 <- crossprod(xg)
+  qxx <- apply(if1, 2, function(x) {x/se})         # n x k
+  Pxx <- crossprod(qxx, xg)                        # k x 1
+  Qxx <- crossprod(qxx)                            # k x k
+  us2 <- crossprod(xg)                             # 1 x 1 (scalar)
 
   for (i in 1:length(tau)) {
-    vcov.i <- list()                                # temp
+    vcov.i <- list()                               # temp
     sw.i <- ifq[, i]/xg
     # sw[[i]] <- sw.i
-    suvw.i <- cbind(su, sv, sw.i)
-    omgs.i <- (1/n) * crossprod(suvw.i)
+    suvw.i <- cbind(se, sv, sw.i)                  # n x 3
+    omgs.i <- (1/n) * crossprod(suvw.i)            # 3 x 3
     # omgs[[i]] <- omgs.i
-    omg.i <- (1/n^2) * cbind(omgs.i[1:2, 1:2] %x% Qxx, omgs.i[1:2, ncol(omgs.i)] %x% Pxx)
-    vcov.i[[1]] <- rbind(omg.i, cbind(t(omg.i[, ncol(omg.i)]), omgs.i[3,3] * us2))
+    omg.i <- (1/n^2) * cbind(omgs.i[1:2, 1:2] %x% Qxx,
+                             omgs.i[1:2, 3] %x% Pxx)
+    vcov.i[[1]] <- rbind(omg.i, cbind(t(omg.i[, ncol(omg.i)]),
+                                      omgs.i[3,3] * us2))
     vcov.i[[2]] <- cbind(diag(k), qt[i]*diag(k), g) # xi
     vcov.i[[3]] <- vcov.i[[2]] %*% vcov.i[[1]] %*% t(vcov.i[[2]])
     vcov0[[i]] <- vcov.i
@@ -217,8 +236,10 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
     se0.bt[, i] <- sqrt(diag(vcov0[[i]][[3]]))
   }
 
-  se0.b <- matrix(sqrt(diag(vcov0[[1]][[1]]))[1:k], k, 1, dimnames = dimnames(b))
-  se0.g <- matrix(sqrt(diag(vcov0[[1]][[1]]))[(k+1):(2*k)], k, 1, dimnames = dimnames(g))
+  se0.b <- matrix(sqrt(diag(vcov0[[1]][[1]]))[1:k], k, 1,
+                  dimnames = dimnames(b))
+  se0.g <- matrix(sqrt(diag(vcov0[[1]][[1]]))[(k+1):(2*k)], k, 1,
+                  dimnames = dimnames(g))
 
 
   # VCOV of estimators -- Robust
@@ -267,12 +288,12 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
   if (vcov == "gls") {
     location <- cbind(b, se0.b)
     dimnames(location)[[2]] <- c("coef.", "s.e.")
-    dimnames(location)[[1]][5] <- "intercept"
+    #dimnames(location)[[1]][5] <- "intercept"
     location
 
     scale <- cbind(g, se0.g)
     dimnames(scale)[[2]] <- c("coef.", "s.e.")
-    dimnames(scale)[[1]][5] <- "intercept"
+    #dimnames(scale)[[1]][5] <- "intercept"
     scale
 
     qtile <- cbind(bt, se0.bt)
