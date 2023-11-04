@@ -813,7 +813,7 @@ $$
 
 The method described here can be implemented using any of the following packages
 
-- `mmqreg` in Stata: `net install mmqre, from(https://friosavila.github.io/stpackages)
+- `mmqreg` in Stata: `net install mmqreg, from(https://friosavila.github.io/stpackages)
 - `mmqreg` in R: Program Available in mmqreg repository in GitHub (https://github.com/friosavila/mmqreg)
 - `mmqreg` in Python: 
 - `mmqreg` in julia: 
