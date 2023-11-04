@@ -325,7 +325,7 @@ where
 
 $$\begin{aligned}
 \hat\Omega_{ij} &= \frac{1}{N} \sum_i^N \tilde \lambda_{i}(\theta) \tilde \lambda_{j}(\theta)' \\
-\hat\sigma_{ij} &= \frac{1}{N} \sum_i^N \phi_{i} \phi_{j}
+\hat\sigma_{ij} &= \frac{1}{N} \sum_i^N \psi_{i} \psi_{j}
 \end{aligned}
 $$
 
