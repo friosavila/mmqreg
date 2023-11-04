@@ -48,7 +48,7 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
     } else {
       # FE model, no weights
 
-      fe <- model.frame(absorb, data)
+      fe <- data[, absorb]
 
       # Centered residualized vars
       y <- fixest::demean(X = y, f = fe) + colMeans(y)
@@ -141,7 +141,9 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
     } else {
       # FE model, weights
 
-      fe <- model.frame(absorb, data)
+      nwgt = as.vector(nwgt)
+
+      fe <- data[, absorb]
 
       # Centered residualized vars, weights
       y <- fixest::demean(X = y, f = fe, weights = nwgt) + colMeans(y)
@@ -200,16 +202,13 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
     ifx <- cbind(if1, if2, ifq)
   }
 
-  # Quantile coefficients b(t)
-  bt <- matrix(b, nrow(b), ncol(qt)) + g %*% qt
-
   # Empty lists and matrices to fill in
   vcov0 <- list()
   vcov1 <- list()
   vcov2 <- list()
-  se0.bt <- matrix(NA, k, length(tau), dimnames = dimnames(bt))
-  se1.bt <- matrix(NA, k, length(tau), dimnames = dimnames(bt))
-  se2.bt <- matrix(NA, k, length(tau), dimnames = dimnames(bt))
+  se0.bt <- matrix(NA, k, length(tau), dimnames = dimnames(b))
+  se1.bt <- matrix(NA, k, length(tau), dimnames = dimnames(b))
+  se2.bt <- matrix(NA, k, length(tau), dimnames = dimnames(b))
 
   # VCOV of estimators -- GLS
   sv <- (vt/xg) - 1
@@ -225,9 +224,9 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
     suvw.i <- cbind(se, sv, sw.i)                  # n x 3
     omgs.i <- (1/n) * crossprod(suvw.i)            # 3 x 3
     # omgs[[i]] <- omgs.i
-    omg.i <- (1/n^2) * cbind(omgs.i[1:2, 1:2] %x% Qxx,
+    omg.i <- cbind(omgs.i[1:2, 1:2] %x% Qxx,
                              omgs.i[1:2, 3] %x% Pxx)
-    vcov.i[[1]] <- rbind(omg.i, cbind(t(omg.i[, ncol(omg.i)]),
+    vcov.i[[1]] <- (1/n^2) * rbind(omg.i, cbind(t(omg.i[, ncol(omg.i)]),
                                       omgs.i[3,3] * us2))
     vcov.i[[2]] <- cbind(diag(k), qt[i]*diag(k), g) # xi
     vcov.i[[3]] <- vcov.i[[2]] %*% vcov.i[[1]] %*% t(vcov.i[[2]])
@@ -283,50 +282,24 @@ mmqreg <- function(formula, data, tau = 0.5, absorb = NULL, weights = NULL,
     se2.g <- matrix(sqrt(diag(vcov2[[1]][[1]]))[(k+1):(2*k)], k, 1, dimnames = dimnames(g))
   }
 
+
   # Output
 
-  if (vcov == "gls") {
-    location <- cbind(b, se0.b)
-    dimnames(location)[[2]] <- c("coef.", "s.e.")
-    #dimnames(location)[[1]][5] <- "intercept"
-    location
+results <- list()
 
-    scale <- cbind(g, se0.g)
-    dimnames(scale)[[2]] <- c("coef.", "s.e.")
-    #dimnames(scale)[[1]][5] <- "intercept"
-    scale
+results[["location"]][["coefs"]] <- b
+results[["location"]][["std. errors"]] <- cbind(se0.b, se1.b)
 
-    qtile <- cbind(bt, se0.bt)
-    return(qtile)
+results[["scale"]][["coefs"]] <- g
+results[["scale"]][["std. errors"]] <- cbind(se0.g, se1.g)
 
+for (i in 1:length(tau)) {
 
-  } else if (vcov == "robust") {
-    location <- cbind(b, se1.b)
-    dimnames(location)[[2]] <- c("coef.", "s.e.")
-    #dimnames(location)[[1]][5] <- "intercept"
-    location
+results[[paste("tau =", tau[i])]][["coefs"]] <- b + g * qt[i]
+results[[paste("tau =", tau[i])]][["std. errors"]] <- cbind(
+  se0.bt[, i], se1.bt[, i])
+}
 
-    scale <- cbind(g, se1.g)
-    dimnames(scale)[[2]] <- c("coef.", "s.e.")
-    #dimnames(scale)[[1]][5] <- "intercept"
-    scale
-
-    qtile <- cbind(bt, se1.bt)
-    return(qtile)
-
-  } else {
-    location <- cbind(b, se2.b)
-    dimnames(location)[[2]] <- c("coef.", "s.e.")
-    #dimnames(location)[[1]][5] <- "intercept"
-    location
-
-    scale <- cbind(g, se2.g)
-    dimnames(scale)[[2]] <- c("coef.", "s.e.")
-    dimnames(scale)[[1]][5] <- "intercept"
-    scale
-
-    qtile <- cbind(bt, se2.bt)
-    return(qtile)
-  }
-
+return(results)
+  
 }
