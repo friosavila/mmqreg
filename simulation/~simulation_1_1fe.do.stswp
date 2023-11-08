@@ -10,16 +10,16 @@ bysort g1:replace f1=f1[1]
 gen f2 = rchi2(1)
 bysort g2:replace f2=f2[1]
 gen x  = 0.5*(rchi2(1)+0.5*(f1+f2))
-gen  y = f1 + f2 + x + (1+x+f1+f2)*(rchi2(5)/5-1)
-mmqreg y x, q(25 75) abs(g2 g1)  
+gen  y = 2+f1 + x + (1+x+f1)*(rchi2(5)/5-1)
+mmqreg y x, q(25 75) abs(g1)  
 matrix b=e(b)'
 matrix bf=e(b)'
 gen smp = runiformint(0,1)
 sum smp, meanonly
 local msp = r(mean)
-mmqreg y x if smp==0, q(25 75) abs(g2 g1)  
+mmqreg y x if smp==0, q(25 75) abs(g1)  
 matrix b=b,e(b)'
-mmqreg y x if smp==1, q(25 75) abs(g2 g1)  
+mmqreg y x if smp==1, q(25 75) abs(g1)  
 matrix b=b,e(b)'
 mata:b=st_matrix("b")
 mata:st_matrix("baf",(2:*b[,1]:-((1-`msp')*b[,2]:+`msp'*b[,3]))')
@@ -34,5 +34,5 @@ end
 parallel initialize 16
 foreach i in 500 1000 2000 4000 {
 parallel sim, reps(10000): sim_mmqreg  `i'
-save sim_`i'_chi2, replace
+save sim_`i'_chi2_1fe, replace
 }
