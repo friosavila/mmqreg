@@ -78,6 +78,7 @@
 \def\fps@figure{htbp}
 \makeatother
 
+\tnotetext[t1]{The opinions expressed in this paper are those of the authors and do not necessarily reflect the views of the World Bank, its Board of Directors, or the countries it represents.}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -129,7 +130,7 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
-  pdftitle={Quantile Regressions via Method of Moments with multiple fixed effects},
+  pdftitle={Quantile Regressions via Method of Moments with multiple fixed effects },
   pdfauthor={Fernando Rios-Avila; Leonardo Siles; Gustavo Canavire-Bacarreza},
   pdfkeywords={Fixed effects, Linear heteroskedasticity, Location-scale
 model, Quantile regression},
@@ -145,7 +146,7 @@ model, Quantile regression},
 
 \begin{frontmatter}
 \title{Quantile Regressions via Method of Moments with multiple fixed
-effects}
+effects \tnoteref{t1}}
 \author[1]{Fernando Rios-Avila%
 \corref{cor1}%
 }
@@ -156,7 +157,7 @@ effects}
  \ead{leonardosiles@hotmail.com} 
 \author[3]{Gustavo Canavire-Bacarreza%
 %
-\fnref{fn1}}
+}
  \ead{gcanavire@worldbank.org} 
 
 \affiliation[1]{organization={Levy Economics Institute of Bard
@@ -168,9 +169,7 @@ Boliviana},,postcodesep={}}
 \cortext[cor1]{Corresponding author}
 
 
-\fntext[fn1]{The opinions expressed in this paper are those of the
-authors and do not necessarily reflect the views of the World Bank, its
-Board of Directors, or the countries it represents}
+
         
 \begin{abstract}
 This paper proposes a new method to estimate quantile regressions with
@@ -1221,7 +1220,7 @@ any \(x\).
 In this case, the \(\tau_{th}\) conditional quantile model can be
 written as:
 
-\[q(y|\tau,x) = x'(\beta + q(\tau) \times \gamma)\]
+\[Q_y(\tau|x) = x'(\beta + q(\tau) \times \gamma)\]
 
 where \(q(\tau)\) is the \(\tau_{th}\) quantile of the standardized
 residual of \(\varepsilon\). This model is identified under the
@@ -1254,8 +1253,8 @@ h_{3,i}
 where the Jacobian matrix \(\bar G(\theta)\) is defined as:
 
 \[\bar G(\theta) = \begin{bmatrix}
-\bar G_{11} & G_{12} & G_{13} \\
-\bar G_{21} & \bar G_{22} & G_{23} \\
+\bar G_{11} & \bar G_{12} & \bar G_{13} \\
+\bar G_{21} & \bar G_{22} & \bar G_{23} \\
 \bar G_{31} & \bar G_{32} & \bar G_{13} \\
 \end{bmatrix}
 \]
@@ -1348,8 +1347,8 @@ Under the assumption that we have enough observations within each
 combination of \(x\), and of multiplicative heteroskedasticity, we have:
 
 \[\begin{aligned}
-E(K_h(q^\varepsilon_\tau x_i'\gamma +x_i'\beta - y_i )|X) &= f_{y|X}(q^\varepsilon_\tau x_i'\gamma +x_i'\beta) \\
-&=\frac{1}{x_i'\gamma} f_{\varepsilon}(q^\varepsilon_\tau) \\
+E(K_h(q(\tau) x_i'\gamma +x_i'\beta - y_i )|X) &= f_{y|X}(q(\tau) x_i'\gamma +x_i'\beta) \\
+&=\frac{1}{x_i'\gamma} f_{\varepsilon}(q(\tau)) \\
 \end{aligned}
 \]
 

@@ -1,5 +1,5 @@
 ---
-title: Quantile Regressions via Method of Moments with multiple fixed effects
+title: Quantile Regressions via Method of Moments with multiple fixed effects \tnoteref{t1}
 author:
   - name: Fernando Rios-Avila
     email: friosavi@levy.org
@@ -17,9 +17,7 @@ author:
     email: gcanavire@worldbank.org
     affiliations:
         - id: wb
-          name: World Bank
-    note: |
-      The opinions expressed in this paper are those of the authors and do not necessarily reflect the views of the World Bank, its Board of Directors, or the countries it represents         
+          name: World Bank                 
 abstract: |
   This paper proposes a new method to estimate quantile regressions with multiple fixed effects. The method expands on the strategy proposed by @mss2019, allowing for multiple fixed effects, and providing various alternatives for the estimation of Standard errors. We provide Monte Carlo simulations to show the finite sample properties of the proposed method in the presence of two sets of fixed effects. Finally, we apply the proposed method to estimate the determinants of the surplus of government as a share of GDP allowing for both time and country fixed effects.
 keywords: 
@@ -39,6 +37,9 @@ format:
       model: 1p
       cite-style: authoryear
       number-depth: 2
+include-in-header: 
+      text: |
+        \tnotetext[t1]{The opinions expressed in this paper are those of the authors and do not necessarily reflect the views of the World Bank, its Board of Directors, or the countries it represents.}        
 ---
 
 ```{=html}

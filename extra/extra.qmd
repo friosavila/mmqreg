@@ -1,5 +1,5 @@
 ---
-title: Short Paper
+title: Short Paper \tnoteref{t1,t2}
 subtitle: A Short Subtitle
 author:
   - name: Alice Anonymous
@@ -8,10 +8,6 @@ author:
         - id: some-tech
           name: Some Institute of Technology
           department: Department Name
-          address: Street Address
-          city: City
-          state: State
-          postal-code: Postal Code
     attributes:
         corresponding: true
     note: This is the first author footnote.
@@ -41,6 +37,7 @@ abstract: |
 keywords: 
   - keyword1
   - keyword2
+thanks: To my firends and family.
 date: last-modified
 bibliography: bibliography.bib
 format:
@@ -51,7 +48,12 @@ format:
       formatting: preprint
       model: 3p
       cite-style: super
+include-in-header: 
+      text: |
+        \tnotetext[t1]{This document is a collaborative effort.}
+        \tnotetext[t2]{The second title footnote which is a longer longer than the first one and with an intention to fill in up more than one line while formatting.}
 ---
+ 
 
 Please make sure that your manuscript follows the guidelines in the 
 Guide for Authors of the relevant journal. It is not necessary to 
