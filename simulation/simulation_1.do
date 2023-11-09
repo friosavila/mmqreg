@@ -31,6 +31,6 @@ end
 
 parallel initialize 13
 foreach i in 500 1000 2000 4000 {
-parallel sim, reps(5000): sim_mmqreg  `i'
+parallel sim, reps(10000): sim_mmqreg  `i'
 save sim_`i', replace
 }
