@@ -15,14 +15,12 @@ mmqreg y x, q(25 75) abs(g2 g1)
 matrix b=e(b)'
 matrix bf=e(b)'
 gen smp = runiformint(0,1)
-sum smp, meanonly
-local msp = r(mean)
 mmqreg y x if smp==0, q(25 75) abs(g2 g1)  
 matrix b=b,e(b)'
 mmqreg y x if smp==1, q(25 75) abs(g2 g1)  
 matrix b=b,e(b)'
 mata:b=st_matrix("b")
-mata:st_matrix("baf",(2:*b[,1]:-((1-`msp')*b[,2]:+`msp'*b[,3]))')
+mata:st_matrix("baf",(2:*b[,1]:-0.5:*(b[,2]:+b[,3]))')
 matrix bf=bf',baf
 matrix b=b'
 matrix b=b[1,....]
@@ -31,8 +29,8 @@ matrix coleq b = q25 q25 q75 q75 q25b q25b q75b q75b
 ereturn post b
 end
 
-parallel initialize 16
+parallel initialize 13
 foreach i in 500 1000 2000 4000 {
 parallel sim, reps(10000): sim_mmqreg  `i'
-save sim_`i'_chi2, replace
+save sim_`i', replace
 }
