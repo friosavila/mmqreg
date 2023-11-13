@@ -78,10 +78,7 @@
 \def\fps@figure{htbp}
 \makeatother
 
-\makeatletter
-\makeatother
-\makeatletter
-\makeatother
+\tnotetext[t1]{The opinions expressed in this paper are those of the authors and do not necessarily reflect the views of the World Bank, its Board of Directors, or the countries it represents.}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -118,18 +115,10 @@
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \makeatother
 \makeatletter
+\makeatother
+\makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
-\makeatother
-\makeatletter
-\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
-\makeatother
-\makeatletter
-\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
-\makeatother
-\makeatletter
-\makeatother
-\makeatletter
 \makeatother
 \journal{Journal Name}
 \ifLuaTeX
@@ -141,7 +130,7 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
-  pdftitle={Quantile Regressions via Method of Moments with multiple fixed effects},
+  pdftitle={Quantile Regressions via Method of Moments with multiple fixed effects },
   pdfauthor={Fernando Rios-Avila; Leonardo Siles; Gustavo Canavire-Bacarreza},
   pdfkeywords={Fixed effects, Linear heteroskedasticity, Location-scale
 model, Quantile regression},
@@ -156,14 +145,12 @@ model, Quantile regression},
 \begin{document}
 
 \begin{frontmatter}
-\title{Estimating Quantile Regressions with Multiple Fixed Effects through Method of Moments}
-\fnref{fn1}
-
+\title{Quantile Regressions via Method of Moments with multiple fixed
+effects \tnoteref{t1}}
 \author[1]{Fernando Rios-Avila%
 \corref{cor1}%
 }
  \ead{friosavi@levy.org} 
- 
 \author[2]{Leonardo Siles%
 %
 }
@@ -182,19 +169,17 @@ Boliviana},,postcodesep={}}
 \cortext[cor1]{Corresponding author}
 
 
-\fntext[fn1]{The opinions expressed in this paper are those of the
-authors and do not necessarily reflect the views of the World Bank, its
-Board of Directors, or the countries it represents.}
+
         
 \begin{abstract}
 This paper proposes a new method to estimate quantile regressions with
-multiple fixed effects. The method, which expands on the strategy proposed by
-\citet{mss2019}, allows for the inclusion of multiple fixed effects and provides
-various alternatives for the estimation of standard errors. We provide
+multiple fixed effects. The method expands on the strategy proposed by
+\citet{mss2019}, allowing for multiple fixed effects, and providing
+various alternatives for the estimation of Standard errors. We provide
 Monte Carlo simulations to show the finite sample properties of the
 proposed method in the presence of two sets of fixed effects. Finally,
 we apply the proposed method to estimate the determinants of the surplus
-of government as a share of GDP, allowing for both time and country fixed
+of government as a share of GDP allowing for both time and country fixed
 effects.
 \end{abstract}
 
@@ -203,128 +188,126 @@ effects.
 
 
 \begin{keyword}
-    Fixed Effects \sep Linear Heteroskedasticity \sep Location-Scale Model \sep Quantile Regression
+    Fixed effects \sep Linear heteroskedasticity \sep Location-scale
+model \sep 
+    Quantile regression
 \end{keyword}
-
-
 \end{frontmatter}
-    \ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, sharp corners, enhanced, breakable, frame hidden]}{\end{tcolorbox}}\fi
-
-\hypertarget{introduction}{%
-\section{Introduction}\label{introduction}}
+    \section{Introduction}\label{introduction}
 
 Quantile regression (QR), introduced by \citet{koenkerbasset1978}, is an
 estimation strategy used for modeling the relationships between
-explanatory variables \(X\) and the conditional quantiles of the dependent
-variable \(q_\tau (y|x)\). Using QR one can obtain richer
+explanatory variables X and the conditional quantiles of the dependent
+variable \(Q_y (\tau|x)\). Using QR one can obtain richer
 characterizations of the relationships between dependent and independent
-variables by accounting for otherwise unobserved heterogeneity.
+variables, by accounting for otherwise unobserved heterogeneity.
 
 A relatively recent development in the literature has focused on
 extending quantile regressions analysis to include individual fixed
 effects in the framework of panel data. However, as described in
-\citet{neymanscott1948} and \citet{lancaster2000}, when individual
-fixed effects are included in quantile regression analysis an incidental parameter problem is generated. While many strategies have been
+\citet{neymanscott1948}, and \citet{lancaster2000}, when individual
+fixed effects are included in quantile regression analysis it generates
+an incidental parameter problem. While many strategies have been
 proposed for estimating this type of model (see
 \citet{galvao2017quantile} for a brief review), neither has become
-standard because of their restrictive assumptions in regard to the inclusion of 
-individual and multiple fixed effects, the computational complexity, and implementation.
+standard because of their restrictive assumptions in regards to the
+individual effects, the computational complexity, and implementation.
 
 More recently, \citet{mss2019} (MSS hereafter) proposed a methodology
-based on a conditional location-scale model, similar to the one described
+based on a conditional location-scale model similar to the one described
 in \citet{he1997} and \citet{zhao2000}, for the estimation of quantile
 regressions models for panel data via a method of moments. This method
-allows individual fixed effects to have heterogeneous effects
-on the entire conditional distribution of the outcome, rather than
-constraining their effect to be a location shift only, as in
-\citet{canay2011}, \citet{koenker2004}, and \citet{lancaster2000}.
+allows individual fixed effects allowing to have heterogeneous effects
+on the entire conditional distribution of the outcome, rather
+constraining their effect to be a location shift only as in
+\citet{canay2011}, \citet{koenker2004}, and \citet{lamarche2010}.
 
-In principle, under the assumption that the data-generating process behind
+In principle, under the assumption that data generating process behind
 the data is based on a multiplicative heteroskedastic process that is
 linear in parameters \citep[\citet{mss2019}, \citet{he1997},
-\citet{zhao2000}, \citet{cameron2005}], the effect of a variable \(X\) on the
+\citet{zhao2000}]{cameron2005}, the effect of a variable \(X\) on the
 \(q_{th}\) quantile can be derived as the combination of a location
-effect and a scale effect moderated by the quantile of an underlying
-independent and identically distributed (i.i.d.) error. For statistical inference, MSS derives the asymptotic distribution of the estimator, suggesting the use of bootstrap standard errors as well.
+effect, and scale effect moderated by the quantile of an underlying
+i.i.d. error. For statistical inference, MSS derives the asymptotic
+distribution of the estimator, suggesting the use of bootstrap standard
+errors, as well.
 
-This methodology is not meant to substitute for the use of standard
-quantile regression analysis. That said, given the assumptions required for the
+While this methodology is not meant to substitute the use of standard
+quantile regression analysis, given the assumptions required for the
 identification of the model, it provides a simple and fast alternative
 for the estimation of quantile regression models with individual fixed
 effects.
 
 In this framework, our paper expands on \citet{mss2019}, following some
-of the suggestions by these authors regarding further research. First,
-making use of the properties of generalized method of moments (GMM) estimators, we derive various
+of the suggestions by the authors regarding further research. First,
+making use of the properties of GMM estimators, we derive various
 alternatives for the estimation of standard errors based on the
-empirical influence functions of the estimators. Second, we reconsider
-the application of Frisch-Waugh-Lovell (FWL) theorem
+empirical Influence functions of the estimators. Second, we reconsider
+the application of Frisch--Waugh--Lovell (FWL) theorem
 (\citet{frishwaugh1933} and \citet{lovell1963}) to extend the MSS
-estimator to allow for the inclusion of multiple fixed effects, such as individual and year fixed effects.
+estimator to allow for the inclusion of multiple fixed effects, for
+example, individual and year fixed effects.
 
-The rest of the paper is structured as follows: section 2 presents the
-basic setup of the location-scale model described in \citet{he1997} and
+The rest of the paper is restructured as follows. Section 2 presents the
+basic setup of the location-Scale model described in \citet{he1997} and
 \citet{zhao2000}, tying the relationship between the standard quantile
-regression model and the location-scale model. It also revisits the
-methodology of MSS, proposing alternative estimators for the standard errors
+regression model, and the location and scale model. It also revisits MSS
+methodology, proposing alternative estimators for the standard errors
 based on the properties of GMM estimators and the empirical influence
-functions. It also shows that the FWL theorem can be used to control for
+functions. It also shows that FWL theorem can be used to control for
 multiple fixed effects. Section 3 presents the results of a small
-simulation study and section 4 illustrates the application of the
-proposed methods with two empirical examples. Section 5 concludes.
+simulation study and Section 4 illustrates the application of the
+proposed methods with one empirical example. Seccion 5 concludes.
 
-\hypertarget{sec-method}{%
-\section{Methodology}\label{sec-method}}
+\section{Methodology}\label{sec-method}
 
-\hypertarget{sec-betas}{%
-\subsection{Quantile Regression: Location-Scale Model}\label{sec-betas}}
+\subsection{Quantile Regression: Location-Scale model}\label{sec-betas}
 
 Quantile regressions are used to identify relationships between the
-explanatory variables \(X\) and the conditional quantiles of the
-dependent variable \(Q(Y|\tau,X)\). This relationship is commonly
+explanatory variables \(x\) and the conditional quantiles of the
+dependent variable \(Q_y(\tau|X)\). This relationship is commonly
 assumed to follow a linear functional form:
 
-\begin{equation}\protect\hypertarget{eq-eq1}{}{q(Y|X,\tau) =X\beta(\tau)
-}\label{eq-eq1}\end{equation}.
+\begin{equation}\phantomsection\label{eq-eq1}{Q_y(\tau|X) =X\beta(\tau)
+}\end{equation}
 
-This allows for nonlinearities in the effect of \(X\) on \(Y\) across
-all values of \(\tau\). This formulation can also be related to a random
-coefficient model, in which all coefficients are assumed to be some
-nonlinear function of \(\tau\) where \(\tau\) follows a random uniform
-distribution.
+This allows for the effect of \(X\) on \(Y\) to vary across all
+\(\tau\). This formulation can also be related to a random coefficient
+model, where all coefficients are assumed to be some nonlinear function
+of \(\tau\), where \(\tau\) follows a random uniform distribution.
 
 An alternative formulation of quantile regressions is the location-scale
 model. This approach assumes that the conditional quantile of \(Y\)
 given \(X\) and \(\tau\) can be expressed as a combination of two
 models: the location model, which describes the central tendency of the
-conditional distribution; and the scale model, which describes
+conditional distribution, and the scale model, which describes
 deviations from the central tendency:
 
-\begin{equation}\protect\hypertarget{eq-eq2}{}{q(Y|X,\tau) =X\beta+X\gamma(\tau)
-}\label{eq-eq2}\end{equation}.
+\begin{equation}\phantomsection\label{eq-eq2}{Q_y(\tau|X) =X\beta+X\gamma(\tau)
+}\end{equation}
 
 Here, the location parameters \(\beta\) are typically identified using a
-linear regression model (as in \citet{mss2019}) or a median regression
-(as in \citet{melly2005}) and the scale parameters \(\gamma(\tau)\) can
+linear regression model (as in \citet{mss2019}), or a median regression
+(as in \citet{zhao2000}), and the scale parameters \(\gamma(\tau)\) can
 be estimated using standard approaches.
 
 Both the standard quantile regression (Equation~\ref{eq-eq1}) and the
 location-scale specification (Equation~\ref{eq-eq2}) can be estimated as
 the solution to a weighted minimization problem:
 
-\begin{equation}\protect\hypertarget{eq-eq3}{}{\hat{\beta}(\tau) = \underset{\beta}{\operatorname{argmin}}
+\begin{equation}\phantomsection\label{eq-eq3}{\hat{\beta}(\tau) = \underset{\beta}{\operatorname{argmin}}
 \left( \sum_{i\in y_i\geq x_i'\beta} \tau (y_i - x_i'\beta) - \sum_{i\in y_i<x_i'\beta} (1-\tau)(y_i - x_i'\beta) \right)
-}\label{eq-eq3}\end{equation}.
+}\end{equation}
 
 One characteristic of this estimator is that the \(\beta(\tau)\)
-coefficients are identified locally and thus the estimated quantile
+coefficients are identified locally, and thus the estimated quantile
 coefficients will exhibit considerable variation when analyzed across
 \(\tau\). It is also implicit that if one requires an analysis of the
 entire distribution, it would be necessary to estimate the model for
 each quantile.\footnote{There are other estimators that provide smoother
   estimates for the quantile regression coefficients using a kernel
   local weighted approach \citep{kaplan2017}, as well as identifying the
-  full set of quantile coefficients while simultaneously assuming some
+  full set of quantile coefficients simultaneously assuming some
   parametric functional forms \citep{frumentobotai2016}.}
 
 One insightful extension to the location-scale parameterizations
@@ -336,131 +319,132 @@ linear in parameters.\footnote{\citet{mss2019} also discuss a model
   \(\sigma(x_i'\gamma)\), but develop the estimator for the linear case,
   i.e., when \(\sigma()\) is the identity function.}
 
-\begin{equation}\protect\hypertarget{eq-eq4}{}{\begin{aligned}
+\begin{equation}\phantomsection\label{eq-eq4}{\begin{aligned}
 y_i &=x_i'\beta+\nu_i \\
 \nu_i &=\varepsilon_i \times x_i'\gamma 
 \end{aligned}
-}\label{eq-eq4}\end{equation}.
+}\end{equation}
 
-Under the assumption that \(\varepsilon\) is an i.i.d. unobserved random variable that is
+Under the assumption that \(\varepsilon\) is an independent and
+identically distributed (iid) unobserved random variable that is
 independent of \(X\), the conditional quantile of \(Y\) given \(X\) and
-\(\tau\) can be written as
+\(\tau\) can be written as:
 
-\begin{equation}\protect\hypertarget{eq-eq5}{}{q(Y|X,\tau) =X\beta+q(\varepsilon|\tau) \times X\gamma 
-}\label{eq-eq5}\end{equation}.
+\begin{equation}\phantomsection\label{eq-eq5}{Q_y(\tau|X) =X\beta+Q_\varepsilon(\tau) \times X\gamma 
+}\end{equation}
 
 In this setup, the traditional quantile coefficients are identified as
-the location model coefficients plus the scale model coefficients
+the location model coefficients, plus the scale model coefficients
 moderated by the \(\tau_{th}\) unconditional quantile of the
-standardized error \(\varepsilon\).
+standardized error \(\varepsilon\). For simplicity we will use
+\(q(\tau)\) to denote \(Q_\varepsilon(\tau)\) in the rest of the paper.
 
-\begin{equation}\protect\hypertarget{eq-eq6}{}{\beta(\tau) = \beta + q(\varepsilon|\tau) \times \gamma 
-}\label{eq-eq6}\end{equation}.
+\begin{equation}\phantomsection\label{eq-eq6}{\beta(\tau) = \beta + q(\tau) \times \gamma 
+}\end{equation}
 
 While this specification imposes a strong assumption on the DGP, it has
 two advantages over the standard quantile regression model. First,
-because the location -scale model can be identified globally, with
-only a single parameter (\(q(\varepsilon|\tau)\)) requiring local
-estimation, this estimation approach will be more efficient than the
-standard quantile regression model (\citet{zhao2000}). Second, under the
-assumption that \(X\gamma\) is strictly positive, the model will
-produce quantile coefficients that do not cross.
+because the location and scale model can be identified globally, with
+only a single paramater (\(q(\tau)\)) requiring local estimation, this
+estimation approach would be more efficient than the standard quantile
+regression model \citep{zhao2000}. Second, under the assumption that
+\(X\gamma\) is strictly possitive, the model would produce quantile
+coefficients that do not cross.
 
 Following MSS, the quantile regression model defined by
-Equation~\ref{eq-eq5} can be estimated using a generalized method of moments
-approach. And while it is possible to identify all coefficients
-(\(\beta,\gamma, q(\varepsilon|\tau)\)) simultaneously, we describe and
-use the implementation approach advocated by MSS, which identifies each
-set of coefficients separately.
+Equation~\ref{eq-eq5} can be estimated using a method of moments
+approach. And while its possible to identify all coefficients
+(\(\beta,\gamma, q(\tau)\)) simultaneously, we describe and use the
+implementation approach advocated by MSS which identifies each set of
+coefficients separately.
 
 First, the location model can be estimated using a standard linear
-regression model where the dependent variable is the outcome \(Y\) and
+regression model, where the dependent variable is the outcome \(y\), and
 the independent variables are the explanatory variables \(X\) (including
 a constant) with an error \(u\), which is by definition heteroskedastic.
-In this case, the location-model coefficients are identified under the
+In this case, the location model coefficients are identified under the
 following condition:
 
-\begin{equation}\protect\hypertarget{eq-eq7}{}{\begin{aligned}
+\begin{equation}\phantomsection\label{eq-eq7}{\begin{aligned}
       y_i &=x_i'\beta+\nu_i \\
       E\big[ x_i \nu_i\big] &=0
       \end{aligned}
-}\label{eq-eq7}\end{equation}.
+}\end{equation}
 
 Second, after the location model is estimated, the scale coefficients
 can be identified by modeling heteroskedasticity as a linear function of
 characteristics \(X\). For this we use the absolute value of the errors
-from the location model \(u\) as dependent variable, which allows
+from the location model \(u\) as dependent variable, which would allow
 us to estimate the conditional standard deviation (rather than
 conditional variance) of the errors. In this case, the coefficients are
 identified under the following condition:
 
-\begin{equation}\protect\hypertarget{eq-eq8}{}{\begin{aligned}
+\begin{equation}\phantomsection\label{eq-eq8}{\begin{aligned}
   |\nu_i| &=x_i'\gamma+\omega_i \\
-  E\big[ x_i \omega_i \big] &=0 \\
-  E\big[ x_i (|\nu_i| -x_i'\gamma ) \big] &=0
+   E\big[ x_i (|\nu_i| -x_i'\gamma ) \big] &=0
   \end{aligned}
-}\label{eq-eq8}\end{equation}.
+}\end{equation}
 
 Third, given the location and scale coefficients, the \(\tau_{th}\)
 quantile of the error \(\varepsilon\) can be estimated using the
 following condition:
 
-\begin{equation}\protect\hypertarget{eq-eq9}{}{\begin{aligned}
-  E\left[  \mathbb{1}\left(x_i' (\beta + \gamma q(\varepsilon|\tau)) \geq y_i \right) - \tau \right] &=0  \\
-  E\left[  \mathbb{1}\left(   q(\varepsilon|\tau)\geq \frac{y_i-x_i'\beta}{x_i'\gamma} \right) - \tau \right] &=0  \\
+\begin{equation}\phantomsection\label{eq-eq9}{\begin{aligned}
+  E\left[  \mathbb{1}\left(x_i' (\beta +   \gamma q(\tau)) \geq y_i \right) - \tau \right] &=0  \\
+  E\left[  \mathbb{1}\left(   q(\tau) \geq \frac{y_i-x_i'\beta}{x_i'\gamma} \right) - \tau \right] &=0  \\
   \end{aligned}
-}\label{eq-eq9}\end{equation},
+}\end{equation}
 
-where one identifies the quantile of the error \(\varepsilon\) using
-standardized errors \(\frac{y_i-x_i'\beta}{x_i'\gamma}\) or by finding
+Where one identifies the quantile of the error \(\varepsilon\) using
+standardized errors \(\frac{y_i-x_i'\beta}{x_i'\gamma}\), or by finding
 the values that identify the overall quantile coefficients
-\(\beta(\tau)=\beta + \gamma q(\varepsilon|\tau)\). Afterwards, the
-conditional quantile coefficients are simply defined as the combination
-of the location and scale coefficients.
+\(\beta(\tau)=\beta + \gamma q(\tau)\). Afterwords, the conditional
+quantile coefficients is simply defined as the combination of the
+location and scale coefficients.
 
-\hypertarget{sec-se}{%
-\subsection{Standard Errors: GLS, Robust, and Clustered}\label{sec-se}}
+\subsection{Standard Errors: GLS, Robust, Clustered}\label{sec-se}
 
 As discussed in the previous section, the estimation of quantile
 regression coefficients using the location-scale model with
-heteroskedastic linear errors can be estimated using the following set
-of moments, which fits within the GMM framework:
+heteroskedstic linear errors can be estimated using a the following set
+of moments, which fits in the Generalized Method of Moments framework:
 
-\begin{equation}\protect\hypertarget{eq-eq10}{}{\begin{aligned}
+\begin{equation}\phantomsection\label{eq-eq10}{\begin{aligned}
   E[x_i \nu_i  ] &= E[h_{1,i}]=0 \\
   E[x_i  (|\nu_i|-x_i \gamma) ] &=E[h_{2,i}]=0 \\
-  E\left[  \mathbb{1}\left(   q(\varepsilon|\tau)\geq \frac{y_i-x_i'\beta}{x_i'\gamma} \right) - \tau \right] 
+  E\left[  \mathbb{1}\left(   q(\tau)\geq \frac{y_i-x_i'\beta}{x_i'\gamma} \right) - \tau \right] 
   &=E[h_{3,i}]=0 
   \end{aligned}
-}\label{eq-eq10}\end{equation}
+}\end{equation}
 
 Under the conditions described in \citet{newey_chapter_1994} (see
-section 7), \citet{cameron2005} (see chapter 6.3.9), or as shown in
-\citet{mss2019}, the location, scale, and residual quantile coefficients
+section 7), \citet{cameron2005} (see chapter 6.3.9) or as shown in
+\citet{mss2019}, the location, scale and residual quantile coefficients
 are asymptotically normal.\footnote{\citet{zhao2000} also shows that the
-  quantile coefficients for the location-scale model follow a
+  quantile coefficients for the location-scale model also follows a
   normal distribution, but uses the assumption that the location model
   is derived using a least absolute deviation approach (median
   regression).}
 
-Call \(\theta=[ \beta' \ \ \gamma' \ \ q(\varepsilon|\tau)' ]'\) the set
-of coefficients that are identified by the moment conditions in
-Equation~\ref{eq-eq10}, a just identified model, and the function
-\(h_i\) is a vector function that stacks all the moments described in Equation~\ref{eq-eq10} at the individual level. Then
+Call \(\theta=[ \beta' \ \ \gamma' \ \ q(\tau) ]'\) the set of
+coefficients that are identified by the modement conditions in
+Equation~\ref{eq-eq10}, a just identified model. And the function
+\(h_i\) is a vector function that stacks all the moments at the
+individual level described in Equation~\ref{eq-eq10}. Then
 \(\hat\theta\) follows a normal distribution with mean \(\theta\) and
-variance-covariance matrix \(V(\theta)\) that is estimated as
+variance-covariance matrix \(V(\theta)\) that is estimated as:
 
 \[
 \hat{V}(\hat\theta)=\frac{1}{N} 
 \bar G(\hat\theta)^{-1} 
 \left( \frac{1}{N} \sum_{i=1}^N h_i h_i'  \Big|_{\theta=\hat\theta} \right) 
 \bar G(\hat\theta)^{-1} 
-\],
+\]
 
-which is equivalent to the Eicker-White heteroskedasticity-consistent
+Which is equivalent to the Eicker-White Heteroskedastic-Consistent
 estimator for least-squares estimators.
 
-Here, the inner product is the moment covariance matrix and
+Here, the inner product is the moment covariance matrix, and
 \(\bar{G}(\theta)\) is the Jacobian matrix of the moment equations
 evaluated at \(\hat\theta\).
 
@@ -468,108 +452,106 @@ evaluated at \(\hat\theta\).
 
 In this framework, the quantile regression coefficients, a combination
 of the location-scale-quantile estimates, will follow a normal
-distribution with mean \(\beta(\tau) = \beta+q(\varepsilon|\tau)\gamma\)
-and variance-covariance matrix equal to
+distribution with mean \(\beta(\tau) = \beta+\gamma q(\tau)\) and
+variance-covariance matrix equal to:
 
 \[\hat{V}(\beta(\tau)) = \Xi \hat{V}(\hat\theta) \Xi'
-\],
+\]
 
-where \(\Xi\) is a \(k \times (2k+1)\) matrix defined as
+where \(\Xi\) is a \(k \times (2k+1)\) matrix defined as:
 
-\begin{equation}\protect\hypertarget{eq-eqqtile}{}{\Xi = [ I(k), \hat q(\varepsilon|\tau) \times I(k), \hat \gamma ]
-}\label{eq-eqqtile}\end{equation},
+\begin{equation}\phantomsection\label{eq-eqqtile}{\Xi = [ I(k), \hat q(\tau) \times I(k), \hat \gamma ]
+}\end{equation}
 
 with \(I(k)\) being an identity matrix of dimension \(k\) (number of
 explanatory variables in \(X\) including the constant).
 
 While it is possible to estimate the variance-covariance matrix using
-simultaneous model estimation for a just identified model, it is more
-efficient to estimate each set of coefficients separately. Afterward,
+simultaneous model estimation, for a just identified model, it is more
+efficient to estimate each set of coefficients separately. Afterwards,
 the variance-covariance matrix can be estimated using the empirical
 influence functions of the estimators (see \citet{jann_2020} for an
-overview of the application and \citet{hampel2005} for an in-depth
+overview of the application, and \citet{hampel2005} for an in-depth
 review).
 
 Specifically, given an arbitrary vector of empirical influence functions
 \(\lambda_i(\theta)\), the variance-covariance matrix can be estimated
-as
+as:
 
-\begin{equation}\protect\hypertarget{eq-eqvcv}{}{\hat{V}(\theta) = \frac{1}{N^2} \sum_{i=1}^N \lambda_i(\theta) \lambda_i(\theta)'
-}\label{eq-eqvcv}\end{equation},
+\begin{equation}\phantomsection\label{eq-eqvcv}{\hat{V}(\theta) = \frac{1}{N^2} \sum_{i=1}^N \lambda_i(\theta) \lambda_i(\theta)'
+}\end{equation}
 
-where the influence functions are defined as
+where the influence functions are defined as:
 
-\[\lambda_i(\theta) = \bar G(\theta)^{-1} h_i(\theta)\].
+\[\lambda_i(\theta) = \bar G(\theta)^{-1} h_i(\theta)\]
 
-For the specific case of quantile regressions through moments, the
-influence functions for the location, scale, and quantile coefficients
-are\footnote{The derivation of the influence functions can be found in
+For the specific case of quantile regressions via momoments, the
+influence functions for the location, scale and quantile coefficients
+are:\footnote{The derivation of the influence functions can be found in
   the appendix.}
 
-\begin{equation}\protect\hypertarget{eq-ifs}{}{\begin{aligned}
+\begin{equation}\phantomsection\label{eq-ifs}{\begin{aligned}
 \lambda_i(\theta)&=
   \begin{bmatrix}
   \lambda_{i}(\beta) \\
   \lambda_{i}(\gamma) \\
-  \lambda_{i}(q(\varepsilon|\tau)) 
+  \lambda_{i}(q(\tau)) 
   \end{bmatrix} \\
 \lambda_{i}(\beta)&=N (X'X)^{-1}  x_i ( x_i'\gamma) \times \varepsilon_i \\
 \lambda_{i}(\gamma)&= N(X'X)^{-1} x_i ( x_i' \gamma ) \times (\tilde \varepsilon_i -1\big)\\
-\lambda_{i}(q(\varepsilon|\tau))&=\frac{\tau-\mathbb{1}\big( q(\varepsilon|\tau)  \geq \varepsilon_i  \big) }{f_{\varepsilon}(q(\varepsilon|\tau))}
+\lambda_{i}(q(\tau))&=\frac{\tau-\mathbb{1}\big( q(\tau)  \geq \varepsilon_i  \big) }{f_{\varepsilon}(q(\tau))}
 - \frac{ x_i'\gamma \times \varepsilon_i }{\bar x_i'\gamma} 
--  q(\varepsilon|\tau) \frac{  x_i' \gamma  \times (\tilde \varepsilon_i -1\big)}{\bar x_i'\gamma}
+-  q(\tau) \frac{  x_i' \gamma  \times (\tilde \varepsilon_i -1\big)}{\bar x_i'\gamma}
 \end{aligned}
-}\label{eq-ifs}\end{equation}.
+}\end{equation}
 
-The different types of standard errors estimation thus depend on the
+The different types of Standard errors estimation, thus, depend on the
 assumptions imposed for the estimation of \(V(\theta)\).
 
-\hypertarget{robust-standard-errors}{%
-\subsubsection{Robust Standard Errors}\label{robust-standard-errors}}
+\subsubsection{Robust Standard Errors}\label{robust-standard-errors}
 
-The first and most natural standard error estimator is given by
+The first, and most natural standard error estimator is given by
 equation Equation~\ref{eq-eqvcv}. This is equivalent to the Eicker-White
-heteroskedasticity-consistent estimator for least-squares estimators.
+Heteroskedastic-Consistent estimator for least-squares estimators.
 Considering the location-scale model, the variance-covariance matrix for
-the quantile coefficients can be estimated as
+the quantile coefficients can be estimated as:
 
 \[\hat{V}_{robust}
   \begin{pmatrix}
   \hat\beta \\
   \hat\gamma \\
-  \hat q(\varepsilon|\tau)
+  \hat q(\tau)
   \end{pmatrix}
  = \frac{1}{N^2} 
  \begin{pmatrix}
- \sum \lambda_i(\beta) \lambda_i(\beta)' & \sum \lambda_i(\beta) \lambda_i(\gamma)' & \sum \lambda_i(\beta) \lambda_i(q(\varepsilon|\tau))' \\
- \sum \lambda_i(\gamma) \lambda_i(\beta)' & \sum \lambda_i(\gamma) \lambda_i(\gamma)' & \sum \lambda_i(\gamma) \lambda_i(q(\varepsilon|\tau))' \\
- \sum \lambda_i(q(\varepsilon|\tau) \lambda_i(\beta)' & \sum \lambda_i(q(\varepsilon|\tau))\lambda_i(\gamma)' & \sum \lambda_i(q(\varepsilon|\tau)) \lambda_i(q(\varepsilon|\tau))' 
+ \sum \lambda_i(\beta) \lambda_i(\beta)' & \sum \lambda_i(\beta) \lambda_i(\gamma)' & \sum \lambda_i(\beta) \lambda_i(q(\tau))' \\
+ \sum \lambda_i(\gamma) \lambda_i(\beta)' & \sum \lambda_i(\gamma) \lambda_i(\gamma)' & \sum \lambda_i(\gamma) \lambda_i(q(\tau))' \\
+ \sum \lambda_i(q(\tau)) \lambda_i(\beta)' & \sum \lambda_i(q(\tau))\lambda_i(\gamma)' & \sum \lambda_i(q(\tau)) \lambda_i(q(\tau))' 
   \end{pmatrix}
-\].
+\]
 
-This estimator of standard errors should be robust to arbitrary
+This estimator of Standard errors should be robust to arbitrary
 heteroskedasticity. However, because the location-scale specification
 relies on the correct specification of the model heteroskedasticity,
-large differences in standard errors compared to GLS-standard errors may
+large differences in Standard errors compared to GLS-standard errors may
 be an indication of misspecification of the model.
 
-\hypertarget{clustered-standard-errors}{%
 \subsubsection{Clustered Standard
-Errors}\label{clustered-standard-errors}}
+Errors}\label{clustered-standard-errors}
 
 Because one of the typical applications of quantile regressions is the
 analysis of panel data, allowing for clustered standard errors at the
 individual level is important. If the unobserved error \(\varepsilon\)
-is correlated within clusters, generalized least squares (GLS) standard errors could be severely
+is correlated within clusters, GLS-Standard errors could be severily
 biased. The standard recommendation has been to report block-bootstrap
-standard errors, clustered at the individual level.
+standard errors, clustering at the individual level.
 
-Because we have access to the influence functions, it is straightforward
+Since we have access to the influence functions, it is straight forward
 to estimate one-way clustered standard errors.
 
-Let \(N_G\) be the total number of clusters $g$, where
+Call \(N_G\) to be the total number of clusteres g, where
 \(g=1\dots N_G\). The clustered variance covariance matrix is given
-by\footnote{It should be noted that one could just as well apply the
+by:\footnote{It should be noted that one could just as well apply the
   insights of \citet{cameron_robust_2011}, allowing for multiway
   clustering.}
 
@@ -577,32 +559,31 @@ by\footnote{It should be noted that one could just as well apply the
   \begin{pmatrix}
   \hat\beta \\
   \hat\gamma \\
-  \hat q(\varepsilon|\tau)
+  \hat q(\tau)
   \end{pmatrix}
  = \frac{1}{N^2} 
  \begin{pmatrix}
  \sum_{g=1}^{N_G} S\lambda_i(\theta) S\lambda_i(\theta)'
   \end{pmatrix}
-\],
+\]
 
-where \(S\lambda_i(\theta)\) is the sum of the influence functions over
+Where \(S\lambda_i(\theta)\) is the sum of the influence functions over
 all observations within a given cluster \(g\).
 
 \[S\lambda_i(\theta) = \sum_{i\in g} \lambda_i(\theta)
 \]
 
-\hypertarget{gls-standard-errors}{%
-\subsubsection{GLS Standard Errors}\label{gls-standard-errors}}
+\subsubsection{GLS Standard Errors}\label{gls-standard-errors}
 
 The standard errors proposed by MSS can be understood as an application
-of GLS, which will be valid as long as the
+of generalized least squares (GLS), which will be valid as long as the
 model for heteroskedasticity is correctly specified.\footnote{As
-  discussed in most econometric textbooks, for example \citet{cameron2005}, one
+  discussed in most econometric textbooks, like \citet{cameron2005}, one
   approach to correct for heteroskedasticity, when the
-  heteroskedasticity functional form is known or can be estimated, is
-  to use weighted least squares. While feasible, this approach
+  heteroskedasticity functional form is known, or can be estimated, is
+  to use weighted least squares. While feasible, however, this approach
   would defeat the purpose of identifying quantile effects exploiting
-  the heteroskedasticity of the model.} To estimate the GLS standard
+  the heteroskedasticity of the model.} To estimate the GLS-Standard
 errors, we make use of the following property:
 
 Consider the influence functions and robust variance-covariance matrix
@@ -612,43 +593,43 @@ for the location coefficients:
 \hat V(\hat \beta) &= \frac{1}{N} \sum_i^N \lambda_{i}(\beta) \lambda_{i}(\beta)' \\
 &= \frac{1}{N}  (X'X)^{-1}  \sum_i^N x_i x_i' ( x_i'\gamma \times \varepsilon_i)^2 (X'X)^{-1} \\
 \end{aligned}
-\].
+\]
 
 Under the assumption that the model for heteroskedasticity is correctly
 specified, we can apply the law of iterated expectations and rewrite the
-variance-covariance matrix as
+variance-covariance matrix as:
 
 \[\begin{aligned}
 \hat V(\hat \beta) &= \frac{1}{N} \sum_i^N \lambda_{i}(\beta) \lambda_{i}(\beta)' \\
 &= E(\varepsilon_i^2) \frac{1}{N}  (X'X)^{-1}  \sum_i^N x_i x_i' ( x_i'\gamma)^2 (X'X)^{-1} \\
 &= \sigma^2_{\varepsilon} \frac{1}{N}  (X'X)^{-1}  \hat\Omega_{\beta\beta} (X'X)^{-1}  
 \end{aligned}
-\].
+\]
 
 This standard error estimator is an application of GLS that accounts for
 the heteroskedasticity the model uses to identify the quantile
-coefficients. We can apply the same principle to find the GLS standard
+coefficients. We can apply the same principle to find the GLS-Standard
 errors for the system of location-scale and quantile coefficients. To do
-this, we define the following modified influence functions:
+this, define the following modified influence functions:
 
 \[\begin{aligned}
 \tilde \lambda_{1,i}&=\tilde \lambda_{2,i}=N (X'X)^{-1}  x_i ( x_i'\gamma) \\  
 \tilde \lambda_{3,i}&=x_i' \gamma  \\
-\tilde \psi_1 &= \varepsilon_i \\
-\tilde \psi_2 &= \tilde \varepsilon_i -1 \\
-\tilde \psi_3 &= \frac{1}{ x_i' \gamma }\frac{\tau-\mathbb{1}\big( q(\varepsilon|\tau)  \geq \varepsilon_i  \big) }{ f_{\varepsilon}(q(\varepsilon|\tau))} - \frac{\varepsilon_i }{\bar x_i'\gamma} 
--  q(\varepsilon|\tau) \frac{(\tilde \varepsilon_i -1\big)}{\bar x_i'\gamma}
+ \psi_1 &= \varepsilon_i \\
+ \psi_2 &= \tilde \varepsilon_i -1 \\
+ \psi_3 &= \frac{1}{ x_i' \gamma }\frac{\tau-\mathbb{1}\big( q(\tau)  \geq \varepsilon_i  \big) }{ f_{\varepsilon}(q(\tau))} - \frac{\varepsilon_i }{\bar x_i'\gamma} 
+-  q(\tau) \frac{(\tilde \varepsilon_i -1\big)}{\bar x_i'\gamma}
 \end{aligned}
-\].
+\]
 
-Then, the GLS standard errors for the location-scale and quantile
-coefficients can be estimated as
+Then, the GLS-Standard errors for the location-scale and quantile
+coefficients can be estimated as:
 
 \[\hat{V}_{gls}
   \begin{pmatrix}
   \hat\beta \\
   \hat\gamma \\
-  \hat q(\varepsilon|\tau)
+  \hat q(\tau)
   \end{pmatrix}
  = \frac{1}{N^2} 
  \begin{pmatrix}
@@ -656,308 +637,259 @@ coefficients can be estimated as
  \hat\sigma_{21} \hat\Omega_{21} & \hat\sigma_{22} \hat\Omega_{22} & \hat\sigma_{21} \hat\Omega_{23} \\
  \hat\sigma_{31} \hat\Omega_{31} & \hat\sigma_{32} \hat\Omega_{32} & \hat\sigma_{33} \hat\Omega_{33}
   \end{pmatrix}
-\],
+\]
 
 where
 
 \[\begin{aligned}
 \hat\Omega_{ij} &= \frac{1}{N} \sum_i^N \tilde \lambda_{i}(\theta) \tilde \lambda_{j}(\theta)' \\
-\hat\sigma_{ij} &= \frac{1}{N} \sum_i^N \phi_{i} \phi_{j}
+\hat\sigma_{ij} &= \frac{1}{N} \sum_i^N \psi_{i} \psi_{j}
 \end{aligned}
-\].
+\]
 
-This estimator of standard errors is equivalent to the one derived by
-MSS using Theorem 3.
+This estimator of Standard errors is equivalent to the one derived by
+MSS by Theorem 3.
 
-\hypertarget{multiple-fixed-effects-expanding-on-mss2019}{%
 \subsection{\texorpdfstring{Multiple Fixed Effects: Expanding on
-\citet{mss2019}}{Multiple Fixed Effects: Expanding on @mss2019}}\label{multiple-fixed-effects-expanding-on-mss2019}}
+\citet{mss2019}}{Multiple Fixed Effects: Expanding on @mss2019}}\label{multiple-fixed-effects-expanding-on-mss2019}
 
 Using the setup described in the previous section, \citet{mss2019}
-proposes an extension to the model proposed by \citet{he1997} that enables the estimation of quantile regression models with panel data while
-allowing for the inclusion of individual fixed effects. Moreover, as the
+proposes an extension to the model proposed by \citet{he1997} that would
+allow for the estimation of quantile regression models with panel data,
+allowing for the inclusion of individual fixed effects. However, as the
 authors suggest, the methodology can be generalized to allow for the
-inclusion of multiple fixed effects. This type of analysis can be useful
+inclusion of multiple fixed effects. This type of analysis may be useful
 when considering data such as employer-employee linked data
-\citep{abowed2006} or teacher-student linked data
+\citep{abowed2006}, or teacher-student linked data
 \citep{harrissass2011}. Or, in the most common case, allowing to control
 for both individual and time fixed effects.
 
-We return to the original model and now assume there are sets of unobserved
+Reconsider the original model, and assume there are sets of unobserved
 heterogeneity that are assumed to be constant across observations, if
 they belong to common groups. In panel data, the groups would be the
 individual fixed effects and the time fixed effects. Without loss of
-generality, we can assume that the data-generating process is as
+generality, we can assume that the data generating process is as
 follows:
 
 \[\begin{aligned}
   y_{i} &= x_{i}' \beta + \delta_{g1} + \delta_{g2} + \nu_i \\
   \nu_i &= \varepsilon_i \times (x_{i}' \gamma + \zeta_{g1} + \zeta_{g2})   
   \end{aligned}
-\],
+\]
 
-where we assume \(x_{i}\) vary across groups \(g_1\) and \(g_2\) (and thus
-are not collinear) and that \(\delta's\) and \(\zeta's\) are the
+where we assume \(x_{i}\) vary across groups \(g_1\) and \(g_2\), thus
+are not collinear, and that \(\delta's\) and \(\zeta's\) are the
 location and scale effects associated with groups fixed
 effects.\footnote{We could just as well consider multiple sets of fixed
-  effects.}
+  effects}
 
 If the dimension of groups \(g_k\) is low, this model could be estimated
-using a dummy inclusion approach following section~\ref{sec-betas} and
-the standard errors obtained as discussed in section~\ref{sec-se}. However,
+using a dummy inclussion approach following Section~\ref{sec-betas}, and
+standard errors obtained as discussed in Section~\ref{sec-se}. However,
 if the dimensionality of \(g_k\) is high, the dummy inclusion approach
-may not be feasible. A more feasible approach is to apply the
-FWL theorem and partial out the impact of the
-group fixed effects on the control variables \(x_{i}\), and the outcome of
-interest \(y_{i}\), using a similar approach for the identification of
-\(\sigma(x)\). In the case of unbalanced setups with multiple groups,
+may not be feasible. Instead, a more feasible approach is to apply the
+Frisch-Waugh-Lovell (FWL) theorem, and partial out the impact of the
+group fixed effects on the control variables \(x_{i}\), the outcome of
+interest \(y_{i}\), with a similar approach for the identification of
+\(\sigma(x)\). In the case of unbalanced setups, with multiple groups,
 the estimation involves iterative processes for which various approaches
-have been suggested and implemented (see for example
-\citet{correia_feasible_nodate}, \citet{gaure2013}, \citet{rios2015}
-).
+have been suggested and implemented (see
+\citet{correia_feasible_nodate}, \citet{gaure2013}, \citet{rios2015},
+among others).
 
-When applying the partialing-out approach, some modifications to the
-approach described in section~\ref{sec-betas} are needed.
+When applying the partialing out approach, some modifications to the
+approach described in Section~\ref{sec-betas} are needed.
 
 First, for all dependent and independent variables in the model
-(\(w=y,x\)), we partial out the group fixed effects and obtain the
+(\(w=y,x\)), we partial out the group fixed effects, and obtain the
 centered-residualized variables:
 
 \[\begin{aligned}
 w_{i} &= \delta_{g1}^w + \delta_{g2}^w + u_{i}^w \\
 w_{i}^{rc} &= E(w_{i}) + \hat{u}_{i}^w
 \end{aligned}
-\].
+\]
 
-Afterward, we estimate the location model using the
+Afterwards, we estimate the location model using the
 centered-residualized variables:\footnote{Using centered-residualized
-  variables allows us to include a constant in the model specification,
+  variables allow us to include a constant in the model specification,
   which simplifies the derivation of the influence functions. However,
-  as with other fixed effects models, the constant is not identified
+  as with other fixed effects models, the constant is not identified,
   and thus should not be interpreted.}
 
 \[y_{i}^{rc} = x_{i}^{rc'} \beta + \nu_{i}
-\].
+\]
 
-Because \(|\hat \nu_i|\) is the dependent variable for the scale model, we
-apply the partialing out and recentering to this expression
-(\(|\hat \nu_i|^{rc}\)), and use that to estimate the following model:
+Since \(|\hat \nu_i|\) is the dependent variable for the scale model, we
+apply the partialling out and recentering to this expression
+(\(|\hat \nu_i|^{rc}\)), and use that to estimate the model:
 
-\[|\hat\nu_{i}|^{rc} = x_{i}^{rc'} \gamma + \omega_{i}\].
+\[|\hat\nu_{i}|^{rc} = x_{i}^{rc'} \gamma + \omega_{i}\]
 
-Finally, the standardized residuals \(\varepsilon_i\) can be obtained as
-follows:
+Finally the standardized residuals \(\varepsilon_i\) can be obtained as
+follows
 
-\[\hat{\varepsilon}_{i} = \frac{\nu_{i}}{|\hat\nu_{i}|- \hat \omega_{i}}\],
+\[\hat{\varepsilon}_{i} = \frac{\nu_{i}}{|\hat\nu_{i}|- \hat \omega_{i}}\]
 
 where \(|\hat\nu_{i}|- \hat \omega_{i}\) is the prediction for the
 conditional standard deviation
-\(\sigma(x_i)=x_{i}' \gamma + \zeta_{g1} + \zeta_{g2}\).
+\(\sigma(x_i)=x_{i}' \gamma + \zeta_{g1} + \zeta_{g2}\)
 
 The \(\tau_{th}\) quantile of the error \(\varepsilon\) can be estimated
-as usual and the variance-covariance matrices obtained in the same way
-as before (see section~\ref{sec-se}) by using \(x_{i}^{rc}\) instead
+as usual, and the variance-covariance matrices obtained in the same way
+as before (see Section~\ref{sec-se}), but using \(x_{i}^{rc}\) instead
 of \(x_{i}\) when estimating the influence functions for all estimated
 coefficients.
 
-\hypertarget{simulation-evidence}{%
-\section{Simulation Evidence}\label{simulation-evidence}}
+\section{Simulation Evidence}\label{simulation-evidence}
 
 To show the performance of the extended strategy, we implement a small
 simulation study. We consider a simple model with a single explanatory
 variable \(x\). In contrast with MSS, we consider a two-way fixed effect
 structure that is more general than the panel structure. For this
-exercise, we consider the following data-generating process:
+excercise, we consider the following data generating process:
 
 \[y_i = \alpha_{1i} + \alpha_{2i} + x_i + (1+x_i + \alpha_{1i} + \alpha_{2i} ) \varepsilon_i
-\],
+\]
 
-where \(\alpha_{1i}\sim \chi^2(1)\), \(\alpha_{2i} \sim \chi^2(1)\), and
-\(x_i = 0.5 * (\chi_i +0.5(\alpha_{1i}+\alpha_{2i}))\), with
+where \(\alpha_{1i}\sim \chi^2(1)\), \(\alpha_{2i} \sim \chi^2(1)\) and
+\(x_i = 0.5 * (\chi_i +0.5(\alpha_{1i}+\alpha_{2i}))\) with
 \(\chi_i \sim \chi^2(1)\). We only consider the case when the error term
-\(\varepsilon_i\) is assumed to be normally distributed with mean 0
+\(\varepsilon_i\) is assumed to be normally distributed with mean zero
 and standard deviation of 0.5. We assume that there are 50 mutually
 exclusive fixed effect groups for each set of fixed effects.
-Observations are assigned to each subgroup randomly using a uniform
-distribution between 1 and 50. We consider sample sizes of 500, 1000,
-2000, and 4000 observations, which implies an average of 10, 20, 40, and
+Observations are assigned to each subgroup randomly, using a uniform
+distribution between 1 and 50. We consider a sample sizes of 500, 1000,
+2000 and 4000 observations, which implies an average of 10, 20, 40 and
 80 observations per group. The model is estimated using the
-location-scale model with heteroskedastic linear errors and we report
+location-scale model with heteroskedastic linear errors, and we report
 the coefficients for the 25th and 75th quantiles. We run this excercise
-5000 times. ?@tbl-sim1 reports the bias, simulated standard
-error, and mean squared error. We also report the results obtained using
+5000 times. Table~\ref{tbl-sim1} reports the bias, simulated standard
+error and mean squared error. We also report the results obtained using
 an adaptation bias-corrected estimator based on the split-panel
 jackknife estimator proposed by \citet{dhaene2015}.\footnote{For the
-  implementation, we first estimate the model using the full sample, then
-  randomly assign each observation into one of two groups, and finally
-  reestimate the quantile coefficients for each group. The
+  implementation, we estimate the model using the full sample, then,
+  randomly assign each observation into one of two groups, and
+  re-estimate the quantile coefficients for each group. The
   bias-corrected estimator is then obtained as
   \(\hat\beta(\tau)_{jkc}=2*\hat\beta(\tau)_{full}-0.5*\big(\hat\beta(\tau)_{s1}+\hat\beta(\tau)_{s1}\big)\).}
 These results are labeled JKC.
 
-Similar to the findings in MSS, we find that while the estimator presents a
-bias when the sample is small (\(N=500\)), this bias shrinks as the
-sample size increases. As MSS describes, the bias seems to be
+Similar to the findings in MSS, we find that the estimator presents a
+bias when the sample is small (\(N=500\)), but this bias shrinks as the
+sample sizes increases. As MSS describes, the bias seems to be
 proportional to the sample size, or more precisely to \(N/N_{g1}\) and
 \(N/N_{g2}\), where \(N_{g1}\) and \(N_{g2}\) are the average number of
 observations per group. Interestingly, the bias-corrected estimator
-presents an almost 0 bias, even when the samples are small (about 10
-observations per subgroup). Moreover, we find that despite the bias reduction obtained using the JKC estimator, the standard errors and mean squared error (MSE) are larger than without correction, which also replicates the results of MSS,
+presents an almost zero bias, even when the samples are small (about 10
+observations per sub-group). Also replicating the results of MSS,
+despite bias reduction obtained using the JKC estimator, the standard
+errors and mean squared error (MSE) are larger than without correction.
 
-\begin{table}
-
-\caption{Bias, Simulated Standard Error, and MSE}\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\begin{longtable}[]{@{}lccc@{}}
-\toprule\noalign{}
-N = 500 & Bias & Sim SE & MSE \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-q25 & & & \\
-~mmqreg & 0.104 & 0.247 & 0.072 \\
-~jkc & 0.008 & 0.297 & 0.088 \\
-q75 & & & \\
-~mmqreg & -0.091 & 0.251 & 0.071 \\
-~jkc & 0.002 & 0.303 & 0.092 \\
-\end{longtable}
-
-}
-
-\end{minipage}%
-%
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\begin{longtable}[]{@{}lccc@{}}
-\toprule\noalign{}
-N = 1000 & Bias & Sim SE & MSE \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-q25 & & & \\
-~mmqreg & 0.050 & 0.173 & 0.032 \\
-~jkc & -0.001 & 0.191 & 0.036 \\
-q75 & & & \\
-~mmqreg & -0.044 & 0.176 & 0.033 \\
-~jkc & 0.006 & 0.195 & 0.038 \\
-\end{longtable}
-
-}
-
-\end{minipage}%
-\newline
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\begin{longtable}[]{@{}lccc@{}}
-\toprule\noalign{}
-N = 1000 & Bias & Sim SE & MSE \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-q25 & & & \\
-~mmqreg & 0.025 & 0.122 & 0.016 \\
-~jkc & 0.003 & 0.129 & 0.017 \\
-q75 & & & \\
-~mmqreg & -0.023 & 0.124 & 0.016 \\
-~jkc & 0.001 & 0.131 & 0.017 \\
-\end{longtable}
-
-}
-
-\end{minipage}%
-%
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\begin{longtable}[]{@{}lccc@{}}
-\toprule\noalign{}
-N = 2000 & Bias & Sim SE & MSE \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-q25 & & & \\
-~mmqreg & 0.012 & 0.087 & 0.008 \\
-~jkc & 0.000 & 0.089 & 0.008 \\
-q75 & & & \\
-~mmqreg & -0.011 & 0.087 & 0.008 \\
-~jkc & 0.000 & 0.089 & 0.008 \\
-\end{longtable}
-
-}
-
-\end{minipage}%
-
-\end{table}
-
-As described in section Section~\ref{sec-se}, GLS standard errors may
-not be appropriate if heteroskedasticity in the model is misspecified.
-This could happen if the heteroskedasticity is not linear in parameters
-or if there are correlations within groups. To show the performance of
-the GLS standard errors, we consider two additional simulations. To see
-the impact of heteroskedasticity misspecification, we assume the DGP is
-given by
-
-\[y_i = \alpha_{1i} + \alpha_{2i} + x_i + (1+x_i + \sqrt{x_i} +\alpha_{1i} + \alpha_{2i} ) \varepsilon_i
-\].
-
-To show the impact of ignoring correlation within groups, we consider
-the case where the error \(\varepsilon\) is correlated within groups
-defined by the first fixed effect, specifically
-
-\[\varepsilon_i =0.5*(\sqrt{0.5} z_i + \sqrt{0.5} w_g)\],
-
-where \(z_i~N(0,1)\) and \(w_g~N(0,1)\), with \(g\) being the \(g_{th}\)
-group defined by the first fixed effect.
-
-For the simulation, we run the exercise 5000 times, using a sample of
-size \(N=2000\). The results from both simulations are reported in 
-Table~\ref{tbl-sim2}. We report the average coefficient, simulation-based standard errors, and the standard errors using GLS, robust, and
-clustered estimations.
-
-\hypertarget{tbl-sim2}{}
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
-  >{\centering\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
-  >{\centering\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
-  >{\centering\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
-  >{\centering\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}@{}}
-\caption{\label{tbl-sim2}Heteroskedasticity misspecification and
-clustered errors}\tabularnewline
+  >{\raggedright\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1250}}
+  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1250}}
+  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1250}}
+  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1250}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1250}}
+  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1250}}
+  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1250}}
+  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1250}}@{}}
+\caption{Bias, Simulated Standard error, and Mean Squared
+Error}\label{tbl-sim1}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
+N = 500
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-Het:q25
+Bias
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-Het:q75
+Sim SE
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-Clust:q25
+MSE
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+N = 1000
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-Clust:q75
+Bias
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Sim SE
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+MSE
 \end{minipage} \\
 \midrule\noalign{}
 \endfirsthead
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
+N = 500
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-Het:q25
+Bias
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-Het:q75
+Sim SE
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-Clust:q25
+MSE
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+N = 1000
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-Clust:q75
+Bias
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Sim SE
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+MSE
 \end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+q25 & & & & q25 & & & \\
+~mmqreg & 0.104 & 0.247 & 0.072 & ~mmqreg & 0.050 & 0.173 & 0.032 \\
+~jkc & 0.008 & 0.297 & 0.088 & ~jkc & -0.001 & 0.191 & 0.036 \\
+q75 & & & & q75 & & & \\
+~mmqreg & -0.091 & 0.251 & 0.071 & ~mmqreg & -0.044 & 0.176 & 0.033 \\
+~jkc & 0.002 & 0.303 & 0.092 & ~jkc & 0.006 & 0.195 & 0.038 \\
+\textbf{N = 2000} & \textbf{Bias} & \textbf{Sim SE} & \textbf{MSE} &
+\textbf{N = 4000} & \textbf{Bias} & \textbf{Sim SE} & \textbf{MSE} \\
+q25 & & & & q25 & & & \\
+~mmqreg & 0.025 & 0.122 & 0.016 & ~mmqreg & 0.012 & 0.087 & 0.008 \\
+~jkc & 0.003 & 0.129 & 0.017 & ~jkc & 0.000 & 0.089 & 0.008 \\
+q75 & & & & q75 & & & \\
+~mmqreg & -0.023 & 0.124 & 0.016 & ~mmqreg & -0.011 & 0.087 & 0.008 \\
+~jkc & 0.001 & 0.131 & 0.017 & ~jkc & 0.000 & 0.089 & 0.008 \\
+\end{longtable}
+
+As described in section Section~\ref{sec-se}, GLS-Standard errors may
+not be appropriate if heteroskedasticity in the model is misspecified.
+This could happen if the heteroskedasticity is not linear in parameters,
+or if there is correlations within groups. To show the performance of
+the GLS-Standard errors, we consider two additional simulations. To see
+the impact of heteroskedasticity misspecification, we assume the DGP is
+given by:
+
+\[y_i = \alpha_{1i} + \alpha_{2i} + x_i + (1+x_i + \sqrt{x_i} +\alpha_{1i} + \alpha_{2i} ) \varepsilon_i
+\]
+
+To show the impact of ignoring correlation within groups, we consider
+the case where the error \(\varepsilon\) is correlated within groups
+defined by the first fixed effect. Specifically:
+
+\[\varepsilon_i =0.5*(\sqrt{0.5} z_i + \sqrt{0.5} w_g)\]
+
+where \(z_i~N(0,1)\) and \(w_g~N(0,1)\), with \(g\) being the \(g_{th}\)
+group defined by the first fixed effect.
+
+For the simulation, we run the excercise 5000 times, using a sample of
+size \(N=2000\). The results from both simulations are reported in the
+Table~\ref{tbl-sim2}. We report the average coefficient, simulation
+based Standard errors, and the standard errors using GLS, robust and
+clustered estimations.
+
+\begin{longtable}[]{@{}lcccc@{}}
+\caption{Heteroskedasticity misspecification and clustered
+errors}\label{tbl-sim2}\tabularnewline
+\toprule\noalign{}
+& Het:q25 & Het:q75 & Clust:q25 & Clust:q75 \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+& Het:q25 & Het:q75 & Clust:q25 & Clust:q75 \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
@@ -978,9 +910,9 @@ misspecified heteroskedasticity. However, the purpose of this exercise
 is not to demonstrate the unbiasedness of the coefficients, but rather
 to assess the performance of the standard error estimation.
 
-As expected, the GLS standard errors are biased and the bias is larger
+As expected, the GLS-standard errors are biased, and the bias is larger
 in the case of misspecified heteroskedasticity. In fact, with
-heteroskedasticity misspecification, the average GLS-SE (0.476) is almost
+heteroskedastic misspecification, the average GLS-SE (.476) is almost
 three times as large as the simulation-based standard error (0.154). In
 this first case, robust standard errors perform better, but with a small
 difference (0.14 to 0.154). In the case of clustered correlation, GLS-SE
@@ -989,40 +921,39 @@ underestimate the magnitude of the true standard errors. Finally,
 cluster standard errors perform the best, with a small difference
 between the simulation-based standard errors (0.097 to 0.109).
 
-\hypertarget{illustrative-application}{%
-\section{Illustrative Application}\label{illustrative-application}}
+\section{Illustrative application}\label{illustrative-application}
 
-In this section we replicate one of the exercises from MSS, allowing
-for time and individual fixed effects as well as for different standard
+In this section we replicate one of the excercises from MSS, allowing
+for time and individual fixed effects, as well as for different standard
 errors estimations. We use data from \citet{persson_economic_2005}, to
-estimate the relationship between surplus of government as share of GDP
+estimate the relationship between surplus of goverment as share of GDP,
 and a measure of quality of democracy (POLITY); log of real income per
-capita (LYP); trade volume as share of GDP (TRADE); share of population
-between 15 and 65 years of age (P1564); the share of the population 65 years
-and older (P65); one-year lag of the dependent variable (LSP); oil prices
-in US dollars, differentiating between importer and exporter countries (OILIM and
+capita (LYP); trade volume as share of GDP (TRADE), Share of population
+between 15-65 uears of age (P1564), the share of the population 65 years
+or older (P65); one-year lag of the dependent variable (LSP); oil prices
+in US dollars differntiating importer and exported countries (OILIM and
 OILEX); and the output gap (YGAP). In addition to country fixed effects
-(as illustrated in MSS), we show results allowing for time fixed
+(as illustrated in MSS), we also show results allowing for time fixed
 effects. Table~\ref{tbl-tb1} and Table~\ref{tbl-tb2} provide the results
-for the model with and without time fixed effects, respectively. The tables showcase the location and scale coefficients, as well as the quantile
-coefficients for the 25th, 50th, and 75th quantiles. We also report
-GLS standard errors, robust standard errors (brackets), and clustered
+for the model with and without time fixed effects, respectively. It show
+cases the location and scale coefficients, as well as the quantile
+coefficients for the 25th, 50th and 75th quantiles. We also report
+GLS-Standard errors, Robust standard errors (brackets) and clustered
 standard errors at the country level.
 
-\hypertarget{tbl-tb1}{}
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.1099}}
-  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0989}}
-  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0989}}
-  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0989}}
-  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0989}}
-  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0989}}
-  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0989}}
-  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0989}}
-  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0989}}
-  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0989}}@{}}
-\caption{\label{tbl-tb1}Determinants of Government Surpluses:
-Individual Fixed Effects}\tabularnewline
+  >{\raggedright\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.1235}}
+  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.1111}}
+  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0988}}
+  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0864}}
+  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0864}}
+  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0988}}
+  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0988}}
+  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0988}}
+  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0988}}
+  >{\centering\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0988}}@{}}
+\caption{The determinants of government surpluses: Individual Fixed
+effects}\label{tbl-tb1}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
@@ -1118,49 +1049,50 @@ Q75 & & & & & & & & & \\
 & 0.020 \\
 \end{longtable}
 
-As expected, Table~\ref{tbl-tb1} shows that the point estimates are
-identical to those reported in \citet{mss2019} (Table 6), including
+As expected, Table~\ref{tbl-tb1} shows that point estimates are
+identical to the ones reported in \citet{mss2019} (Table 6), including
 analytical standard errors (GLS). With our estimator, however, we are
-also able to produce both robust and clustered standard errors for
-location and scale coefficients. Except for a few cases, the robust and
-clustered standard errors are larger than the GLS standard errors, which may
+able to also produce both robust and clustered standard errors for
+location and scale coefficients. Except for a few cases, robust and
+clustered standard errors are larger than GLS standard errors, which may
 be an indication of misspecification of the model. The GLS standard
-errors we report differ from those in MSS, because they use panel
+errors we report differ from the ones in MSS because they use panel
 standard errors, which are equivalent to our clustered standard errors,
 instead of the analytical standard errors we derive.
 
 Considering the estimated effects across quantiles, we observe few
 differences in the reported GLS standard errors compared to the
-analytical standard errors reported in MSS. Our clustered standard errors,
-however, are closer to the bootstrap-based standard errors the authors
-report.\footnote{The differences in the GLS standard errors may be due that in our
-  derivation the influence function of the standardized \(\tau_{th}\)
+analytical standard errors reported MSS. Our clustered standard errors,
+however, are closer to the bootstrap based standard errors the authors
+report.\footnote{There are two possible reasons that may explain the
+  differences in the GLS standard errors. On the one hand, in our
+  derivation, the influence function of the standardized \(\tau_{th}\)
   quantile (see \#eq-infs) does not have the same leading term as the
-  one reported in MSS (see Theorem 3 and the definition of \(W\)).}
+  one reported in MSS (see theorem 3, and the definition of \(W\)).}
 
 In Table~\ref{tbl-tb2}, we report the results including both individual
 and year fixed effects. Because oil prices only vary across years, the
 variable is excluded from the model specification. Accounting for time
-fixed effects does not change the general conclusions that can be drawn,
+fixed effects does not change the general conclusions one could make
 based on the results from Table~\ref{tbl-tb1}. The two largest
 differences are that the log of income per capita has a positive effect
-on Government surpluses, but only for the 25th quantile, because at this point the largest impact on the Scale component is felt. Similarly, we observe that the
-income gap has an impact on Government surpluses that is always
-negative and increasing across quantiles. In both instances, the
+on Government Surpluses, but only for the 25th quantile, because of the
+largest impact on the Scale component. Similarly, we observe that the
+income gap now has an impact on Government surplus that is always
+negative, but increasing across quantiles. In both instances, the
 effects are not statistically significant.
 
-\hypertarget{tbl-tb2}{}
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1370}}
-  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1233}}
-  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1233}}
-  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1233}}
-  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1233}}
-  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1233}}
-  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1233}}
-  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1233}}@{}}
-\caption{\label{tbl-tb2}Determinants of Government Surpluses:
-Individual and Time Fixed Effects}\tabularnewline
+  >{\raggedright\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1493}}
+  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1194}}
+  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1194}}
+  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1045}}
+  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1493}}
+  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1194}}
+  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1194}}
+  >{\centering\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1194}}@{}}
+\caption{The determinants of government surpluses: Individual and Time
+Fixed effects}\label{tbl-tb2}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 \end{minipage} & \begin{minipage}[b]{\linewidth}\centering
@@ -1228,35 +1160,35 @@ Q75 & & & & & & & \\
 ~se\_cl & 0.038 & 0.980 & 0.012 & 0.050 & 0.086 & 0.063 & 0.020 \\
 \end{longtable}
 
-\hypertarget{conclusions}{%
-\section{Conclusions}\label{conclusions}}
+\section{Conclusions}\label{conclusions}
 
 In this paper, we have extended the methodology proposed by
-\citet{mss2019} in order to estimate quantile regression
-models with multiple sets of fixed effects as well as with alternative
-standard errors. This methodology will allow researchers to
-implement more-comprehensive analyses of data sets characterized by
+\citet{mss2019}, allowing for the estimation of quantile regression
+models with multiple sets of fixed effects, as well as alternative
+Standard Errors estimations. This methodology would allow researchers to
+implement more comprehensive analysis of datasets characterized by
 complex hierarchies and unobserved heterogeneity. This extension is
 particularly valuable in contexts where group specific effects vary
 across the conditional distribution of the outcome of interest.
 
 Using a small simulation study, we show that our extended approach is as
-effective in identifying the parameters of interest as that of \citet{mss2019}, even in contexts with two sets of fixed effects. Notably, the
+effective in identifying the parameters of interest as \citet{mss2019}
+indicated, even in contexts with two sets of fixed effects. Notably, the
 bias-corrected estimator based on the split-panel jackknife estimator
-exhibits promising results, mitigating biases when samples are small
+exhibits promising results, mitigating biases when samples are small,
 but increasing standard errors.
 
 Furthermore, we have assessed the impact of misspecified
-heteroskedasticity and intracluster correlation on the performance of
+heteroskedasticity and intra-cluster correlation on the performance of
 standard error estimations. Our findings emphasize the importance of
 using appropriate standard error estimators to ensure accurate
 inference. In particular, we find that GLS standard errors are biased
-when the model heteroskedasticity is misspecified and that robust and
+when the model heteroskedasticity is misspecified, and that robust and
 clustered standard errors perform better in these cases. This may also
-suggest a venue for future research, in which the validity of the location-scale model assumption is tested.
+suggest a venue for future research, testing the validity of the
+location-scale model assumption.
 
-\hypertarget{references}{%
-\section*{References}\label{references}}
+\section*{References}\label{references}
 \addcontentsline{toc}{section}{References}
 
 \renewcommand{\bibsection}{}
@@ -1266,53 +1198,49 @@ suggest a venue for future research, in which the validity of the location-scale
 
 \appendix
 
-\hypertarget{derivation-of-the-influence-functions}{%
-\section{Derivation of the Influence
-Functions}\label{derivation-of-the-influence-functions}}
+\section{Derivation of the influence
+functions}\label{derivation-of-the-influence-functions}
 
-\hypertarget{model-identification}{%
-\subsection{Model Identification}\label{model-identification}}
+\subsection{Model Identification}\label{model-identification}
 
 The estimation of quantile regression via moments assumes that the DGP
 is linear in parameters, with an heteroskedastic error term that is also
-a linear function of parameters:
+linear function of parameters:
 
 \[\begin{aligned}
 y_i = x_i'\beta + \nu_i \\
 \nu_i = \varepsilon_i \times x_i'\gamma
 \end{aligned}
-\],
+\]
 
 where \(\varepsilon\) is an unobserved i.i.d. random variable that is
-independent of \(x\) and such that \(x\gamma\) is larger than 0 for
+independent of \(x\), and such that \(x\gamma\) is larger than zero for
 any \(x\).
 
 In this case, the \(\tau_{th}\) conditional quantile model can be
-written as
+written as:
 
-\[q(y|\tau,x) = x'(\beta + q(\varepsilon |\tau) \times \gamma)\].
+\[Q_y(\tau|x) = x'(\beta + q(\tau) \times \gamma)\]
 
-This model is identified under the following conditions:
+where \(q(\tau)\) is the \(\tau_{th}\) quantile of the standardized
+residual of \(\varepsilon\). This model is identified under the
+following conditions:
 
 \[\begin{aligned}
   E[(y_i-x_i'\beta)x_i ]  &= E[h_{1,i}]=0 \\
   E[ (|y_i-x_i'\beta|-x_i' \gamma) x_i ] &=E[h_{2,i}]=0 \\
-  E\left[  \mathbb{1}\left( q(\varepsilon|\tau) x_i'\gamma +x_i'\beta\geq  y_i  \right) - \tau \right] 
+  E\left[  \mathbb{1}\left( q(\tau) x_i'\gamma +x_i'\beta\geq  y_i  \right) - \tau \right] 
    &=E[h_{3,i}]=0 
 \end{aligned}
-\].
+\]
 
-For simplicity, for the rest of the appendix we use
-\(q^\varepsilon_\tau\) to represent \(q(\varepsilon |\tau)\).
+\subsection{Estimation of the variance-covariance
+matrix}\label{estimation-of-the-variance-covariance-matrix}
 
-\hypertarget{estimation-of-the-variance-covariance-matrix}{%
-\subsection{Estimation of the Variance-Covariance
-Matrix}\label{estimation-of-the-variance-covariance-matrix}}
-
-In this model, to estimate the variance-covariance matrix of the set of
+In this model, to estimate the variance-covariance matrix the set of
 coefficients \(\theta'=[\beta' \ \gamma' \ q^\varepsilon_\tau]\), we
 need to obtain the influence functions of all coefficients, which are
-defined as
+defined as:
 
 \[\lambda_i = \bar G(\theta)^{-1}
 \begin{bmatrix}
@@ -1320,23 +1248,23 @@ h_{1,i} \\
 h_{2,i} \\
 h_{3,i}
 \end{bmatrix}
-\],
+\]
 
-where the Jacobian matrix \(\bar G(\theta)\) is defined as
+where the Jacobian matrix \(\bar G(\theta)\) is defined as:
 
 \[\bar G(\theta) = \begin{bmatrix}
-\bar G_{11} & G_{12} & G_{13} \\
-\bar G_{21} & \bar G_{22} & G_{23} \\
+\bar G_{11} & \bar G_{12} & \bar G_{13} \\
+\bar G_{21} & \bar G_{22} & \bar G_{23} \\
 \bar G_{31} & \bar G_{32} & \bar G_{13} \\
 \end{bmatrix}
-\],
+\]
 
 with
 
 \[\bar G_{j,k} = - \frac 1 N \sum_{i=1}^N \frac{\partial h_{j,i}}{\partial \theta_k'} \ \forall j,k \in 1,2,3
-\].
+\]
 
-First Moment Condition: Location Model
+\textbf{First Moment Condition: Location Model}
 
 \[h_{1,i}=x_i(y_i-x_i'\beta)\]
 
@@ -1349,9 +1277,9 @@ First Moment Condition: Location Model
 
 \[
 \bar G_{1,2} = \bar G_{1,3} = 0
-\].
+\]
 
-Second Moment Condition: Scale Model
+\textbf{Second Moment Condition: Scale model}
 
 \[h_{2,i}=x_i(|y_i-x_i'\beta|-x_i'\gamma)\]
 
@@ -1360,11 +1288,11 @@ Second Moment Condition: Scale Model
              &=  \frac{1}{N} \sum x_i x_i' \frac{y_i-x_i'\beta}{|y_i-x_i'\beta|} \\
 \frac{y_i-x_i'\beta}{|y_i-x_i'\beta|} &= sign(y_i-x_i'\beta) \\            
 \end{aligned}
-\].
+\]
 
 Under the assumption \(\varepsilon_i \times x\gamma\), or in this case
 \(y_i-x_i'\beta\), is uncorrelated with \(x\), we can simplify the
-expression as
+expression as:
 
 \[\begin{aligned}
 \bar G_{2,1} &= N^{-1} \left(N^{-1}\sum sign(y_i-x_i'\beta)\right) \sum x_i x_i' \\
@@ -1374,26 +1302,26 @@ expression as
 
 \[\begin{aligned}
 \bar G_{2,2} &= -\frac{1}{N} \sum \frac{\partial h_{2,i}}{\partial \gamma'} \\
-             &=  \frac{1}{N} \sum x_i x_i' 
+             &=  \frac{1}{N} \sum x_i x_i' \\
              &= N^{-1} X'X
 \end{aligned}
-\].
+\]
 
 \[\bar G_{2,3}=0\]
 
-Third Moment Condition: Quantile of Standardized Residual
+\textbf{Third Moment Condition: Quantile of Standardized Residual}
 
 \[\begin{aligned}
-h_{3,i} &= \mathbb{1}\left( q^\varepsilon_\tau x_i'\gamma +x_i'\beta - y_i \geq 0 \right) - \tau \text{ or}\\
-h_{3,i} &= \mathbb{1}\left( q^\varepsilon_\tau  \geq \frac{y_i- x_i'\beta}{x_i'\gamma}  \right) - \tau = \mathbb{1}\big( q^\varepsilon_\tau  \geq \varepsilon  \big) - \tau \\
+h_{3,i} &= \mathbb{1}\left(q(\tau) x_i'\gamma +x_i'\beta - y_i \geq 0 \right) - \tau \text{ or}\\
+h_{3,i} &= \mathbb{1}\left( q(\tau)  \geq \frac{y_i- x_i'\beta}{x_i'\gamma}  \right) - \tau = \mathbb{1}\big( q(\tau)  \geq \varepsilon  \big) - \tau \\
 \end{aligned}
-\].
+\]
 
 Because the indicator function \(\mathbb{1}()\) is not differentiable,
-we borrow from the nonparametric literature and approximate the
+we borrow from the non-parametric literature, and approximate the
 indicator function with the integral of a kernel density function
-\(I()\). This function, \(I()\), is a monotonic and symmetrical function
-around 0, with a domain over the real numbers, and a range between 0
+\(I()\). This function \(I()\), is monotonic and symetrical function
+around zero, with a domain over the real numbers, and a range between 0
 and 1.
 
 With an arbirarily small bandwidth \(h\), this function will approximate
@@ -1401,82 +1329,82 @@ the indicator function:
 
 \[
 \lim_{h\rightarrow 0} I\left(\frac{z}{h}\right) \approx \mathbb{1}(z\geq 0)
-\].
+\]
 
-Thus the function \(h_{3,i}\) can be approximated as
+Thus the function \(h_{3,i}\) can be approximated as:
 
-\[h_{3,i} \approx I\left( q^\varepsilon_\tau x_i'\gamma +x_i'\beta - y_i  \right) - \tau\].
+\[h_{3,i} \approx I\left( q(\tau) x_i'\gamma +x_i'\beta - y_i  \right) - \tau\]
 
-Now, we can obtain the Jacobian matrix \(\bar G_{3,1}\) as
+Now, we can obtain the Jacobian matrix \(\bar G_{3,1}\) as:
 
 \[\begin{aligned}
 \bar G_{3,1} &= -\frac{1}{N} \sum \frac{\partial h_{3,i}}{\partial \beta'} \\
-             &= -N^{-1} \sum K_h(q^\varepsilon_\tau x_i'\gamma +x_i'\beta - y_i ) x_i'
+             &= -N^{-1} \sum K_h(q(\tau) x_i'\gamma +x_i'\beta - y_i ) x_i'
 \end{aligned}
-\].
+\]
 
 Under the assumption that we have enough observations within each
-combination of \(x\) that are of multiplicative heteroskedasticity, we have
+combination of \(x\), and of multiplicative heteroskedasticity, we have:
 
 \[\begin{aligned}
-E(K_h(q^\varepsilon_\tau x_i'\gamma +x_i'\beta - y_i )|X) &= f_{y|X}(q^\varepsilon_\tau x_i'\gamma +x_i'\beta) \\
-&=\frac{1}{x_i'\gamma} f_{\varepsilon}(q^\varepsilon_\tau) \\
+E(K_h(q(\tau) x_i'\gamma +x_i'\beta - y_i )|X) &= f_{y|X}(q(\tau) x_i'\gamma +x_i'\beta) \\
+&=\frac{1}{x_i'\gamma} f_{\varepsilon}(q(\tau)) \\
 \end{aligned}
-\],
+\]
 
 where \(f_{y|X}\) is the conditional probability density function of
-\(y\) given \(X\) and \(f_\varepsilon\) is the unconditional
+\(y\) given \(X\), and \(f_\varepsilon\) is the unconditional
 distribution of the standardized error. With this, we can rewrite the
-Jacobian matrix as
+Jacobian matrix as:
 
-\[\bar G_{3,1} = -N^{-1} f_{\varepsilon}\big(q^\varepsilon_\tau\big) \sum  \frac{x_i'}{x_i'\gamma} 
-\].
+\[\bar G_{3,1} = -N^{-1} f_{\varepsilon}\big(q(\tau)\big) \sum  \frac{x_i'}{x_i'\gamma} 
+\]
 
 Asymptotically, however, the expression \(\sum\frac{a_i}{b_i}\) can be
-approximated using Taylor expansions by \(N\frac{\bar a}{\bar b}\).
-\footnote{This approximation will be useful when we consider the estimation of the influence functions.} Thus, we can rewrite the last
-term as
+approximated using taylor expansions by \(N\frac{\bar a}{\bar b}\).
+\footnote{This approximation will be useful when we consider the
+  estimation of the influence functions.} Thus, we can rewrite the last
+term as:
 
-\[\bar G_{3,1} = - f_{\varepsilon}\big(q^\varepsilon_\tau\big) \frac{\bar x_i'}{\bar x_i'\gamma} 
-\].
+\[\bar G_{3,1} = - f_{\varepsilon}\big(q(\tau)) \frac{\bar x_i'}{\bar x_i'\gamma} 
+\]
 
 The Jacobian for the second matrix \(\bar G_{3,2}\) can be derived
 similarly:
 
 \[\begin{aligned}
 \bar G_{3,2} &= -\frac{1}{N} \sum \frac{\partial h_{3,i}}{\partial \gamma'} \\
-             &= -N^{-1} \sum K_h(q^\varepsilon_\tau x_i'\gamma +x_i'\beta - y_i ) q^\varepsilon_\tau x_i' \\
-             &=-N^{-1} \sum f_{y|x}(q^\varepsilon_\tau x_i'\gamma +x_i'\beta ) q^\varepsilon_\tau x_i' \\
-             &=-N^{-1} f_{\varepsilon}(q^\varepsilon_\tau) q^\varepsilon_\tau \sum \frac{x_i'}{x_i'\gamma} \\
-             &=- f_{\varepsilon}(q^\varepsilon_\tau) q^\varepsilon_\tau \frac{\bar x_i'}{\bar x_i'\gamma}
+             &= -N^{-1} \sum K_h(q(\tau) x_i'\gamma +x_i'\beta - y_i ) q(\tau) x_i' \\
+             &=-N^{-1} \sum f_{y|x}(q(\tau) x_i'\gamma +x_i'\beta ) q(\tau) x_i' \\
+             &=-N^{-1} f_{\varepsilon}(q(\tau)) q(\tau) \sum \frac{x_i'}{x_i'\gamma} \\
+             &=- f_{\varepsilon}(q(\tau)) q(\tau) \frac{\bar x_i'}{\bar x_i'\gamma}
 \end{aligned}
 \]
 
-and the Jacobian for the third matrix \(\bar G_{3,3}\) is
+and the Jacobian for the third matrix \(\bar G_{3,3}\) is:
 
 \[\begin{aligned}
-\bar G_{3,3} &= -\frac{1}{N} \sum \frac{\partial h_{3,i}}{\partial q^\varepsilon_\tau} \\
- &= -\frac{1}{N} \sum K_h(q^\varepsilon_\tau x_i'\gamma +x_i'\beta - y_i ) x_i'\gamma \\
- &= -\frac{1}{N} \sum f_{y|X}(q^\varepsilon_\tau x_i'\gamma +x_i'\beta) x_i'\gamma \\
- &= -\frac{1}{N} \sum f_{\varepsilon}(q^\varepsilon_\tau) \frac{x_i'\gamma}{ x_i'\gamma} \\
- &= - f_{\varepsilon}(q^\varepsilon_\tau) 
+\bar G_{3,3} &= -\frac{1}{N} \sum \frac{\partial h_{3,i}}{\partial q(\tau)} \\
+ &= -\frac{1}{N} \sum K_h(q(\tau) x_i'\gamma +x_i'\beta - y_i ) x_i'\gamma \\
+ &= -\frac{1}{N} \sum f_{y|X}(q(\tau) x_i'\gamma +x_i'\beta) x_i'\gamma \\
+ &= -\frac{1}{N} \sum f_{\varepsilon}(q(\tau)) \frac{x_i'\gamma}{ x_i'\gamma} \\
+ &= - f_{\varepsilon}(q(\tau)) 
 \end{aligned}
 \]
 
-\hypertarget{influence-functions}{%
-\subsection{Influence Functions}\label{influence-functions}}
+\subsection{Influence functions}\label{influence-functions}
 
-Location Coefficients
+\textbf{Location coefficients}
 
 \[\lambda_i(\beta) = \bar G^{-1}_{1,1} h_{1,i} = N (X'X)^{-1}(x_i (y_i-x_i'\beta)) = N (X'X)^{-1}(x_i \nu_i)
-\],
+\]
 
-which can also be written as a function of the standardized residuals:
+Which can also be written as a function of the standardized residuals:
 
 \[\lambda_i(\beta) = \bar G^{-1}_{1,1} h_{1,i} = N (X'X)^{-1}(x_i (y_i-x_i'\beta)) = N (X'X)^{-1}(x_i ( x_i'\gamma \times \varepsilon))
 \]
 
-Scale Coefficients
+\textbf{Scale Coefficients}
 
 \[\begin{aligned}
 \lambda_i(\gamma)&=\bar G_{2,2}^{-1}\Big(h_{2,i}-\bar G_{2,1} \lambda_i(\beta)\Big) \\
@@ -1485,7 +1413,7 @@ Scale Coefficients
 &=N (X'X)^{-1} \Big(x_i(|\nu_i|-x_i' \gamma) - E[sign(\nu_i)] (x_i \nu_i)  \Big) \\
 &=N (X'X)^{-1} x_i \Big( |\nu_i| - E[sign(\nu_i)] \nu_i -x_i' \gamma \Big) 
 \end{aligned}
-\].
+\]
 
 However,
 
@@ -1496,12 +1424,12 @@ However,
 \end{aligned}
 \]
 
-and \[\begin{aligned}
+And \[\begin{aligned}
 E[sign(\nu_i)] &= E[\mathbb{1}(\nu_i \geq 0)] - E[\mathbb{1}(\nu_i < 0)] \\
 E[sign(\nu_i)] &= E[\mathbb{1}(\nu_i \geq 0)] - E[(1-\mathbb{1}(\nu_i \geq 0))] \\
 E[sign(\nu_i)] &= 2 E[\mathbb{1}(\nu_i \geq 0)] - 1
 \end{aligned}
-\].
+\]
 
 Thus,
 
@@ -1516,53 +1444,52 @@ Thus,
 
 This last expression is the equivalent simplification used in
 \citet{mss2019} and \citet{im2000}. If the scale function is strictly
-positive, it also follows that
+possitive, it also follows that
 \(\mathbb{1}(\nu_i \geq 0)= \mathbb{1}(\varepsilon_i \geq 0)\). Thus, it
-can be simplified as
+can be simplified as:
 
 \[\begin{aligned}
 \lambda_i(\gamma) &= N(X'X)^{-1} x_i ( x_i' \gamma ) \times (\tilde \varepsilon_i -1\big)
 \end{aligned}
-\].
+\]
 
-Quantile of Standardized Residual
+\textbf{Quantile of standardized residual}
 
 \[\begin{aligned}
-\lambda_i(q^\varepsilon_\tau)&=\bar G_{3,3}^{-1}
+\lambda_i(q(\tau))&=\bar G_{3,3}^{-1}
 \Big(
  h_{3,i}-\bar G_{3,1} \lambda_i(\beta)-\bar G_{3,2} \lambda_i(\gamma)
 \Big) \\
-&=-\frac{1}{f_{\varepsilon}(q^\varepsilon_\tau)} \times \Bigg( \Big(\mathbb{1} ( q^\varepsilon_\tau  \geq \varepsilon  ) - \tau \Big)  \\
-&+ f_{\varepsilon} (q^\varepsilon_\tau) \frac{\bar x_i'}{\bar x_i'\gamma} 
+&=-\frac{1}{f_{\varepsilon}(q(\tau))} \times \Bigg( \Big(\mathbb{1} ( q(\tau)  \geq \varepsilon  ) - \tau \Big)  \\
+&+ f_{\varepsilon} (q(\tau)) \frac{\bar x_i'}{\bar x_i'\gamma} 
 N (X'X)^{-1} x_i  ( x_i'\gamma \times \varepsilon) \\
-&+ f_{\varepsilon}(q^\varepsilon_\tau) q^\varepsilon_\tau \frac{\bar x_i'}{\bar x_i'\gamma} N(X'X)^{-1} x_i   \big( \tilde \nu_i -x_i' 
+&+ f_{\varepsilon}(q(\tau)) q(\tau) \frac{\bar x_i'}{\bar x_i'\gamma} N(X'X)^{-1} x_i   \big( \tilde \nu_i -x_i' 
   \gamma \big) 
 \Bigg) \\
-&=\frac{\tau-\mathbb{1}\big( q^\varepsilon_\tau  \geq \varepsilon  \big) }{f_{\varepsilon}(q^\varepsilon_\tau)}
+&=\frac{\tau-\mathbb{1}\big( q(\tau)  \geq \varepsilon  \big) }{f_{\varepsilon}(q(\tau))}
 - \frac{ x_i'\gamma \times \varepsilon_i }{\bar x_i'\gamma} 
--  q^\varepsilon_\tau \frac{ \tilde \nu_i -x_i' 
+-  q(\tau) \frac{ \tilde \nu_i -x_i' 
   \gamma }{\bar x_i'\gamma} 
 \end{aligned}
 \]
 
-\hypertarget{implementation}{%
-\section{Implementation}\label{implementation}}
+\section{Implementation}\label{implementation}
 
 The method described here can be implemented using any of the following
-packages:
+packages
 
 \begin{itemize}
 \tightlist
 \item
-  \texttt{mmqreg} in Stata: net install mmqre,
-  (https://friosavila.github.io/stpackages)
+  \texttt{mmqreg} in Stata: `net install mmqreg,
+  from(https://friosavila.github.io/stpackages)
 \item
-  \texttt{mmqreg} in R: Program available in mmqreg repository on GitHub
+  \texttt{mmqreg} in R: Program Available in mmqreg repository in GitHub
   (https://github.com/friosavila/mmqreg)
 \item
   \texttt{mmqreg} in Python:
 \item
-  \texttt{mmqreg} in Julia:
+  \texttt{mmqreg} in julia:
 \end{itemize}
 
 
