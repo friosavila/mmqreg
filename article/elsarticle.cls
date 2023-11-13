@@ -1014,8 +1014,7 @@
          \ifx\@elsarticlemyfooteralign\@elsarticlemyfooteralignright%
            {}\hfill\@elsarticlemyfooter%
          \else%
-               Preprint submitted to \ifx\@journal\@empty%
-                 Elsevier%
+               Preprint \ifx\@journal\@empty%      
             \else\@journal\fi\hfill\@date\fi%
          \fi%
          \fi%

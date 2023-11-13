@@ -32,7 +32,6 @@ format:
   elsevier-pdf:
     keep-tex: true
     journal:
-      name: Journal Name
       formatting: review
       model: 1p
       cite-style: authoryear
