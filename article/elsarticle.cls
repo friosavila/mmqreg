@@ -114,9 +114,14 @@
 \let\comma\@empty
 \let\tnotesep\@empty
 \let\@title\@empty
-% extra
+
+
+% fra: extra
 \usepackage{geometry}
 \geometry{  margin=1in}
+
+% fra: fontsize
+\renewcommand{\normalsize}{\fontsize{11}{13}\selectfont}
 
 \def\useelstitle{}
 
