@@ -1,5 +1,5 @@
 ---
-title: Quantile Regressions via Method of Moments with multiple fixed effects \tnoteref{t1}
+title: Estimating Quantile Regressions with Multiple Fixed Effects through Method of Moments \tnoteref{t1}
 author:
   - name: Fernando Rios-Avila
     email: friosavi@levy.org
@@ -9,7 +9,7 @@ author:
     attributes:
         corresponding: true
   - name: Leonardo Siles
-    email: leonardosiles@hotmail.com
+    email: leonardo.siles@ucb.edu.bo
     affiliations:
         - name: Universidad Católica Boliviana
           id: ucb
