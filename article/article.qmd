@@ -1,23 +1,29 @@
 ---
-title: Estimating Quantile Regressions with Multiple Fixed Effects through Method of Moments \tnoteref{t1}
+title: Estimating Quantile Regressions with Multiple Fixed Effects through Method of Moments \tnoteref{t1,t2}
 author:
   - name: Fernando Rios-Avila
     email: friosavi@levy.org
     affiliations: 
         - id: levy
-          name: Levy Economics Institute of Bard College          
+          name: Levy Economics Institute of Bard College
+          city: Annandale-on-Hudson, NY
+          country: USA          
     attributes:
         corresponding: true
   - name: Leonardo Siles
     email: leonardo.siles@ucb.edu.bo
     affiliations:
-        - name: Universidad Católica Boliviana
-          id: ucb
+        - id: ucb
+          name: Universidad Católica Boliviana
+          city: La Paz
+          country: Bolivia
   - name: Gustavo Canavire-Bacarreza
     email: gcanavire@worldbank.org
     affiliations:
         - id: wb
-          name: World Bank                 
+          name: The World Bank                 
+          city: Washington, D.C.
+          country: USA
 abstract: |
   This paper proposes a new method to estimate quantile regressions with multiple fixed effects. The method, which expands on the strategy proposed by @mss2019, allows for the inclusion of multiple fixed effects and provides various alternatives for the estimation of standard errors. We provide Monte Carlo simulations to show the finite sample properties of the proposed method in the presence of two sets of fixed effects. Finally, we apply the proposed method to estimate the determinants of the surplus of government as a share of GDP, allowing for both time and country fixed effects.
   
@@ -39,7 +45,9 @@ format:
       number-depth: 2
 include-in-header: 
       text: |
-        \tnotetext[t1]{The opinions expressed in this paper are those of the authors and do not necessarily reflect the views of the World Bank, its Board of Directors, or the countries it represents.}        
+        \tnotetext[t1]{The opinions expressed in this paper are those of the authors and do not necessarily reflect the views of the World Bank, its Board of Directors, or the countries it represents.}    
+        \tnotetext[t2]{The authors would like to thank Enrique Pinzon an Joao Santos-Silva for their helpful comments and suggestions.}   
+
 ---
 
 
@@ -114,7 +122,7 @@ In this setup, the traditional quantile coefficients are identified as the locat
 $$\beta(\tau) = \beta + q_\tau \times \gamma 
 $$ {#eq-eq6}
 
-While this specification imposes a strong assumption on the DGP, it has two advantages over the standard quantile regression model. First, because the location-scale model can be identified globally, with only a single parameter ($q_\tau$) requiring local estimation, this estimation approach will be more efficient than the standard quantile regression model (@zhao2000). Second, under the assumption that $X\gamma$ is strictly positive, the model will produce quantile coefficients that do not cross (@he1997). 
+While this specification imposes a strong assumption on the DGP, it has two advantages over the standard quantile regression model. First, because the location-scale model can be identified globally, with only a single parameter ($q_\tau$) requiring local estimation, this estimation approach will be more efficient than the standard quantile regression model [@zhao2000]. Second, under the assumption that $X\gamma$ is strictly positive, the model will produce quantile coefficients that do not cross [@he1997]. 
 
 Following MSS, the quantile regression model defined by @eq-eq5 can be estimated using a generalized method of moments approach. And while it is possible to identify all coefficients ($\beta,\gamma, q_\tau$) simultaneously, we describe and use the implementation approach advocated by MSS, which identifies each set of coefficients separately.
 
@@ -240,7 +248,6 @@ $$\hat{V}_{robust}
   \end{pmatrix}
 $$
 
-This estimator of standard errors may prove useful for two reasons. First, this estimator would be robust to misspecification of the scale model assumptions, and thus it could be used as an informal test for the validity of the model assumptions when compared to the GLS-standard error (@sec-gls). Second, as shown in the simulation study, this estimator performs better than GLS-standard errors even if the model is correctly specified, because of problemes caused when $x\hat\gamma$ is not strictly positive.
 
 ### Clustered Standard Errors
 
@@ -328,7 +335,7 @@ $$\begin{aligned}
 \end{aligned}
 $$
 
-This estimator of standard errors is equivalent to the one derived by MSS using Theorem 3. Empirically, the simulation study shows that this estimator may severily over estimate the standard errors, even if the model is correctly specified. This happens because the sample estimates of the scale model coefficients may be negative or close to zero.
+This estimator of standard errors is equivalent to the one derived by MSS using Theorem 3. Empirically, the simulation study shows that this estimator may be very sensitive to predictions of the scale model. In the simulation study, we show that when the sample small, and the likelihood of predicting zero or negative values for the scale model is high, the GLS standard errors may be unreasonably large.
 
 ## Multiple Fixed Effects: Expanding on @mss2019
 
@@ -379,19 +386,31 @@ The $\tau_{th}$ quantile of the error $\varepsilon$ can be estimated as usual an
 
 # Simulation Evidence
 
-To show the performance of the extended strategy, we implement a small simulation study. We consider a simple model with a single explanatory variable $x$. In contrast with MSS, we consider a two-way fixed effect structure that is more general than the panel structure. For this exercise, we consider the following data-generating process:
+To show the performance of the extended strategy, we implement a small simulation study. We consider a simple model with a single explanatory variable $x$. In contrast with MSS, we consider a two-way fixed effect structure. For this exercise, we consider the following data-generating process:
 
-$$y_i = \alpha_{1i} + \alpha_{2i} + x_i + (1+x_i + \alpha_{1i} + \alpha_{2i} ) \varepsilon_i
+$$y_i = \alpha_{1i} + \alpha_{2i} + x_i + (2+x_i + \alpha_{1i} + \alpha_{2i} ) \varepsilon_i
 $$
 
-where $\alpha_{1i}\sim \chi^2(1)$, $\alpha_{2i} \sim \chi^2(1)$, and $x_i = 0.5 * (\chi_i +0.5(\alpha_{1i}+\alpha_{2i}))$, with $\chi_i \sim \chi^2(1)$. We only consider the case when the error term $\varepsilon_i$ is assumed to follow a centered $\chi^2$ distribution.[^99] We assume that there are 50 mutually exclusive groups for each set of fixed effects. Observations are assigned to each subgroup randomly using a uniform distribution between 1 and 50. We consider sample sizes of 500, 1000, 2000, and 4000 observations, which implies an average of 10, 20, 40, and 80 observations per group. The model is estimated using the location-scale model with heteroskedastic linear errors and we report the coefficients for the 25th and 75th quantiles. We run this excercise 5000 times. @tbl-sim1 reports the bias, simulated standard error, and mean squared error. We also report the results obtained using an adaptation bias-corrected estimator based on the split-panel jackknife estimator proposed by @dhaene2015.[^9] These results are labeled JKC.
+where $\alpha_{1i}\sim \chi^2(1)$, $\alpha_{2i} \sim \chi^2(1)$, and $x_i = 0.5 * (\chi_i +0.5(\alpha_{1i}+\alpha_{2i}))$, with $\chi_i \sim \chi^2(1)$. We only consider the case when the error term $\varepsilon_i$ is assumed to follow a centered $\chi^2$ distribution.[^99] We assume that there are 50 mutually exclusive groups for each set of fixed effects. Observations are assigned to each subgroup randomly using a uniform distribution between 1 and 50. 
+
+To assess the alternative Standard error estimators, we consider a second data-generating process where the error term is correlated within clusters. For this, we assume observations are assigned ramdomly to 100 mutually exclusive groups, which are independent from the fixed effect groups. In this setup the data-generating process is:
+
+$$\begin{aligned}
+y_i &= \alpha_{1i} + \alpha_{2i} + x_i + (2+x_i + \alpha_{1i} + \alpha_{2i} )*\kappa_i \\
+\kappa_i &= inv-\chi^2_5(r_{i})/5-1 \\
+r_i &= \Phi((\sqrt{.25}*s_{i}+\sqrt{.75}*s_{g}))
+\end{aligned}
+$$
+
+where $s_{i}\sim N(0,1)$ and $s_{g}\sim N(0,1)$, are errors that vary across individuals $i$ or across clusters $g$. $\Phi()$ is the cumulative distribution function of a normal distribution, and $inv-\chi^2_5()$ is the inverse function for a Chi-2 distribution with 5 degrees of freedom. With this setup, we generate an error structure with a strong intra-cluster correlation, but without affecting the model specification assumption.^[We do not consider the case of misspecification of the scale model because that change would not only have an impact on the standard errors, but also affect the bias of the estimated coefficients]
+
+We consider sample sizes of 500, 1000, 2000, and 4000 observations, which implies an average of 10, 20, 40, and 80 observations per group. The model is estimated using the location-scale model with heteroskedastic linear errors and we report the coefficients for the 25th and 75th quantiles. We run this excercise 5000 times. @tbl-sim1 reports the bias, simulated standard error, and mean squared error, using the first data generation structure only. We also report the results obtained using an adaptation bias-corrected estimator based on the split-panel jackknife estimator proposed by @dhaene2015.[^9] These results are labeled JKC.
 
 [^99]: Specifically we assume $\varepsilon=\frac{r_i}{5}-1$, where $r_i$ follows a chi-squared distribution such that $r_i \sim \chi^2(5)$. Simulations under the assumption of normal errors are available upon request.
 
-
 [^9]: For the implementation, we first estimate the model using the full sample, then randomly assign each observation into one of two groups, and finally reestimate the quantile coefficients for each group. The bias-corrected estimator is then obtained as $\hat\beta(\tau)_{jkc}=2*\hat\beta(\tau)_{full}-0.5*\big(\hat\beta(\tau)_{s1}+\hat\beta(\tau)_{s2}\big)$.
 
-Similar to the findings in MSS, we find that while the estimator presents a substantial bias when the sample is small ($N=500$), this bias shrinks as the sample size increases. As MSS describes, the bias seems to be proportional to the sample size, or more precisely to $N/N_{g1}$ and $N/N_{g2}$, where $N_{g1}$ and $N_{g2}$ are the average number of observations per group. Interestingly, the bias-corrected estimator presents an almost 0 bias for the 25th percentile, even when the samples are small (about 10 observations per subgroup). In contrast, when considering the 75th percentile, the simple estimator shows smaller bias than the Jacknife estimator.[^88: This is also consistent with simulations with a single fixed effect] In either case, despite the bias reduction obtained using the JKC estimator, the standard errors  are larger than without correction. For the 25th quantile, the reduction in bias is large enough to produce a smaller Mean Squared Error (MSE) than the simple estimator. This is similar to the results of MSS.
+Similar to the findings in MSS, we find that while the estimator presents a substantial bias when the sample is small ($N=500$), this bias shrinks as the sample size increases. As MSS describes, the bias seems to be proportional to the sample size, or more precisely to the average number of observations per sub-group. Interestingly, the bias-corrected estimator presents an almost 0 bias for the 25th percentile, even when the samples are small. In contrast, when considering the 75th percentile, the simple estimator shows smaller bias than the Jacknife estimator.[^88: This is also consistent with simulations with a single fixed effect] In either case, despite the bias reduction obtained using the JKC estimator, the standard errors are larger than without correction. For the 25th quantile, the reduction in bias is large enough to produce a smaller Mean Squared Error (MSE) than the simple estimator. This is similar to the results of MSS.
 
 ::: {#tbl-sim1}
 
@@ -400,33 +419,30 @@ Similar to the findings in MSS, we find that while the estimator presents a subs
 Bias, Simulated Standard error, and Mean Squared Error 
 :::
 
-As described in section @sec-se, GLS standard errors may not be appropriate if heteroskedasticity in the model is misspecified. This could happen if the heteroskedasticity is not linear in parameters or if there are correlations within groups. To show the performance of the GLS standard errors, we consider two additional simulations. To see the impact of heteroskedasticity misspecification, we assume the DGP is given by
+To evaluate the performance of the different standard errors, we present bias, 95% coverage of the biased corrected estimates, as well as the simulated standard errors, average and median of the standard errors obtained using the GLS, robust SE, and clustered standard SE. @tbl-sim2 considers the d.g.p. without intra-cluster correlation, while @tbl-sim3 considers the d.g.p. that induces intra-cluster correlations. All simulations consider 5000 repetitions.
 
-$$y_i = \alpha_{1i} + \alpha_{2i} + x_i + (1+x_i + \sqrt{x_i} +\alpha_{1i} + \alpha_{2i} ) \varepsilon_i
-$$
+The bias magnitude in @tbl-sim2 and @tbl-sim3 is comparable to those observed in @tbl-sim1, with simulated standard errors that show to be slighly larger when we allow for intra-cluster correlations, just as expected. When assuming there is no need to clustered standard errors (@tbl-sim2), the coverage associated to GLS standard errors is above 95% when the samples are small, but it approximates to 95% as the sample size increases. On the other and, the coverage rates associated to Robust Standard errors are closer to 90%, albeit increasing slighly for larger samples.
 
-To show the impact of ignoring correlation within groups, we consider the case where the error $\varepsilon$ is correlated within groups defined by the first fixed effect. Specifically:
+One of the main reason that the GLS-Standard errors achieve higher than expected rates of coverage may be related to the fact that the Standard error estimator is very sensitive to near zero predictions from the scale model. As shown in @tbl-sim2, average and median GLS-SE are considerably larger than the simulated standard errors when the sample are small. While robust standard errors are less sensitive to this problem, producing more stable results, they tend to underestimate the magnitude of the true standard errors in small samples. This translates into the lower coverage rates. 
 
-$$\varepsilon_i =0.5*(\sqrt{0.5} z_i + \sqrt{0.5} w_g)$$
+::: {#tbl-sim2}
 
-where $z_i~N(0,1)$ and $w_g~N(0,1)$, with $g$ being the $g_{th}$ group defined by the first fixed effect.
+{{< include tb2.tex >}}
 
-For the simulation, we run the excercise 5000 times, using a sample of size $N=2000$. The results from both simulations are reported in the @tbl-sim2. We report the average coefficient, simulation-based standard errors, and the standard errors using GLS, robust and clustered estimations.
+95% Coverage Ratio, and Standard Error Estimation: No Intra-cluster Correlation
+:::
 
-|             | Het:q25 | Het:q75 | Clust:q25 | Clust:q75 |
-|-------------|:-------:|:-------:|:---------:|:---------:|
-| Coefficient |  0.550  |  1.442  |   0.775   |   1.229   |
-| SIM_SE      |  0.154  |  0.155  |   0.109   |   0.107   |
-| GLS_SE      |  0.476  |  0.451  |   0.288   |   0.221   |
-| Robust      |  0.140  |  0.139  |   0.087   |   0.088   |
-| Cluster     |         |         |   0.097   |   0.097   |
+When we consider the presence of Intra-Cluster correlation, @tbl-sim3, we still observe similar problems with the GLS-SE, albeit with high coverage rates. While Robust and Clustered Standard errors are in average smaller than the Simulated Standard errors, coverage rates are above 90%. Clustered standard errors perform the best only when the sample size is large, with Robust standard error producing low Standard errors estimates. 
 
-: Heteroskedasticity misspecification and clustered errors {#tbl-sim2}
+::: {#tbl-sim3}
 
-One of the conclusions from the results in @tbl-sim2 is that the results for the 25th and 75th quantiles are mostly identical, because of the symmetric error we used in the simulation. On the one hand, because the error structure is misspecified, we should expect to see a large bias in the estimated coefficients, especially in cases of misspecified heteroskedasticity. However, the purpose of this exercise is not to demonstrate the unbiasedness of the coefficients, but rather to assess the performance of the standard error estimation.
+{{< include tb3.tex >}}
 
-As expected, the GLS standard errors are biased and the bias is larger in the case of misspecified heteroskedasticity. In fact, with heteroskedasticity misspecification, the average GLS-SE (0.476) is almost three times as large as the simulation-based standard error (0.154). In this first case, robust standard errors perform better, but with a small difference (0.14 to 0.154). In the case of clustered correlation, GLS-SE also performs poorly. Robust standard errors perform better, but seem to underestimate the magnitude of the true standard errors. Finally, cluster standard errors perform the best, with a small difference between the simulation-based standard errors (0.097 to 0.109).
+95% Coverage Ratio, and Standard Error Estimation: With Intra-cluster Correlation
+:::
 
+Overall, the simulation study shows that using GLS-SE estimator may be appropriate when the sample is relatively large. When there is suspected presence of intra-cluster correlation, the use of clustered standard errors is recommended in larger samples. However, when the sample is small, the use of robust standard errors may be appropriate if GLS standard errors when there is the risk of near-zero predictions from the scale model.
+ 
 # Illustrative application
 
 In this section we replicate one of the exercises from MSS, allowing for time and individual fixed effects as well as for different standard errors estimations. We use data from @persson_economic_2005, to estimate the relationship between surplus of government as share of GDP, and a measure of quality of democracy (POLITY); log of real income per capita (LYP); trade volume as share of GDP (TRADE); share of population between 15 and 65 years of age (P1564); the share of the population 65 years and older (P65); one-year lag of the dependent variable (LSP); oil prices in US dollars, differntiating between importer and exporter countries (OILIM and OILEX); and the output gap (YGAP). In addition to country fixed effects (as illustrated in MSS), we show results allowing for time fixed effects. @tbl-tb1 and @tbl-tb2 provide the results for the model with and without time fixed effects, respectively. The tables showcase the location and scale coefficients, as well as the quantile coefficients for the 25th, 50th and 75th quantiles. We also report GLS standard errors, robust standard errors (brackets) and clustered standard errors at the country level.
@@ -469,6 +485,9 @@ Considering the estimated effects across quantiles, we observe few differences i
 
 In @tbl-tb2, we report the results including both individual and year fixed effects. Because oil prices only vary across years, the variable is excluded from the model specification. Accounting for time fixed effects does not change the general conclusions that can be drawn, based on the results from @tbl-tb1. The two largest differences are that the log of income per capita has a positive effect on government surpluses, but only for the 25th quantile, because at this point the largest impact on the Scale component is felt. Similarly, we observe that the income gap has an impact on government surplus that is always negative and increasing across quantiles. In both instances, the effects are not statistically significant.
 
+May be worth noting that the GLS SE are almost twice as large as the robust and clustered standard errors. This is consistent with the results from the simulation study. Examining the predictions of the scale model, we find that there are 9 observations with a negative predicted scale, and 9 observations that could be considered outliers. This may be the reason for the large GLS standard errors. 
+
+
 |          | polity |  lyp   | trade | prop1564 | prop65 |  lspl  |  ygap  |
 |----------|:------:|:------:|:-----:|:--------:|:------:|:------:|:------:|
 | Location |        |        |       |          |        |        |        |
@@ -505,7 +524,9 @@ In this paper, we have extended the methodology proposed by @mss2019 in order to
 
 Using a small simulation study, we show that our extended approach is as effective in identifying the parameters of interest as that of @mss2019, even in contexts with two sets of fixed effects. Notably, the bias-corrected estimator based on the split-panel jackknife estimator exhibits promising results, mitigating biases when samples are small but increasing standard errors.
 
-Furthermore, we have assessed the impact of misspecified heteroskedasticity and intracluster correlation on the performance of standard error estimations. Our findings emphasize the importance of using appropriate standard error estimators to ensure accurate inference. In particular, we find that GLS standard errors are biased when the model heteroskedasticity is misspecified and that robust and clustered standard errors perform better in these cases. This may also suggest a venue for future research, in which the validity of the location-scale model assumption is tested.
+Furthermore, we have assessed the impact of intracluster correlation on the performance of standard error estimations. Our findings emphasize the importance of using appropriate standard error estimators to ensure accurate inference. In particular, we find that GLS standard errors are biased when when the scale model predictions are close to zero or negative, and that Robust and clustered standard errors are more stable in those scenarios. Clustered Standard errors perform the best in the presence of intra-cluster correlation, but the advantage is only evident when the sample size is large.
+
+Finally, we have illustrated the application of our extended methodology using data from @persson_economic_2005. Our results are consistent with those reported in @mss2019, and we are able to provide robust and clustered standard errors for the location and scale coefficients. We find that the GLS standard errors are almost twice as large as the robust and clustered standard errors, which is consistent with the results from our simulation study. Nevertheless, there is no drastic change in the original conclusions.
 
 # References {.unnumbered}
 
@@ -766,7 +787,5 @@ $$
 
 The method described here can be implemented using any of the following packages:
 
--   `mmqreg` in Stata: \`net install mmqreg, from(https://friosavila.github.io/stpackages)
--   `mmqreg` in R: Program available in mmqreg repository on GitHub (https://github.com/friosavila/mmqreg)
--   `mmqreg` in Python:
--   `mmqreg` in Julia:
+-   `mmqreg` in Stata: `net install mmqreg, from(https://friosavila.github.io/stpackages)`
+-   `mmqreg` in R: Available on GitHub (https://github.com/friosavila/mmqreg)

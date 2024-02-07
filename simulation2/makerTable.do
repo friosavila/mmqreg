@@ -19,48 +19,27 @@ matrix rowname m`i'= q25:mmqreg  q25:jkc q75:mmqreg  q75:jkc
 }
 
 matrix mm = (m500, m1000)\(m2000, m4000)
-esttab matrix(m500, fmt(3)), md
-esttab matrix(m1000, fmt(3)), md
+esttab matrix(mm, fmt(3)), tex
 
-use sim_2000_robust, clear
+use sim_500_gls_c, clear
 sum _b_q25
-matrix r1 = r(mean)\ r(sd)
-sum _b_q25_gls 
-matrix r1 = r1\ r(mean)
-sum _b_q25_r
-matrix r1 = r1\ r(mean)
-matrix r1 = r1\ 0
-
+scalar m25 = r(mean)
+gen s25 = r(sd)
 sum _b_q75
-matrix r2 = r(mean)\ r(sd)
-sum _b_q75_gls 
-matrix r2 = r2\ r(mean)
-sum _b_q75_r
-matrix r2 = r2\ r(mean)
-matrix r2 = r2\ 0
+scalar m75 = r(mean)
+gen s75 = r(sd)
+gen bias_25 = _b_q25-(invchi2(5,.25)/5)
+gen bias_75 = _b_q75-(invchi2(5,.75)/5)
+gen c1_25 = inrange(_b_q25-m25 ,-1.96*_b_q25_gls,1.96*_b_q25_gls)
+gen c2_25 = inrange(_b_q25-m25 ,-1.96*_b_q25_r,1.96*_b_q25_r)
+gen c3_25 = inrange(_b_q25-m25 ,-1.96*_b_q25_c,1.96*_b_q25_c)
 
-use sim_2000_clust, clear
-sum _b_q25
-matrix r3 = r(mean)\ r(sd)
-sum _b_q25_gls 
-matrix r3 = r3\ r(mean)
-sum _b_q25_r
-matrix r3 = r3\ r(mean)
-sum _b_q25_cl
-matrix r3 = r3\ r(mean)
+gen c1_75 = inrange(_b_q75-m75,-1.96*_b_q75_gls,1.96*_b_q75_gls)
+gen c2_75 = inrange(_b_q75-m75,-1.96*_b_q75_r,1.96*_b_q75_r)
+gen c3_75 = inrange(_b_q75-m75,-1.96*_b_q75_c,1.96*_b_q75_c)
 
-sum _b_q75
-matrix r4 = r(mean)\ r(sd)
-sum _b_q75_gls 
-matrix r4 = r4\ r(mean)
-sum _b_q75_r
-matrix r4 = r4\ r(mean)
-sum _b_q75_cl
-matrix r4 = r4\ r(mean)
+mean bias_25 s25 c*25 _b*25_*
 
-matrix tbl = r1,r2,r3 ,r4
 
-matrix rowname tbl = coef SIM_SE GLS_SE Robust Cluster
-matrix colname tbl = Het:q25 Het:q75 Clust:q25 Clust:q75
 esttab matrix(tbl, fmt(3)), md
 

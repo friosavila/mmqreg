@@ -22,7 +22,7 @@ program sim_mmqreg, eclass
          if `type' == 1 gen err = rnormal()
     else if `type' == 2 gen err = (rchi2(5)/5-1)
      
-    gen  y = f1 + f2 + x + (1+x+f1+f2)*err
+    gen  y = f1 + f2 + x + (2+x+f1+f2)*err
     
     // Estimation Straigh Forward
     mmqreg y x, q(25 75) abs(g2 g1)  

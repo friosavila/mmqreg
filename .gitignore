@@ -66,3 +66,6 @@ simulation/__pllbacp6ro5x5_do0004.log
 simulation/__pllbacp6ro5x5_do0003.log
 simulation/__pllbacp6ro5x5_do0002.log
 simulation/__pllbacp6ro5x5_do0001.log
+*.stswp
+simulation2/__pll53p8fk21j9_sim_dta.dta
+simulation2/__pll53p8fk21j9_sim_simul.do
