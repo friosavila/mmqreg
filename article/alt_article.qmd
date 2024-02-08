@@ -1,5 +1,5 @@
 ---
-title: Estimating Quantile Regressions with Multiple Fixed Effects through Method of Moments \tnoteref{t1,t2}
+title: Estimating Quantile Regressions with Multiple Fixed Effects through Method of Moments 
 author:
   - name: Fernando Rios-Avila
     email: friosavi@levy.org
@@ -8,8 +8,7 @@ author:
           name: Levy Economics Institute of Bard College
           city: Annandale-on-Hudson, NY
           country: USA          
-    attributes:
-        corresponding: true
+ 
   - name: Leonardo Siles
     email: leonardo.siles@ucb.edu.bo
     affiliations:
@@ -36,18 +35,22 @@ keywords:
 date: last-modified
 bibliography: bibliography.bib
 format:
-  elsevier-pdf:
-    keep-tex: true
-    journal:
-      formatting: review
-      model: 1p
-      cite-style: authoryear
-      number-depth: 2
-include-in-header: 
-      text: |
-        \tnotetext[t1]{The opinions expressed in this paper are those of the authors and do not necessarily reflect the views of the World Bank, its Board of Directors, or the countries it represents.}    
-        \tnotetext[t2]{The authors would like to thank Enrique Pinzon an Joao Santos-Silva for their helpful comments and suggestions.}   
+  pdf: 
+    toc-depth: 2
+    number-sections: true
+    documentclass: article
+    margin-bottom: 1in
+    margin-top: 1in
+    margin-left: 1in
+    margin-right: 1in
+    thanks: |
+      The opinions expressed in this paper are those of the authors and do not necessarily reflect the views of the World Bank, its Board of Directors, or the countries it represents.
 
+      The authors would like to thank Enrique Pinzon an Joao Santos-Silva for their helpful comments and suggestions.  
+ 
+    fontsize: 11pt
+    cite-method: natbib         
+ 
 ---
 
 
@@ -57,6 +60,7 @@ Lik this:
 quarto render article.qmd --to elsevier-pdf
 
 -->
+{{< pagebreak >}}
 
 # Introduction
 

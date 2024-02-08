@@ -469,7 +469,7 @@ As expected, @tbl-tb1 shows that point estimates are identical to the ones repor
 
 Considering the estimated effects across quantiles, we observe few differences in the reported GLS standard errors compared to the analytical standard errors reported MSS. Our clustered standard errors, however, are closer to the bootstrap based standard errors the authors report.[^10]
 
-[^10]: There are two possible reasons that may explain the differences in the GLS standard errors. On the one hand, in our derivation, the influence function of the standardized $\tau_{th}$ quantile (see #eq-infs) does not have the same leading term as the one reported in MSS (see theorem 3, and the definition of $W$).
+[^10]: There are two possible reasons that may explain the differences in the GLS standard errors. On the one hand, in our derivation, the influence function of the standardized $\tau_{th}$ quantile (see #eq-ifs) does not have the same leading term as the one reported in MSS (see theorem 3, and the definition of $W$).
 
 In @tbl-tb2, we report the results including both individual and year fixed effects. Because oil prices only vary across years, the variable is excluded from the model specification. Accounting for time fixed effects does not change the general conclusions one could make based on the results from @tbl-tb1. The two largest differences are that the log of income per capita has a positive effect on Government Surpluses, but only for the 25th quantile, because of the largest impact on the Scale component. Similarly, we observe that the income gap now has an impact on Government surplus that is always negative, but increasing across quantiles. In both instances, the effects are not statistically significant.
 

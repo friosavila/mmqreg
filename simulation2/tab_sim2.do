@@ -90,7 +90,7 @@ program sim_mmqreg3, eclass
     mmqreg, robust
     matrix b1 = b1 , _se[q25:x] 
     matrix b2 = b2 , _se[q75:x]
-     mmqreg, cluster(g1)
+     mmqreg, cluster(g3)
     matrix b1 = b1 , _se[q25:x] 
     matrix b2 = b2 , _se[q75:x]
     
