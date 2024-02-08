@@ -50,7 +50,6 @@ format:
  
     fontsize: 11pt
     cite-method: natbib         
- 
 ---
 
 
