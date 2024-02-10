@@ -49,7 +49,11 @@ format:
       The authors would like to thank Enrique Pinzon an Joao Santos-Silva for their helpful comments and suggestions.  
  
     fontsize: 11pt
-    cite-method: natbib         
+    csl: "templates/apa-no-ampersand.csl"
+    template-partials: 
+      - "templates/title.tex"
+      - "templates/before-body.tex"
+      - "templates/_authors.tex"      
 ---
 
 
