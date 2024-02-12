@@ -8,14 +8,14 @@ author:
           name: Levy Economics Institute of Bard College
           city: Annandale-on-Hudson, NY
           country: USA          
- 
+    attributes:
+      corresponding: true 
   - name: Leonardo Siles
     email: leonardo.siles@ucb.edu.bo
     affiliations:
         - id: ucb
           name: Universidad Católica Boliviana
-          city: La Paz
-          country: Bolivia
+          city: La Paz, Bolivia
   - name: Gustavo Canavire-Bacarreza
     email: gcanavire@worldbank.org
     affiliations:
