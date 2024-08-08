@@ -1,0 +1,6 @@
+Explanations for chunk_2.qmd:
+\n1. No major changes were required.\n
+
+Explanations for chunk_3.qmd:
+\n1. No major changes were required.\n
+
