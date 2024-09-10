@@ -25,44 +25,24 @@ author:
           country: USA
 abstract: |
   This paper proposes a new method to estimate quantile regressions with multiple fixed effects. The method, which expands on the strategy proposed by @mss2019, allows for the inclusion of multiple fixed effects and provides various alternatives for the estimation of standard errors. We provide Monte Carlo simulations to show the finite sample properties of the proposed method in the presence of two sets of fixed effects. Finally, we apply the proposed method to estimate the determinants of the surplus of government as a share of GDP, allowing for both time and country fixed effects.
-  
-keywords: 
-  - Fixed effects
-  - Linear heteroskedasticity
-  - Location-scale model
-  - Quantile regression
+
+thanks: |
+  The opinions expressed in this paper are those of the authors and do not necessarily reflect the views of the World Bank, its Board of Directors, or the countries it represents.
+
+  The authors would like to thank Enrique Pinzon an Joao Santos-Silva for their helpful comments and suggestions. 
+
+keywords: [Fixed effects, Linear heteroskedasticity, Location-scale model, Quantile regression]
+jelcode: [C21, C22, C23]
 
 date: last-modified
 bibliography: bibliography.bib
 format:
-  pdf: 
-    toc-depth: 2
-    number-sections: true
-    documentclass: article
-    margin-bottom: 1in
-    margin-top: 1in
-    margin-left: 1in
-    margin-right: 1in
-    thanks: |
-      The opinions expressed in this paper are those of the authors and do not necessarily reflect the views of the World Bank, its Board of Directors, or the countries it represents.
-
-      The authors would like to thank Enrique Pinzon an Joao Santos-Silva for their helpful comments and suggestions.  
+  sim-art2-pdf:
+    keep-tex: true 
  
-    fontsize: 11pt
-    csl: "templates/apa-no-ampersand.csl"
-    template-partials: 
-      - "templates/title.tex"
-      - "templates/before-body.tex"
-      - "templates/_authors.tex"      
+    
 ---
 
-
-<!--
-How to Render this?
-Lik this:
-quarto render article.qmd --to elsevier-pdf
-
--->
 {{< pagebreak >}}
 
 # Introduction
@@ -419,7 +399,7 @@ We consider sample sizes of 500, 1000, 2000, and 4000 observations, which implie
 
 Similar to the findings in MSS, we find that while the estimator presents a substantial bias when the sample is small ($N=500$), this bias shrinks as the sample size increases. As MSS describes, the bias seems to be proportional to the sample size, or more precisely to the average number of observations per sub-group. Interestingly, the bias-corrected estimator presents an almost 0 bias for the 25th percentile, even when the samples are small. In contrast, when considering the 75th percentile, the simple estimator shows smaller bias than the Jacknife estimator.[^88: This is also consistent with simulations with a single fixed effect] In either case, despite the bias reduction obtained using the JKC estimator, the standard errors are larger than without correction. For the 25th quantile, the reduction in bias is large enough to produce a smaller Mean Squared Error (MSE) than the simple estimator. This is similar to the results of MSS.
 
-::: {#tbl-sim1}
+::: {#tbl-sim1 tbl-pos="H"}
 
 {{< include tb1.tex >}}
 
@@ -432,7 +412,7 @@ The bias magnitude in @tbl-sim2 and @tbl-sim3 is comparable to those observed in
 
 One of the main reason that the GLS-Standard errors achieve higher than expected rates of coverage may be related to the fact that the Standard error estimator is very sensitive to near zero predictions from the scale model. As shown in @tbl-sim2, average and median GLS-SE are considerably larger than the simulated standard errors when the sample are small. While robust standard errors are less sensitive to this problem, producing more stable results, they tend to underestimate the magnitude of the true standard errors in small samples. This translates into the lower coverage rates. 
 
-::: {#tbl-sim2}
+::: {#tbl-sim2 tbl-pos="H"}
 
 {{< include tb2.tex >}}
 
@@ -441,7 +421,7 @@ One of the main reason that the GLS-Standard errors achieve higher than expected
 
 When we consider the presence of Intra-Cluster correlation, @tbl-sim3, we still observe similar problems with the GLS-SE, albeit with high coverage rates. While Robust and Clustered Standard errors are in average smaller than the Simulated Standard errors, coverage rates are above 90%. Clustered standard errors perform the best only when the sample size is large, with Robust standard error producing low Standard errors estimates. 
 
-::: {#tbl-sim3}
+::: {#tbl-sim3 tbl-pos="H"}
 
 {{< include tb3.tex >}}
 
@@ -450,39 +430,19 @@ When we consider the presence of Intra-Cluster correlation, @tbl-sim3, we still 
 
 Overall, the simulation study shows that using GLS-SE estimator may be appropriate when the sample is relatively large. When there is suspected presence of intra-cluster correlation, the use of clustered standard errors is recommended in larger samples. However, when the sample is small, the use of robust standard errors may be appropriate if GLS standard errors when there is the risk of near-zero predictions from the scale model.
  
-# Illustrative application
+# Illustrative applications
+
+## Determinants of government surpluses
 
 In this section we replicate one of the exercises from MSS, allowing for time and individual fixed effects as well as for different standard errors estimations. We use data from @persson_economic_2005, to estimate the relationship between surplus of government as share of GDP, and a measure of quality of democracy (POLITY); log of real income per capita (LYP); trade volume as share of GDP (TRADE); share of population between 15 and 65 years of age (P1564); the share of the population 65 years and older (P65); one-year lag of the dependent variable (LSP); oil prices in US dollars, differntiating between importer and exporter countries (OILIM and OILEX); and the output gap (YGAP). In addition to country fixed effects (as illustrated in MSS), we show results allowing for time fixed effects. @tbl-tb1 and @tbl-tb2 provide the results for the model with and without time fixed effects, respectively. The tables showcase the location and scale coefficients, as well as the quantile coefficients for the 25th, 50th and 75th quantiles. We also report GLS standard errors, robust standard errors (brackets) and clustered standard errors at the country level.
 
-|          | polityt |  lyp   | trade | p1564 |  p65   |  lspl  | oil_im | oil_ex |  ygap  |
-|----------|:-------:|:------:|:-----:|:-----:|:------:|:------:|:------:|:------:|:------:|
-| Location |         |        |       |       |        |        |        |        |        |
-|  coeff   |  0.116  | -0.715 | 0.030 | 0.121 | 0.028  | 0.691  | -0.047 | -0.006 | 0.010  |
-|  se_gls  |  0.046  | 0.540  | 0.008 | 0.033 | 0.070  | 0.035  | 0.008  | 0.022  | 0.028  |
-|  se_r    |  0.047  | 0.597  | 0.008 | 0.031 | 0.070  | 0.037  | 0.007  | 0.017  | 0.021  |
-|  se_cl   |  0.046  | 0.465  | 0.007 | 0.032 | 0.071  | 0.035  | 0.010  | 0.020  | 0.023  |
-| Scale    |         |        |       |       |        |        |        |        |        |
-|  coeff   | -0.097  | -0.616 | 0.003 | 0.036 | 0.087  | -0.085 | 0.013  | 0.016  | -0.004 |
-|  se_gls  |  0.032  | 0.371  | 0.005 | 0.023 | 0.048  | 0.024  | 0.006  | 0.015  | 0.019  |
-|  se_r    |  0.031  | 0.398  | 0.005 | 0.020 | 0.049  | 0.025  | 0.005  | 0.010  | 0.015  |
-|  se_cl   |  0.048  | 0.800  | 0.008 | 0.031 | 0.067  | 0.029  | 0.004  | 0.010  | 0.012  |
-| Q25      |         |        |       |       |        |        |        |        |        |
-|  coeff   |  0.191  | -0.239 | 0.028 | 0.093 | -0.039 | 0.756  | -0.057 | -0.018 | 0.013  |
-|  se_gls  |  0.059  | 0.684  | 0.010 | 0.042 | 0.088  | 0.045  | 0.010  | 0.027  | 0.035  |
-|  se_r    |  0.056  | 0.656  | 0.008 | 0.036 | 0.086  | 0.040  | 0.010  | 0.020  | 0.025  |
-|  se_cl   |  0.073  | 0.687  | 0.006 | 0.041 | 0.098  | 0.023  | 0.010  | 0.021  | 0.029  |
-| Q50      |         |        |       |       |        |        |        |        |        |
-|  coeff   |  0.108  | -0.765 | 0.030 | 0.124 | 0.035  | 0.684  | -0.046 | -0.005 | 0.009  |
-|  se_gls  |  0.046  | 0.535  | 0.007 | 0.033 | 0.069  | 0.035  | 0.008  | 0.022  | 0.027  |
-|  se_r    |  0.046  | 0.593  | 0.008 | 0.031 | 0.069  | 0.036  | 0.007  | 0.017  | 0.021  |
-|  se_cl   |  0.043  | 0.484  | 0.008 | 0.032 | 0.070  | 0.036  | 0.010  | 0.020  | 0.023  |
-| Q75      |         |        |       |       |        |        |        |        |        |
-|  coeff   |  0.031  | -1.258 | 0.033 | 0.153 | 0.104  | 0.616  | -0.036 | 0.008  | 0.006  |
-|  se_gls  |  0.048  | 0.551  | 0.008 | 0.034 | 0.071  | 0.036  | 0.008  | 0.022  | 0.028  |
-|  se_r    |  0.049  | 0.696  | 0.009 | 0.034 | 0.075  | 0.043  | 0.007  | 0.018  | 0.023  |
-|  se_cl   |  0.039  | 0.919  | 0.012 | 0.041 | 0.079  | 0.055  | 0.010  | 0.022  | 0.020  |
+::: {#tbl-tb1 tbl-pos="h"}
 
-: Determinants of Government Surpluses: Individual Fixed Effects {#tbl-tb1}
+{{< include tbl4.tex >}}
+
+Determinants of Government Surpluses: Individual Fixed Effects 
+
+:::
 
 As expected, @tbl-tb1 shows that the point estimates are identical to those reported in @mss2019 (Table 6), including analytical standard errors (GLS). With our estimator, however, we are also able to produce both robust and clustered standard errors for location and scale coefficients. Except for a few cases, the robust and clustered standard errors are larger than the GLS standard errors, which may be an indication of misspecification of the model. The GLS standard errors we report differ from those in MSS, because they use panel standard errors, which are equivalent to our clustered standard errors, instead of the analytical standard errors we derive.
 
@@ -494,36 +454,34 @@ In @tbl-tb2, we report the results including both individual and year fixed effe
 
 May be worth noting that the GLS SE are almost twice as large as the robust and clustered standard errors. This is consistent with the results from the simulation study. Examining the predictions of the scale model, we find that there are 9 observations with a negative predicted scale, and 9 observations that could be considered outliers. This may be the reason for the large GLS standard errors. 
 
+:::{#tbl-tb2 tbl-pos="h"}
+ 
+{{< include tbl5.tex >}}
 
-|          | polity |  lyp   | trade | prop1564 | prop65 |  lspl  |  ygap  |
-|----------|:------:|:------:|:-----:|:--------:|:------:|:------:|:------:|
-| Location |        |        |       |          |        |        |        |
-|  coeff   | 0.126  | -0.418 | 0.028 |  0.108   | 0.042  | 0.693  | -0.014 |
-|  se_gls  | 0.087  | 1.157  | 0.015 |  0.072   | 0.136  | 0.066  | 0.053  |
-|  se_r    | 0.047  | 0.703  | 0.008 |  0.038   | 0.068  | 0.038  | 0.022  |
-|  se_cl   | 0.048  | 0.506  | 0.008 |  0.044   | 0.077  | 0.037  | 0.022  |
-| Scale    |        |        |       |          |        |        |        |
-|  coeff   | -0.095 | -1.255 | 0.005 |  0.033   | 0.040  | -0.081 | 0.008  |
-|  se_gls  | 0.081  | 1.073  | 0.014 |  0.067   | 0.126  | 0.061  | 0.049  |
-|  se_r    | 0.031  | 0.452  | 0.005 |  0.025   | 0.045  | 0.025  | 0.017  |
-|  se_cl   | 0.041  | 0.848  | 0.006 |  0.030   | 0.048  | 0.033  | 0.013  |
-| Q25      |        |        |       |          |        |        |        |
-|  coeff   | 0.201  | 0.576  | 0.025 |  0.082   | 0.010  | 0.757  | -0.020 |
-|  se_gls  | 0.154  | 2.070  | 0.024 |  0.118   | 0.219  | 0.121  | 0.085  |
-|  se_r    | 0.058  | 0.751  | 0.008 |  0.049   | 0.080  | 0.040  | 0.026  |
-|  se_cl   | 0.073  | 0.761  | 0.006 |  0.052   | 0.087  | 0.023  | 0.027  |
-| Q50      |        |        |       |          |        |        |        |
-|  coeff   | 0.119  | -0.512 | 0.029 |  0.111   | 0.045  | 0.687  | -0.013 |
-|  se_gls  | 0.091  | 1.230  | 0.014 |  0.070   | 0.130  | 0.072  | 0.051  |
-|  se_r    | 0.046  | 0.695  | 0.008 |  0.037   | 0.068  | 0.038  | 0.022  |
-|  se_cl   | 0.045  | 0.529  | 0.008 |  0.044   | 0.077  | 0.039  | 0.021  |
-| Q75      |        |        |       |          |        |        |        |
-|  coeff   | 0.041  | -1.555 | 0.033 |  0.138   | 0.078  | 0.619  | -0.007 |
-|  se_gls  | 0.067  | 0.898  | 0.011 |  0.053   | 0.098  | 0.052  | 0.038  |
-|  se_r    | 0.048  | 0.827  | 0.009 |  0.037   | 0.075  | 0.046  | 0.026  |
-|  se_cl   | 0.038  | 0.980  | 0.012 |  0.050   | 0.086  | 0.063  | 0.020  |
+The Determinants of Government Surpluses: Individual and Time Fixed Effects 
 
-: The Determinants of Government Surpluses: Individual and Time Fixed Effects {#tbl-tb2}
+:::
+
+## The Effect of Criminal Activities on Labor Incomes{#sec-crime}
+
+In this section, we investigate the effects of criminal activities on labor incomes using a quantile regression approach to discover whether crime has different impacts on the distribution of interest. We use data from the ENEMDU labor survey from Ecuador and combine it with administrative records of crime reports by Ecuadorian Cantons.
+
+The combined data set covers the period 2019-2022. For the sake of brevity, we will only present here the results of quantile regressions of the log of total labor income on the log of annual reported murders (LMURDERS) and other covariates displayed in Table 1. However, our findings are robust to alternative specifications of the model where the dependent variable is either the log of per-capita household income or the log of total labor income from main occupation, both of which are displayed in @sec-app-crime.
+
+:::{#tbl-ecuador tbl-pos="htbp"}
+
+{{< include tbl6.tex >}}
+
+The Effect of Crime on Labor Income: Canton, Activity Sector and Time Fixed Effects
+
+:::
+
+The findings in @tbl-ecuador support the idea that the effect of murders diminishes as we move forward in the distribution from low to high incomes: in the lowest decile, a 1% increase in reported murders is associated with a 3.08% reduction in total labor income; instead, for the top 10% labor income earners, murders are seen to have little effect on the dependent variable and, in addition, the coefficient is not significant at conventional levels. Quantile regression estimates are thus really useful to discover relationships between dependent and explanatory variables that are not seen in standard (mean) regression analysis. For this application, we have found a monotonic decreasing effect of the log of reported crimes on total labor income.
+
+While the capability of estimating distinct coefficients of explanatory variables for each quantile is a feature present since @koenkerbasset1978, the method of moments approach allows us to include not one but multiple sets of fixed effects so that one can account for unobserved heterogeneity at different levels. Regarding this application, we have included in the estimation fixed effects for Canton, Activity Sector of the income earner and Year as is shown in @tbl-ecuador. Given that LMURDERS is measured at the Canton level, it may be important to control for unobserved factors affecting both crime and income earnings in the Cantons of Ecuador.
+
+Finally, our approach also allows us to obtain clustered standard errors for estimated coefficients so that statistical inference can be performed properly. @tbl-ecuador presents clustered standard errors at the Canton level, the rationale being the same as described above for the inclusion of Canton fixed effects in the specification. Had we not taken into account the correlated nature of our standard errors, we would have computed misleading (and smaller) estimates. For example, robust standard errors in this specification are, on average, 2.5 times smaller than clustered standard errors. It is important, however, to remark that the effects of murders on labor income at the lower half of the distribution are still statistically different from zero when clustering at the Canton level.
+
 
 # Conclusions
 
@@ -534,6 +492,8 @@ Using a small simulation study, we show that our extended approach is as effecti
 Furthermore, we have assessed the impact of intracluster correlation on the performance of standard error estimations. Our findings emphasize the importance of using appropriate standard error estimators to ensure accurate inference. In particular, we find that GLS standard errors are biased when when the scale model predictions are close to zero or negative, and that Robust and clustered standard errors are more stable in those scenarios. Clustered Standard errors perform the best in the presence of intra-cluster correlation, but the advantage is only evident when the sample size is large.
 
 Finally, we have illustrated the application of our extended methodology using data from @persson_economic_2005. Our results are consistent with those reported in @mss2019, and we are able to provide robust and clustered standard errors for the location and scale coefficients. We find that the GLS standard errors are almost twice as large as the robust and clustered standard errors, which is consistent with the results from our simulation study. Nevertheless, there is no drastic change in the original conclusions.
+
+Our example using data to analyze the impact of Crime on labor income in Ecuador also suggests the relevance of using clustered standard errors in the presence of unobserved heterogeneity at different levels. We find that the effect of murders on labor income diminishes as we move forward in the distribution from low to high incomes, which is a result that would not have been possible without the use of quantile regression.
 
 # References {.unnumbered}
 
@@ -789,6 +749,28 @@ N (X'X)^{-1} x_i  ( x_i'\gamma \times \varepsilon) \\
   \gamma }{\bar x_i'\gamma} 
 \end{aligned}
 $$
+
+# Complementary analysis of @sec-crime{#sec-app-crime}
+
+In this appendix, we present the quantile regressions of both (log) per-capita household income and the (log) of labor income from main occupation on the (log) of annual reported murders. While in the first specification the coefficients of interest are not significant at conventional levels because of clustered standard errors (see @tbl-acrime1), the same pattern of decreasing association between murders and measurements of well-being as we move to the right of the distribution is revealed using our proposed method. 
+
+However, in @tbl-acrime2 we get significant (at the 1% level) associations between reported murders and a slightly different measurement of labor income that only takes into account the main occupation of the individual. Compared to total labor income, the coefficients displayed in @tbl-acrime2 are smaller in magnitude: for the lowest decile of the distribution, we find a 1 percentage point difference in the coefficient of interest between the two alternative specifications, where the largest effect corresponds to total labor income. Nevertheless, and once again, the decreasing pattern of reported murders across quantiles is documented for this specification. What is even more interesting, compared to our estimations in @tbl-ecuador, is that crime is no longer statistically meaningful from the median of the distribution onwards.
+
+:::{#tbl-acrime1 tbl-pos="H"}
+
+{{< include tbla1.tex >}}
+
+The Effect of Crime on Per Capita Household Income: Canton and Time Fixed Effects
+:::
+
+:::{#tbl-acrime2 tbl-pos="H"}
+
+{{< include tbla2.tex >}}
+
+The Effect of Crime on Labor Income in Main Occupation: Canton, Activity
+Sector and Time FE
+:::
+
 
 # Implementation
 

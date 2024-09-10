@@ -1,0 +1,57 @@
+\definecolor{ahjcolor}{rgb}{0.0, 0.13, 0.82}
+\PassOptionsToPackage{colorlinks=true, linkcolor=ahjcolor, urlcolor=ahjcolor, citecolor=ahjcolor}{hyperref}
+
+% --- Packages ---
+% Layout and spacing
+\usepackage{setspace}
+\usepackage{enumitem}
+
+% Math and symbols
+\usepackage{amsmath, amssymb, amsthm, amsbsy, amsfonts, mathrsfs, mathtools, bm, dsfont}
+
+% Graphics and tables
+\usepackage{graphicx, float, caption, subcaption}
+\usepackage{longtable, array, multirow, booktabs, threeparttable}
+\usepackage{lscape}
+
+% Text formatting
+\usepackage{color, xcolor, soul}
+\usepackage{titlesec}
+
+% Additional features
+\usepackage{authblk} % Author and affiliation
+\usepackage{appendix} % Appendix support
+ 
+% Hyperlinks
+\usepackage{hyperref}
+
+% Math Operators
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\sign}{sign}
+\DeclareMathOperator*{\tr}{Tr}
+\DeclareMathOperator*{\p}{Pr}
+\DeclareMathOperator*{\Var}{Var}
+\DeclareMathOperator*{\rank}{rank}
+\DeclareMathOperator*{\diag}{diag}
+
+% Theorem Environments
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{ass}{Assumption}
+\newtheorem{exm}{Example}
+
+% Affiliation formatting
+\renewcommand\Affilfont{\itshape\small}
+
+% LaTeX tweaks
+\setcounter{MaxMatrixCols}{10}
+\makeatletter
+\makeatother
+
+% Page settings
+\onehalfspacing
+\setlength{\parskip}{0.5em}
+\setlist{nolistsep}
