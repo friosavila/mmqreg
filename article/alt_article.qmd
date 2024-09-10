@@ -31,8 +31,8 @@ thanks: |
 
   The authors would like to thank Enrique Pinzon an Joao Santos-Silva for their helpful comments and suggestions. 
 
-keywords: [Fixed effects, Linear heteroskedasticity, Location-scale model, Quantile regression]
-jelcode: [C21, C22, C23]
+keywords: Fixed effects, Linear heteroskedasticity, Location-scale model, Quantile regression
+jelcode: C21, C22, C23
 
 date: last-modified
 bibliography: bibliography.bib
@@ -40,7 +40,6 @@ format:
   sim-art2-pdf:
     keep-tex: true 
  
-    
 ---
 
 {{< pagebreak >}}
