@@ -1,0 +1,140 @@
+to be changed
+
+---
+title: Estimating Quantile Regressions with Multiple Fixed Effects through Method of Moments 
+author:
+  - name: Fernando Rios-Avila
+    email: friosavi@levy.org
+    affiliations: 
+        - id: levy
+          name: Levy Economics Institute of Bard College
+          city: Annandale-on-Hudson
+          country: USA          
+    attributes:
+      corresponding: true 
+  - name: Leonardo Siles
+    email: lsiles@fen.uchile.cl
+    affiliations:
+        - id: fen
+          name: Facultad de Economia y Negocios, Universidad de Chile
+          city: Santiago
+          country: Chile
+  - name: Gustavo Canavire-Bacarreza
+    email: gcanavire@gmail.com
+    affiliations:
+        - id: upb
+          name: Universidad Privada Boliviana and World Bank, Poverty and Equity Global Practice
+abstract: |
+  This paper proposes a new method to estimate quantile regressions with multiple fixed effects. The method, which expands on the strategy proposed by @mss2019, allows for the inclusion of multiple fixed effects and provides various alternatives for estimating standard errors. We provide Monte Carlo simulations to show the finite sample properties of the proposed method in the presence of two sets of fixed effects. Finally, we apply the proposed method to two different examples using macroeconomic and microeconomic data and allowing for multiple fixed effects with robust results.
+  
+keywords: 
+  - Fixed effects
+  - Linear heteroskedasticity
+  - Location-scale model
+
+date: last-modified
+bibliography: bibliography.bib
+format:
+  pdf: 
+    toc-depth: 2
+    number-sections: true
+    documentclass: article
+    margin-bottom: 1.2in
+    margin-top: 1in
+    margin-left: 1.1in
+    margin-right: 1.1in
+    thanks: |
+      The opinions expressed in this paper are those of the authors and do not necessarily reflect the views of the World Bank, its Board of Directors, or the countries it represents.
+
+      The authors would like to thank Enrique Pinzon and Joao Santos-Silva for their helpful comments and suggestions. All remaining errors are our own.
+ 
+    fontsize: 12pt
+    csl: "templates/apa-no-ampersand.csl"
+    template-partials: 
+      - "templates/title.tex"
+      - "templates/before-body.tex"
+      - "templates/_authors.tex"      
+---
+
+# Introduction
+
+[No changes to this section]
+
+# Methodology {#sec-method}
+
+[No changes to this section]
+
+# Simulation Evidence
+
+[No changes to this section]
+
+# Application: Determinants of government surpluses
+
+[This section has been expanded. Replace the existing section with the following:]
+
+In this section we replicate one of the exercises from MSS, allowing for time and individual fixed effects as well as for different standard errors estimations. We use data from @persson_economic_2005, to estimate the relationship between surplus of government as share of GDP, and a measure of quality of democracy (POLITY); log of real income per capita (LYP); trade volume as share of GDP (TRADE); share of population between 15 and 65 years of age (P1564); the share of the population 65 years and older (P65); one-year lag of the dependent variable (LSP); oil prices in US dollars, differentiating between importer and exporter countries (OILIM and OILEX); and the output gap (YGAP). In addition to country fixed effects (as illustrated in MSS), we show results allowing for time fixed effects. @tbl-tb1 and @tbl-tb2 provide the results for the model with and without time fixed effects, respectively. The tables showcase the location and scale coefficients, as well as the quantile coefficients for the 25th, 50th and 75th quantiles. We also report GLS standard errors, robust standard errors (brackets) and clustered standard errors at the country level.
+
+[Insert @tbl-tb1 and @tbl-tb2 here]
+
+As expected, @tbl-tb1 shows that the point estimates are identical to those reported in @mss2019 (Table 6), including analytical standard errors (GLS). With our estimator, however, we are also able to produce both robust and clustered standard errors for location and scale coefficients. Except for a few cases, the robust and clustered standard errors are larger than the GLS standard errors, which may be an indication of misspecification of the model. The GLS standard errors we report differ from those in MSS, because they use panel standard errors, which are equivalent to our clustered standard errors, instead of the analytical standard errors we derive.
+
+Considering the estimated effects across quantiles, we observe few differences in the reported GLS standard errors compared to the analytical standard errors reported in MSS. Our clustered standard errors, however, are closer to the bootstrap-based standard errors the authors report.[^10]
+
+[^10]: The differences in the GLS standard errors may be due that in our derivation the influence function of the standardized $\tau_{th}$ quantile (see @eq-ifs) does not have the same leading term as the one reported in MSS (see Theorem 3, and the definition of $W$).
+
+In @tbl-tb2, we report the results including both individual and year fixed effects. Because oil prices only vary across years, the variable is excluded from the model specification. Accounting for time fixed effects does not change the general conclusions that can be drawn, based on the results from @tbl-tb1. The two largest differences are that the log of income per capita has a positive effect on government surpluses, but only for the 25th quantile, because at this point the largest impact on the Scale component is felt. Similarly, we observe that the income gap has an impact on government surplus that is always negative and increasing across quantiles. In both instances, the effects are not statistically significant.
+
+May be worth noting that the GLS SE are almost twice as large as the robust and clustered standard errors. This is consistent with the results from the simulation study. Examining the predictions of the scale model, we find that there are 9 observations with a negative predicted scale, and 9 observations that could be considered outliers. This may be the reason for the large GLS standard errors.
+
+# Application: Labor incomes and crime in Ecuador
+
+[This is a new section. Add it after the previous section:]
+
+In this section we investigate the effects of criminal activities on labor incomes using a quantile regression approach in order to discover whether crime has different impacts on the distribution of interest. We use data from the ENEMDU labor survey from Ecuador and combine it with administrative records of crime reports by Ecuadorian Cantons.
+
+The combined data set covers the period 2019-2022. For the sake of brevity, we will only present here the results of quantile regressions of the log of total labor income on the log of annual reported murders (LMURDERS) and other covariates displayed in @tbl-ecucrime_clustered. However, our findings are robust to alternative specifications of the model where the dependent variable is either the log of per-capita household income or the log of total labor income from main occupation, both of which are displayed in Appendix B.
+
+[Insert @tbl-ecucrime_clustered here]
+
+The findings in @tbl-ecucrime_clustered support the idea that the effect of murders diminishes as we move forward in the distribution from low to high incomes: in the lowest decile, an 1% increase in reported murders is associated with a 3.08% reduction in total labor income; instead, for the top 10% labor income earners, murders are seen to have a little effect on the dependent variable and, in addition, the coefficient is not significant at conventional levels. Quantile regression estimates are thus really useful to discover relationships between dependent and explanatory variables that are not seen in standard (mean) regression analysis. For this application, we have found a monotonic decreasing effect of the log of reported crimes on total labor income.
+
+While the capability of estimating distinct coefficients of explanatory variables for each quantile is a feature present since @koenkerbasset1978, our method of moments approach allows us to include multiple not one but multiple sets of fixed effects so that one can account for unobserved heterogeneity at different levels. Regarding this application, we have included in the estimation fixed effects for Canton, Activity Sector of the income earner and Year as is shown in @tbl-ecucrime_clustered. Given that LMURDERS is measured at the Canton level, it may be important to control for unobserved factors affecting both crime and income earnings in the Cantons of Ecuador.
+
+Finally our approach also allows to obtain clustered standard errors for estimated coefficients so that statistical inference can be performed properly. @tbl-ecucrime_clustered presents clustered standard errors at the Canton level, the rationale being the same as described above for the inclusion of Canton fixed effects in the specification. Had we not taken into account the correlated nature of our standard errors, we would have computed misleading (and smaller) estimates. For example, robust standard errors in this specification are, on average, 2.5 times smaller than clustered standard errors. It is important, however, to remark that the effects of murders on labor income at the lower half of the distribution are still statistically different from zero when clustering at the Canton level.
+
+# Conclusions
+
+[Replace the existing Conclusions section with the following:]
+
+In this paper, we have extended the methodology proposed by @mss2019 in order to estimate quantile regression models with multiple sets of fixed effects as well as with alternative standard errors. This methodology will allow researchers to implement more-comprehensive analyses of data sets characterized by complex hierarchies and unobserved heterogeneity. This extension is particularly valuable in contexts where group specific effects vary across the conditional distribution of the outcome of interest.
+
+Using a small simulation study, we show that our extended approach is as effective in identifying the parameters of interest as that of @mss2019, even in contexts with two sets of fixed effects. Notably, the bias-corrected estimator based on the split-panel jackknife estimator exhibits promising results, mitigating biases when samples are small but increasing standard errors.
+
+Furthermore, we have assessed the impact of intracluster correlation on the performance of standard error estimations. Our findings emphasize the importance of using appropriate standard error estimators to ensure accurate inference. In particular, we find that GLS standard errors are biased when when the scale model predictions are close to zero or negative, and that Robust and clustered standard errors are more stable in those scenarios. Clustered Standard errors perform the best in the presence of intra-cluster correlation, but the advantage is only evident when the sample size is large.
+
+Finally, we have illustrated the application of our extended methodology using data from @persson_economic_2005. Our results are consistent with those reported in @mss2019, and we are able to provide robust and clustered standard errors for the location and scale coefficients. We find that the GLS standard errors are almost twice as large as the robust and clustered standard errors, which is consistent with the results from our simulation study. Nevertheless, there is no drastic change in the original conclusions.
+
+# References {.unnumbered}
+
+::: {#refs}
+:::
+
+\appendix
+
+# Derivation of the influence functions
+
+[No changes to this section]
+
+# Complimentary analysis of Section 5
+
+[This is a new appendix. Add it after the previous appendix:]
+
+In this appendix, we present the quantile regressions of both (log) per-capita household income and the (log) of labor income from main occupation on the (log) of annual reported murders. While in the first specification the coefficients of interest are not significant at conventional levels because of clustered standard errors (see table @tbl-ecucrime_percapitaincome), the same pattern of decreasing association between murders and measurements of well-being as we move to the right of the distribution is revealed using our proposed method. 
+
+However, in table @tbl-ecucrime_mainlaborinc we get significant (at the 1% level) associations between reported murders and a slightly different measurement of labor income that only takes into account the main occupation of the individual. Compared to total labor income, the coefficients displayed in table @tbl-ecucrime_mainlaborinc are smaller in magnitude: for the lowest decile of the distribution, we find a 1 percentage point difference in the coefficient of interest between the two alternative specifications, where the largest effect corresponds to total labor income. Nevertheless, and once again, the decreasing pattern of reported murders across quantiles is documented for this specification. What is even more interesting, compared to our estimations in table @tbl-ecucrime_clustered, is that crime is no longer statistically meaningful from the median of the distribution onwards. 
+
+[Insert @tbl-ecucrime_percapitaincome and @tbl-ecucrime_mainlaborinc here]
+
+# Implementation
+
+[No changes to this section]
